@@ -1,3 +1,9 @@
+Lancement app:
+
+```
+yarn dev --concurrency 11
+```
+
 # Turborepo Docker starter
 
 This is an official Docker starter Turborepo.
