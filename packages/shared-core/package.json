@@ -1,0 +1,17 @@
+{
+  "name": "@ce/shared-core",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "./src/**/*"
+  ],
+  "license": "MIT",
+  "scripts": {},
+  "devDependencies": {
+    "@ce/typescript-config": "*",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "zod": "^3.22.4"
+  }
+}

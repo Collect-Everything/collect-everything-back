@@ -1,8 +1,8 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { Sort } from "../types/mongoose";
 import { matchedData, validationResult } from "express-validator";
-import { ERRORS_KEYS, errorsBuilders } from "./error-builder";
-import { buildQueryFromFilters } from "./filters";
+import { ERRORS_KEYS, errorsBuilders } from "../helpers/error-builder";
+import { buildQueryFromFilters } from "../helpers/filters";
 import { errorHandler } from "../middlewares/errors";
 import { CrudService } from "./crud-service";
 import { Identifier, Model } from "sequelize";

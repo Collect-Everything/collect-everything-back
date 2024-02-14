@@ -1,37 +1,17 @@
 version: "3"
 
 services:
-  # web:
-  #   container_name: web
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/web/Dockerfile
-  #   restart: always
-  #   ports:
-  #     - 3000:3000
-  #   networks:
-  #     - app_network
-  # api:
-  #   container_name: api
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/api/Dockerfile
-  #   restart: always
-  #   ports:
-  #     - 3001:3001
-  #   networks:
-  #     - app_network
   mysql:
     image: mysql:latest
-    container_name: collect_and_verything_db
+    container_name: collect_everything_db
     environment:
-      MYSQL_ROOT_PASSWORD: collect
-      MYSQL_DATABASE: collect_and_verything_db
-      MYSQL_USER: mns_groupe2
-      MYSQL_PASSWORD: collect
-      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_HOST: "%"
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:3306"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql_data:/var/lib/mysql
@@ -39,8 +19,5 @@ services:
 volumes:
   mysql_data:
 
-    # Define a network, which allows containers to communicate
-    # with each other, by using their container name as a hostname
 networks:
   app_network:
-    external: true
