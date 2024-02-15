@@ -1,0 +1,10 @@
+{
+  "extends": "@ce/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": ["ES2021", "ES2021.String"],
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "exclude": ["node_modules"],
+  "include": ["src"]
+}

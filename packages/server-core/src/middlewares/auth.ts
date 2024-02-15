@@ -8,19 +8,19 @@ export const isLogged = (req: Req, res: Response, next: NextFunction) => {
     throw errorBuilder.unauthorized();
   }
 
-  return next();
+  next();
 };
 
 export const isAdmin = (req: Req, res: Response, next: NextFunction) => {
   const user = req.user;
   console.log("user", user);
   if (!user) {
-    return res.status(401).send(errorBuilder.unauthorized());
+    throw errorBuilder.unauthorized();
   }
 
-  if (!user.roles?.includes("ADMIN")) {
-    return res.status(403).send(errorBuilder.forbidden());
+  if (user.role !== "admin") {
+    throw errorBuilder.forbidden();
   }
 
-  return next();
+  next();
 };

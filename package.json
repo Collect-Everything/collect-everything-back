@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "build:company-users": "turbo run build --filter=company-users-service...",
     "clean": "turbo run clean",
     "dev": "dotenv -- turbo run dev",
     "dev:company-users": "dotenv -- turbo run dev --filter=company-users-service",

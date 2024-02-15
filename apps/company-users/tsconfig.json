@@ -1,9 +1,11 @@
 {
   "extends": "@ce/typescript-config/base.json",
   "compilerOptions": {
-    "lib": ["ES2015"],
+    "lib": ["ES2021", "ES2021.String"],
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "module": "ESNext",
+    "moduleResolution": "Node"
   },
   "exclude": ["node_modules"],
   "include": ["src"]

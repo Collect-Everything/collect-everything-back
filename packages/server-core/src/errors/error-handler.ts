@@ -53,20 +53,20 @@ export const errorHandler = (
   error: unknown,
 ) => {
   if (error instanceof BaseError) {
-    baseErrorHandler(res, error, identifier);
+    return baseErrorHandler(res, error, identifier);
   } else if (error instanceof ZodError) {
-    zodErrorHandler(res, error, identifier);
+    return zodErrorHandler(res, error, identifier);
   } else if (error instanceof Error) {
     logError(identifier, error.message);
 
-    res.status(500).send({
+    return res.status(500).send({
       success: false,
       statusText: ERROR_KEYS.unknown,
       error: error.message,
     });
   } else {
     logError(identifier, "Unknown error");
-    res.status(500).send({
+    return res.status(500).send({
       success: false,
       statusText: ERROR_KEYS.unknown,
       error: "Unknown error",

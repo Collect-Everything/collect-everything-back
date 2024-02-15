@@ -9,9 +9,7 @@ class AdminsRouter extends CrudRouter<TCustomer> {
     });
   }
 
-  protected addRoutesBeforeCrud() {
-    this.router.post("/validate", [], adminsCtrl.validate);
-  }
+  protected addRoutesBeforeCrud() {}
 }
 
 export const adminsRouter = new AdminsRouter().router;

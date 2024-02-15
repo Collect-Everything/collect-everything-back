@@ -50,7 +50,7 @@ export const createServiceApp = (
   return {
     ...app,
     start: () => {
-      app.listen(SERVICES_CONFIG[service].port, () => {
+      return app.listen(SERVICES_CONFIG[service].port, () => {
         console.log(
           boldLog(
             greenLog(
@@ -81,7 +81,7 @@ export const createGatewayApp = (
   return {
     ...app,
     start: () => {
-      app.listen(GATEWAYS_CONFIG[gateway].port, () => {
+      return app.listen(GATEWAYS_CONFIG[gateway].port, () => {
         console.log(
           boldLog(
             blueLog(

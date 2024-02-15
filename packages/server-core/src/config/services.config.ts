@@ -10,11 +10,11 @@ const SERVICES = [
   "AUTH",
   "ADMINS",
   "COMPANY_USERS",
-  "COMPANIES_INVOICE",
+  "COMPANY_INVOICES",
   "COMPANIES_AND_STORES",
   "PRODUCTS",
   "COMPANY_CUSTOMERS",
-  "COMPANY_CUSTOMERS_INVOICE",
+  "COMPANY_CUSTOMERS_INVOICES",
   "CART_AND_ORDERS",
 ] as const;
 
@@ -35,7 +35,7 @@ export const SERVICES_CONFIG: Record<Service, ServiceConfig> = {
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
   },
-  COMPANIES_INVOICE: {
+  COMPANY_INVOICES: {
     port: 3004,
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
@@ -55,7 +55,7 @@ export const SERVICES_CONFIG: Record<Service, ServiceConfig> = {
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
-  COMPANY_CUSTOMERS_INVOICE: {
+  COMPANY_CUSTOMERS_INVOICES: {
     port: 3008,
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],

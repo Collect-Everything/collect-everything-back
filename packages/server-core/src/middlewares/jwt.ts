@@ -1,7 +1,11 @@
-import { TokenPayload } from "@ce/shared-core";
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { Req } from "../types";
+import {
+  AdminTokenPayload,
+  CompanyTokenPayload,
+  CompanyUserTokenPayload,
+} from "@ce/shared-core";
 
 export const jwtMiddleware: RequestHandler = (req, _res, next) => {
   if (req && req.headers.authorization) {
@@ -13,7 +17,10 @@ export const jwtMiddleware: RequestHandler = (req, _res, next) => {
       }
       jwt.verify(token, secret, (_err, decoded) => {
         const jwtPayload = decoded as {
-          data: TokenPayload;
+          data:
+            | AdminTokenPayload
+            | CompanyTokenPayload
+            | CompanyUserTokenPayload;
           iat: number;
           exp: number;
         };

@@ -7,5 +7,5 @@ export const globalErrorHandler: ErrorRequestHandler = (
   res,
   next,
 ) => {
-  errorHandler(req.url, res, err);
+  errorHandler(req.originalUrl, res, err);
 };
