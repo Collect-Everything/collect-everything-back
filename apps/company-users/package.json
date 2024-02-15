@@ -1,0 +1,55 @@
+{
+  "name": "company-users-service",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dev": "tsx --watch ./src/index.ts",
+    "start": "node -r esbuild-register ./dist/index.js",
+    "build": "tsup src/server.ts --minify --format cjs --out-dir dist",
+    "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
+    "test": "jest --detectOpenHandles"
+  },
+  "jest": {
+    "preset": "@ce/jest-presets/jest/node"
+  },
+  "dependencies": {
+    "@ce/db": "*",
+    "@ce/logger": "*",
+    "@ce/sequelize": "*",
+    "@ce/server-core": "*",
+    "@ce/shared-core": "*",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.9.1",
+    "sequelize": "^6.37.0"
+  },
+  "devDependencies": {
+    "@ce/eslint-config": "*",
+    "@ce/jest-presets": "*",
+    "@ce/typescript-config": "*",
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/hpp": "^0.2.6",
+    "@types/jest": "^29.5.11",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.10.6",
+    "@types/supertest": "^6.0.2",
+    "esbuild": "^0.19.11",
+    "esbuild-register": "^3.5.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.3",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  }
+}

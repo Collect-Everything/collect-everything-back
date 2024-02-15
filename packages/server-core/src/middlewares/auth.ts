@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
 import { errorBuilder } from "../errors/error-builder";
-import { Req } from "..";
+import { Req } from "../types";
 
 export const isLogged = (req: Req, res: Response, next: NextFunction) => {
   const isLogged = !!req.user;
@@ -13,12 +13,13 @@ export const isLogged = (req: Req, res: Response, next: NextFunction) => {
 
 export const isAdmin = (req: Req, res: Response, next: NextFunction) => {
   const user = req.user;
+  console.log("user", user);
   if (!user) {
-    res.status(401).send(errorBuilder.unauthorized());
+    return res.status(401).send(errorBuilder.unauthorized());
   }
 
   if (!user.roles?.includes("ADMIN")) {
-    res.status(403).send(errorBuilder.forbidden());
+    return res.status(403).send(errorBuilder.forbidden());
   }
 
   return next();

@@ -10,6 +10,10 @@ export const blueLog = (message: string) => {
   return `\x1b[34m${message}\x1b[0m`;
 };
 
+export const orangeLog = (message: string) => {
+  return `\x1b[33m${message}\x1b[0m`;
+};
+
 export const boldLog = (message: string) => {
   return `\x1b[1m${message}\x1b[0m`;
 };

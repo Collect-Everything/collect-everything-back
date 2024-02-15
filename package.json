@@ -10,7 +10,8 @@
     "build": "turbo run build",
     "clean": "turbo run clean",
     "dev": "dotenv -- turbo run dev",
-    "dev:customers": "dotenv -- turbo run dev --filter=customers-service",
+    "dev:company-users": "dotenv -- turbo run dev --filter=company-users-service",
+    "dev:admins-gateway": "dotenv -- turbo run dev --filter=admins-gateway",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test"

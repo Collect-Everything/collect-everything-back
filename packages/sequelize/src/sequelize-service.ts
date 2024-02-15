@@ -28,7 +28,7 @@ export abstract class SequelizeService<
     return this.model.create(data as any);
   }
 
-  get(itemId: string) {
+  get(itemId: number) {
     return this.model.findByPk(itemId);
   }
 
@@ -37,7 +37,7 @@ export abstract class SequelizeService<
     return this.model.findAll(options);
   }
 
-  async update(itemId: string, data: Partial<TModel>) {
+  async update(itemId: number, data: Partial<TModel>) {
     const item = await this.get(itemId);
 
     if (!item) {
@@ -52,7 +52,7 @@ export abstract class SequelizeService<
     return this.model.count(options);
   }
 
-  async delete(itemId: string) {
+  async delete(itemId: number) {
     const item = await this.get(itemId);
     if (!item) {
       throw new Error(
@@ -96,7 +96,7 @@ export abstract class SequelizeService<
     return options;
   }
 
-  protected async executeUpdate(itemId: string, data: Partial<TModel>) {
+  protected async executeUpdate(itemId: number, data: Partial<TModel>) {
     const oldItem = await this.get(itemId);
     if (!oldItem) {
       throw new Error("Service / " + this.id + " / " + itemId + " : NOT_FOUND");

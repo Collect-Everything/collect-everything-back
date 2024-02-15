@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import crypto from "crypto";
 import { errorBuilder } from "../errors";
-import { Gateway } from "../types";
+import { Gateway } from "../config";
+import { createGatewayApiKey } from "../helpers/api-key";
 
 export const gatewaysMiddleware =
   (allowed: Gateway[]) => (req: Request, res: Response, next: NextFunction) => {
@@ -22,10 +22,7 @@ export const gatewaysMiddleware =
       return res.status(500).send(errorBuilder.internal());
     }
 
-    const hash = crypto
-      .createHmac("sha256", secret)
-      .update(providedGateway)
-      .digest("hex");
+    const hash = createGatewayApiKey(providedGateway, secret);
 
     if (providedApiKey !== hash) {
       return res.status(403).send(errorBuilder.forbidden());

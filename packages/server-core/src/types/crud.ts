@@ -6,11 +6,11 @@ export interface ICrudService<
   TModel extends Object,
   OrmModel extends unknown,
 > {
-  get: (itemId: string) => Promise<OrmModel | null>;
+  get: (itemId: number) => Promise<OrmModel | null>;
   list: (query: TListQuery) => Promise<OrmModel[]>;
   create: (item: TModelBase) => Promise<OrmModel>;
-  update: (itemId: string, item: Partial<TModel>) => Promise<OrmModel | null>;
-  delete: (itemId: string) => Promise<OrmModel | undefined>;
+  update: (itemId: number, item: Partial<TModel>) => Promise<OrmModel | null>;
+  delete: (itemId: number) => Promise<OrmModel | undefined>;
   count: (query: TListQuery) => Promise<number>;
 }
 

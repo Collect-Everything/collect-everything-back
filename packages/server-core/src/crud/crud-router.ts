@@ -1,7 +1,14 @@
 import express, { RequestHandler } from "express";
 import { ICrudController } from "../types";
 import { createMulterMiddleware } from "@ce/files";
-import { isAdmin } from "../middlewares/auth";
+
+export const CRUD_ROUTES = {
+  LIST: "/",
+  GET: "/:itemId",
+  CREATE: "/",
+  PATCH: "/:itemId",
+  DELETE: "/:itemId",
+};
 
 export type CrudRouterConfig<TModel> = {
   middlewares?: {
@@ -10,19 +17,9 @@ export type CrudRouterConfig<TModel> = {
     create?: RequestHandler[];
     patch?: RequestHandler[];
     delete?: RequestHandler[];
-    post?: RequestHandler[];
   };
   modelFilesPaths?: string[];
-  frontMiddlewares?: {
-    listing?: RequestHandler[];
-    one?: RequestHandler[];
-    add?: RequestHandler[];
-    update?: RequestHandler[];
-    delete?: RequestHandler[];
-    post?: RequestHandler[];
-  };
-  frontCtrl?: ICrudController<TModel>;
-  backCtrl?: ICrudController<TModel>;
+  ctrl: ICrudController<TModel>;
 };
 
 export abstract class CrudRouter<TModel> {
@@ -30,71 +27,27 @@ export abstract class CrudRouter<TModel> {
   protected multerMiddleware: RequestHandler;
 
   protected constructor(config: CrudRouterConfig<TModel>) {
-    const {
-      middlewares,
-      modelFilesPaths,
-      frontCtrl,
-      backCtrl,
-      frontMiddlewares,
-    } = config;
+    const { middlewares, ctrl, modelFilesPaths } = config;
     this.multerMiddleware = createMulterMiddleware(modelFilesPaths);
     this.addRoutesBeforeCrud();
 
-    if (frontCtrl) {
-      this.router.get(
-        "/listing",
-        frontMiddlewares?.listing ?? [],
-        frontCtrl.list,
-      );
-      this.router.get(
-        "/one/:itemId",
-        frontMiddlewares?.one ?? [],
-        frontCtrl.get,
-      );
-      this.router.patch(
-        "/update/:itemId",
-        [...(frontMiddlewares?.update ?? []), this.multerMiddleware],
-        frontCtrl.patch,
-      );
-      this.router.post(
-        "/add",
-        [...(frontMiddlewares?.add ?? []), this.multerMiddleware],
-        frontCtrl.create,
-      );
-      this.router.delete(
-        "/delete/:itemId",
-        frontMiddlewares?.delete ?? [],
-        frontCtrl.delete,
-      );
-    }
-
-    if (backCtrl) {
-      this.router.get(
-        "/",
-        [...(middlewares?.list ?? []), isAdmin],
-        backCtrl.list,
-      );
-      this.router.get(
-        "/:itemId",
-        [...(middlewares?.get ?? []), isAdmin],
-        backCtrl.get,
-      );
-      this.router.patch(
-        "/:itemId",
-        [...(middlewares?.patch ?? []), isAdmin, this.multerMiddleware],
-        backCtrl.patch,
-      );
-      this.router.post(
-        "/",
-        [...(middlewares?.create ?? []), isAdmin, this.multerMiddleware],
-        backCtrl.create,
-      );
-      this.router.delete(
-        "/:itemId",
-        [...(middlewares?.delete ?? []), isAdmin],
-        backCtrl.delete,
-      );
-    }
+    this.router.get(CRUD_ROUTES.LIST, middlewares?.list ?? [], ctrl.list);
+    this.router.get(CRUD_ROUTES.GET, middlewares?.get ?? [], ctrl.get);
+    this.router.patch(
+      CRUD_ROUTES.PATCH,
+      [...(middlewares?.patch ?? []), this.multerMiddleware],
+      ctrl.patch,
+    );
+    this.router.post(
+      CRUD_ROUTES.CREATE,
+      [...(middlewares?.create ?? []), this.multerMiddleware],
+      ctrl.create,
+    );
+    this.router.delete(
+      CRUD_ROUTES.DELETE,
+      middlewares?.delete ?? [],
+      ctrl.delete,
+    );
   }
 
   protected addRoutesBeforeCrud() {}

@@ -5,10 +5,10 @@ services:
     image: mysql:latest
     container_name: collect_everything_db
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASS}
       MYSQL_ROOT_HOST: "%"
     ports:
       - "${DB_PORT}:3306"

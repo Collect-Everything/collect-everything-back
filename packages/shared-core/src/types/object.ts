@@ -1,3 +1,3 @@
-export type TObjectWithId = Object & { id: string };
+export type TObjectWithId = Object & { id: number };
 
-export type ModelToBase<T> = Omit<T, "id" | "createdAt" | "updatedAt">;
+export type ModelToBase<T> = Omit<T, "id" | "created_at" | "updated_at">;

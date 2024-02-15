@@ -8,9 +8,9 @@ export const AdminBaseSchema = z.object({
 });
 
 export const AdminSchema = AdminBaseSchema.extend({
-  id: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  id: z.number(),
+  created_at: z.string(),
+  updated_at: z.string(),
 });
 
 export type TAdminBase = z.infer<typeof AdminBaseSchema>;

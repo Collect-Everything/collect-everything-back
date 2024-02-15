@@ -1,54 +1,68 @@
-import { Gateway } from "../types";
+import { Gateway } from "./gateways.config";
 
 interface ServiceConfig {
   port: number;
+  basePath?: string;
   allowedGateways: Gateway[];
 }
 
 const SERVICES = [
+  "AUTH",
   "ADMINS",
-  "CUSTOMERS",
-  "CUSTOMERS_INVOICE",
-  "COMPANY_AND_STORES",
+  "COMPANY_USERS",
+  "COMPANIES_INVOICE",
+  "COMPANIES_AND_STORES",
   "PRODUCTS",
-  "FINAL_CUSTOMERS",
-  "FINAL_CUSTOMERS_INVOICE",
+  "COMPANY_CUSTOMERS",
+  "COMPANY_CUSTOMERS_INVOICE",
   "CART_AND_ORDERS",
 ] as const;
 
 export type Service = (typeof SERVICES)[number];
 
 export const SERVICES_CONFIG: Record<Service, ServiceConfig> = {
-  ADMINS: {
+  AUTH: {
     port: 3001,
+    allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
+  },
+  ADMINS: {
+    port: 3002,
+    basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY"],
   },
-  CUSTOMERS: {
-    port: 3002,
-    allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
-  },
-  CUSTOMERS_INVOICE: {
+  COMPANY_USERS: {
     port: 3003,
+    basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
   },
-  COMPANY_AND_STORES: {
+  COMPANIES_INVOICE: {
     port: 3004,
+    basePath: "/api/v1",
+    allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
+  },
+  COMPANIES_AND_STORES: {
+    port: 3005,
+    basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
   },
   PRODUCTS: {
-    port: 3005,
-    allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
-  },
-  FINAL_CUSTOMERS: {
     port: 3006,
+    basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
-  FINAL_CUSTOMERS_INVOICE: {
+  COMPANY_CUSTOMERS: {
     port: 3007,
+    basePath: "/api/v1",
+    allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
+  },
+  COMPANY_CUSTOMERS_INVOICE: {
+    port: 3008,
+    basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
   CART_AND_ORDERS: {
-    port: 3008,
+    port: 3009,
+    basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
 };

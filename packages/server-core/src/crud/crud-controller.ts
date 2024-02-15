@@ -5,9 +5,13 @@ import { ZodSchema } from "zod";
 import { ctrlWrapper, parseBody } from "../helpers/controller";
 import { RequestHandler, Response } from "express";
 
-type CrudControllerConfig<TModelBase extends Object, TModel extends Object> = {
+type CrudControllerConfig<
+  TModelBase extends Object,
+  TModel extends Object,
+  OrmModel extends unknown,
+> = {
   name: string;
-  service: ICrudService<TModelBase, TModel>;
+  service: ICrudService<TModelBase, TModel, OrmModel>;
   baseSchema: ZodSchema<TModelBase>;
   schema: ZodSchema<TModel>;
 };
@@ -15,14 +19,17 @@ type CrudControllerConfig<TModelBase extends Object, TModel extends Object> = {
 export abstract class CrudController<
   TModelBase extends Object,
   TModel extends Object,
+  OrmModel extends unknown,
 > implements ICrudController<TModel>
 {
   protected readonly name: string = "";
-  protected readonly service: ICrudService<TModelBase, TModel>;
+  protected readonly service: ICrudService<TModelBase, TModel, OrmModel>;
   protected readonly schema: ZodSchema<TModel>;
   protected readonly baseSchema: ZodSchema<TModelBase>;
 
-  protected constructor(config: CrudControllerConfig<TModelBase, TModel>) {
+  protected constructor(
+    config: CrudControllerConfig<TModelBase, TModel, OrmModel>,
+  ) {
     this.name = config.name;
     this.service = config.service;
 
@@ -52,10 +59,8 @@ export abstract class CrudController<
 
   get: RequestHandler = (req, res) =>
     ctrlWrapper(this.name + ".get", res, async () => {
-      const itemId = req.params?.itemId;
-      if (!itemId) {
-        throw errorBuilder.invalidParameters("Id is required");
-      }
+      const itemId = this.getItemId(req);
+
       const item = await this.service.get(itemId);
       if (!item) {
         throw errorBuilder.notFound("Item not found");
@@ -69,10 +74,7 @@ export abstract class CrudController<
 
   delete: RequestHandler = (req, res) =>
     ctrlWrapper(this.name + ".delete", res, async () => {
-      const itemId = req.params?.itemId;
-      if (!itemId) {
-        throw errorBuilder.invalidParameters("Id is required");
-      }
+      const itemId = this.getItemId(req);
       return {
         success: true,
         data: await this.service.delete(itemId),
@@ -93,12 +95,7 @@ export abstract class CrudController<
 
   patch: RequestHandler = (req, res) =>
     ctrlWrapper(this.name + "patch", res, async () => {
-      const itemId = req.params?.itemId;
-      if (!itemId) {
-        throw errorBuilder.invalidParameters("Id is required");
-      }
-
-      //TODO: Trouver un moyen de faire ça sans passer par any
+      const itemId = this.getItemId(req);
       const parsedBody = parseBody(req, (this.schema as any).partial());
       const item = await this.service.update(
         itemId,
@@ -111,9 +108,17 @@ export abstract class CrudController<
       } satisfies ApiResponse;
     });
 
-  // protected async reformatItem(_req: Req, item: TModel): Promise<TModel>;
-  // protected async reformatItem<T>(_req: Req, item: TModel): Promise<T>;
-  protected async reformatItem(_req: Req, item: TModel): Promise<any> {
+  private getItemId(req: Req): number {
+    const itemId = parseInt(req.params?.itemId);
+    if (!itemId || isNaN(itemId)) {
+      throw errorBuilder.invalidParameters("Id is required");
+    }
+    return itemId;
+  }
+  protected async reformatItem(
+    _req: Req,
+    item: TModel | OrmModel,
+  ): Promise<any> {
     return item;
   }
 }
