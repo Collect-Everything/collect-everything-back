@@ -1,5 +1,5 @@
 {
-  "name": "with-docker",
+  "name": "collect-everything",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -11,9 +11,14 @@
     "dev:company-users": "dotenv -- turbo run dev --filter=company-users",
     "build:company-users": "turbo run build --filter=company-users...",
     "start:company-users": "dotenv -- turbo run start --filter=company-users...",
+    "dev:admins-gateway": "dotenv -- turbo run dev --filter=admins-gateway",
+    "build:admins-gateway": "turbo run build --filter=admins-gateway...",
+    "start:admins-gateway": "dotenv -- turbo run start --filter=admins-gateway...",
+    "dev:admins": "dotenv -- turbo run dev --filter=admins...",
+    "build:admins": "turbo run build --filter=admins...",
+    "start:admins": "dotenv -- turbo run start --filter=admins...",
     "clean": "turbo run clean",
     "dev": "dotenv -- turbo run dev",
-    "dev:admins-gateway": "dotenv -- turbo run dev --filter=admins-gateway",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test"
