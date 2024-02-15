@@ -4,9 +4,7 @@
     "outDir": "./dist",
     "lib": ["ES2015", "WebWorker", "DOM"],
     "rootDir": "./src",
-    "types": ["jest", "node"],
-    "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "types": ["jest", "node"]
   },
   "include": ["."],
   "exclude": ["node_modules", "dist"]

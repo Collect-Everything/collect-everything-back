@@ -1,3 +1,4 @@
+import { getPortFromEnv } from "../helpers/env";
 import { Gateway } from "./gateways.config";
 
 interface ServiceConfig {
@@ -7,7 +8,6 @@ interface ServiceConfig {
 }
 
 const SERVICES = [
-  "AUTH",
   "ADMINS",
   "COMPANY_USERS",
   "COMPANY_INVOICES",
@@ -21,47 +21,43 @@ const SERVICES = [
 export type Service = (typeof SERVICES)[number];
 
 export const SERVICES_CONFIG: Record<Service, ServiceConfig> = {
-  AUTH: {
-    port: 3001,
-    allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
-  },
   ADMINS: {
-    port: 3002,
+    port: getPortFromEnv("ADMINS"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY"],
   },
   COMPANY_USERS: {
-    port: 3003,
+    port: getPortFromEnv("COMPANY_USERS"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
   },
   COMPANY_INVOICES: {
-    port: 3004,
+    port: getPortFromEnv("COMPANY_INVOICES"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
   },
   COMPANIES_AND_STORES: {
-    port: 3005,
+    port: getPortFromEnv("COMPANIES_AND_STORES"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
   },
   PRODUCTS: {
-    port: 3006,
+    port: getPortFromEnv("PRODUCTS"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
   COMPANY_CUSTOMERS: {
-    port: 3007,
+    port: getPortFromEnv("COMPANY_CUSTOMERS"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
   COMPANY_CUSTOMERS_INVOICES: {
-    port: 3008,
+    port: getPortFromEnv("COMPANY_CUSTOMERS_INVOICES"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
   CART_AND_ORDERS: {
-    port: 3009,
+    port: getPortFromEnv("CART_AND_ORDERS"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },

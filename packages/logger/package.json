@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "./dist/**"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
     "lint": "eslint \"src/**/*.ts*\" --max-warnings 0",
     "test": "jest"
   },

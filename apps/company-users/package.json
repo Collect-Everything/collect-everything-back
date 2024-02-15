@@ -1,5 +1,5 @@
 {
-  "name": "company-users-service",
+  "name": "company-users",
   "version": "0.0.0",
   "private": true,
   "scripts": {

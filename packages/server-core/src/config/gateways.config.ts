@@ -1,3 +1,5 @@
+import { getPortFromEnv } from "../helpers/env";
+
 interface GatewayConfig {
   port: number;
 }
@@ -11,12 +13,12 @@ export type Gateway = (typeof GATEWAYS)[number];
 
 export const GATEWAYS_CONFIG: Record<Gateway, GatewayConfig> = {
   ADMIN_GATEWAY: {
-    port: 3100,
+    port: getPortFromEnv("ADMIN_GATEWAY"),
   },
   SHOWCASE_GATEWAY: {
-    port: 3101,
+    port: getPortFromEnv("SHOWCASE_GATEWAY"),
   },
   STORE_GATEWAY: {
-    port: 3102,
+    port: getPortFromEnv("STORE_GATEWAY"),
   },
 };

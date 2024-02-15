@@ -14,9 +14,11 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql_data:/var/lib/mysql
+    networks:
+      - ce_network
 
 volumes:
   mysql_data:
 
 networks:
-  app_network:
+  ce_network:
