@@ -1,7 +1,7 @@
 import {
   AdminTokenPayload,
-  CompanyUserRegisterDTO,
-  LoginDTO,
+  CreateAdminDto,
+  LoginDto,
   TokenData,
 } from "@ce/shared-core";
 import {
@@ -18,15 +18,15 @@ import { AdminModel } from "../admins/admin.model";
 class AuthService implements IAuthService {
   constructor() {}
 
-  async login(loginDTO: LoginDTO) {
-    const customer = await adminsService.findByEmail(loginDTO.email);
+  async login(loginDto: LoginDto) {
+    const customer = await adminsService.findByEmail(loginDto.email);
 
     if (!customer) {
       throw errorBuilder.notFound("User not found");
     }
 
     const passwordIsValid = await comparePasswords(
-      loginDTO.password,
+      loginDto.password,
       customer.password,
     );
 
@@ -37,15 +37,15 @@ class AuthService implements IAuthService {
     return this.createToken(customer);
   }
 
-  async register(userDTO: CompanyUserRegisterDTO) {
-    const user = await adminsService.findByEmail(userDTO.email);
+  async register(adminDto: CreateAdminDto) {
+    const user = await adminsService.findByEmail(adminDto.email);
 
     if (user) {
       throw errorBuilder.alreadyExists();
     }
 
-    const hashedPassword = await hashPassword(userDTO.password);
-    return adminsService.create({ ...userDTO, password: hashedPassword });
+    const hashedPassword = await hashPassword(adminDto.password);
+    return adminsService.create({ ...adminDto, password: hashedPassword });
   }
 
   async refreshToken(token: string) {

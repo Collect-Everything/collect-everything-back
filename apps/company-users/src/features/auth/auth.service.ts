@@ -1,7 +1,7 @@
 import {
-  CompanyUserRegisterDTO,
   CompanyUserTokenPayload,
-  LoginDTO,
+  CreateCompanyUserDto,
+  LoginDto,
   TokenData,
 } from "@ce/shared-core";
 import { companyUsersService } from "../company-users/company-users.service";
@@ -18,15 +18,15 @@ import { CompanyUserModel } from "../company-users/company-user.model";
 class AuthService implements IAuthService {
   constructor() {}
 
-  async login(loginDTO: LoginDTO) {
-    const customer = await companyUsersService.findByEmail(loginDTO.email);
+  async login(loginDto: LoginDto) {
+    const customer = await companyUsersService.findByEmail(loginDto.email);
 
     if (!customer) {
       throw errorBuilder.notFound("User not found");
     }
 
     const passwordIsValid = await comparePasswords(
-      loginDTO.password,
+      loginDto.password,
       customer.password,
     );
 
@@ -37,15 +37,18 @@ class AuthService implements IAuthService {
     return this.createToken(customer);
   }
 
-  async register(userDTO: CompanyUserRegisterDTO) {
-    const user = await companyUsersService.findByEmail(userDTO.email);
+  async register(companyUserDto: CreateCompanyUserDto) {
+    const user = await companyUsersService.findByEmail(companyUserDto.email);
 
     if (user) {
       throw errorBuilder.alreadyExists();
     }
 
-    const hashedPassword = await hashPassword(userDTO.password);
-    return companyUsersService.create({ ...userDTO, password: hashedPassword });
+    const hashedPassword = await hashPassword(companyUserDto.password);
+    return companyUsersService.create({
+      ...companyUserDto,
+      password: hashedPassword,
+    });
   }
 
   async refreshToken(token: string) {

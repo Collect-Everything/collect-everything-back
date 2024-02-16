@@ -11,7 +11,7 @@ const SERVICES = [
   "ADMINS",
   "COMPANY_USERS",
   "COMPANY_INVOICES",
-  "COMPANIES_AND_STORES",
+  "COMPANIES",
   "PRODUCTS",
   "COMPANY_CUSTOMERS",
   "COMPANY_CUSTOMERS_INVOICES",
@@ -36,8 +36,8 @@ export const SERVICES_CONFIG: Record<Service, ServiceConfig> = {
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
   },
-  COMPANIES_AND_STORES: {
-    port: getPortFromEnv("COMPANIES_AND_STORES"),
+  COMPANIES: {
+    port: getPortFromEnv("COMPANIES"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY"],
   },

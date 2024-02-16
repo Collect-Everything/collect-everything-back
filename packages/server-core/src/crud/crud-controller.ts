@@ -38,7 +38,7 @@ export abstract class CrudController<
   }
 
   list: RequestHandler = (req: Req, res: Response) => {
-    return ctrlWrapper(this.name + ".list", res, async () => {
+    return ctrlWrapper(this.getIdentifier("list"), res, async () => {
       const query = req.query;
       const parsedQuery = ListQuery.parse(query);
       const items = await this.service.list(parsedQuery);
@@ -58,7 +58,7 @@ export abstract class CrudController<
   };
 
   get: RequestHandler = (req, res) =>
-    ctrlWrapper(this.name + ".get", res, async () => {
+    ctrlWrapper(this.getIdentifier("get"), res, async () => {
       const itemId = this.getItemId(req);
 
       const item = await this.service.get(itemId);
@@ -73,7 +73,7 @@ export abstract class CrudController<
     });
 
   delete: RequestHandler = (req, res) =>
-    ctrlWrapper(this.name + ".delete", res, async () => {
+    ctrlWrapper(this.getIdentifier("delete"), res, async () => {
       const itemId = this.getItemId(req);
       return {
         success: true,
@@ -82,7 +82,7 @@ export abstract class CrudController<
     });
 
   create: RequestHandler = (req, res) =>
-    ctrlWrapper(this.name + ".create", res, async () => {
+    ctrlWrapper(this.getIdentifier("create"), res, async () => {
       const parsedBody = parseBody(req, this.baseSchema);
 
       const item = await this.service.create(parsedBody);
@@ -94,7 +94,7 @@ export abstract class CrudController<
     });
 
   patch: RequestHandler = (req, res) =>
-    ctrlWrapper(this.name + "patch", res, async () => {
+    ctrlWrapper(this.getIdentifier("patch"), res, async () => {
       const itemId = this.getItemId(req);
       const parsedBody = parseBody(req, (this.schema as any).partial());
       const item = await this.service.update(
@@ -121,4 +121,8 @@ export abstract class CrudController<
   ): Promise<any> {
     return item;
   }
+
+  protected getIdentifier = (methodName: string) => {
+    return `[CrudController] ${this.name}.${methodName}`;
+  };
 }

@@ -4,7 +4,7 @@ import {
   ApiResponse,
   CompanyUserBaseSchema,
   CompanyUserSchema,
-  LoginDTO,
+  LoginDto,
   TCompanyUser,
   TCompanyUserBase,
 } from "@ce/shared-core";
@@ -26,8 +26,8 @@ class CompanyUsersCtrl extends CrudController<
   }
 
   validate: RequestHandler = async (req, res, next) => {
-    ctrlWrapper(this.name + "validate", res, async () => {
-      const parsedBody = parseBody(req, LoginDTO);
+    ctrlWrapper(this.getIdentifier("validate"), res, async () => {
+      const parsedBody = parseBody(req, LoginDto);
       const item = await companyUsersService.validate(parsedBody);
 
       return {

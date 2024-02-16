@@ -3,7 +3,7 @@ import {
   AdminBaseSchema,
   AdminSchema,
   ApiResponse,
-  LoginDTO,
+  LoginDto,
   TAdmin,
   TAdminBase,
 } from "@ce/shared-core";
@@ -22,8 +22,8 @@ class AdminsCtrl extends CrudController<TAdminBase, TAdmin, AdminModel> {
   }
 
   validate: RequestHandler = async (req, res, next) => {
-    ctrlWrapper(this.name + "validate", res, async () => {
-      const parsedBody = parseBody(req, LoginDTO);
+    ctrlWrapper(this.getIdentifier("validate"), res, async () => {
+      const parsedBody = parseBody(req, LoginDto);
       const item = await adminsService.validate(parsedBody);
 
       return {

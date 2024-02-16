@@ -9,6 +9,7 @@ class CompanyUserModel extends Model<TCompanyUser, TCompanyUserBase> {
   declare email: string;
   declare password: string;
   declare role_id: number;
+  declare company_id: number;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 }
@@ -38,6 +39,10 @@ CompanyUserModel.init(
       allowNull: false,
     },
     role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    company_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

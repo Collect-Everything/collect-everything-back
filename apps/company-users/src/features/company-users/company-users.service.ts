@@ -1,4 +1,4 @@
-import { LoginDTO, TCompanyUser, TCompanyUserBase } from "@ce/shared-core";
+import { LoginDto, TCompanyUser, TCompanyUserBase } from "@ce/shared-core";
 import { apiConfig } from "../../config/api.config";
 import { SequelizeService } from "@ce/sequelize";
 import { errorBuilder } from "@ce/server-core";
@@ -17,7 +17,7 @@ class CompanyUsersService extends SequelizeService<
     return this.model.findOne({ where: { email } });
   }
 
-  async validate(loginDto: LoginDTO) {
+  async validate(loginDto: LoginDto) {
     const user = await this.findByEmail(loginDto.email);
     if (!user) {
       throw errorBuilder.notFound("User not found");
