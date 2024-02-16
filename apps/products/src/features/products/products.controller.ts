@@ -24,18 +24,6 @@ class ProductsCtrl extends CrudController<
       schema: ProductSchema,
     });
   }
-
-  validate: RequestHandler = async (req, res, next) => {
-    ctrlWrapper(this.getIdentifier("validate"), res, async () => {
-      const parsedBody = parseBody(req, LoginDto);
-      const item = await productsService.validate(parsedBody);
-
-      return {
-        success: true,
-        data: item,
-      } satisfies ApiResponse;
-    });
-  };
 }
 
 export const productsCtrl = new ProductsCtrl();

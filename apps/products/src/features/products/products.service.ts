@@ -12,13 +12,6 @@ class ProductsService extends SequelizeService<
   constructor() {
     super(ProductModel, apiConfig);
   }
-
-  async validate(productDto: ProductDto) {
-    // todo
-    // if (!user) {
-    //   throw errorBuilder.notFound("User not found");
-    // }
-  }
 }
 
 export const productsService = new ProductsService();
