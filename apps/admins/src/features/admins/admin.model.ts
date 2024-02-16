@@ -1,8 +1,8 @@
 import { CreationOptional, DataTypes, Model } from "sequelize";
 import { db } from "../../lib/db";
-import { AdminRegisterDTO, TAdmin } from "@ce/shared-core";
+import { CreateAdminDto, TAdmin } from "@ce/shared-core";
 
-class AdminModel extends Model<TAdmin, AdminRegisterDTO> {
+class AdminModel extends Model<TAdmin, CreateAdminDto> {
   declare id: CreationOptional<number>;
   declare firstname: string;
   declare lastname: string;
