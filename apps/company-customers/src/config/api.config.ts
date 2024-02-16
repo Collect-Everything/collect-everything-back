@@ -3,7 +3,7 @@ import { env } from "../env";
 import { SERVICES_CONFIG } from "@ce/server-core";
 
 export const apiConfig = {
-  baseUrl: `http://localhost:${env.port}/`,
+  baseUrl: `http://localhost:${SERVICES_CONFIG.COMPANY_CUSTOMERS.port}/`,
   apiPath: SERVICES_CONFIG.COMPANY_CUSTOMERS.basePath || "/",
 } satisfies ApiConfig;
 
