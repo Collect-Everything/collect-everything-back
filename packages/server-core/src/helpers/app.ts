@@ -7,7 +7,7 @@ import morgan from "morgan";
 import {
   limiter,
   globalErrorHandler,
-  gatewaysMiddleware,
+  gatewaysApiKeyMiddleware,
   jwtMiddleware,
 } from "../middlewares";
 import { ApiConfig } from "@ce/shared-core";
@@ -38,7 +38,7 @@ export const createServiceApp = (
     app.use(apiConfig.uploads.source, express.static("/static"));
   }
 
-  app.use(gatewaysMiddleware(SERVICES_CONFIG[service].allowedGateways)); // Gateway middleware
+  app.use(gatewaysApiKeyMiddleware(SERVICES_CONFIG[service].allowedGateways)); // Gateway middleware
   applyCommonMiddlewares(app);
 
   createApiRouter(app);
