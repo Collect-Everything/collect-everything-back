@@ -3,7 +3,7 @@ import { errorBuilder } from "../errors";
 import { Gateway } from "../config";
 import { createGatewayApiKey } from "../helpers/api-key";
 
-export const gatewaysMiddleware =
+export const gatewaysApiKeyMiddleware =
   (allowed: Gateway[]) => (req: Request, res: Response, next: NextFunction) => {
     const providedGateway = req.headers?.["x-gateway"] as Gateway;
     const providedApiKey = req.headers?.["x-api-key"];

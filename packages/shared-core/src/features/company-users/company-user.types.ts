@@ -1,4 +1,5 @@
 import z from "zod";
+import { CompanyUserRole } from "./role.types";
 
 export const CompanyUserBaseSchema = z.object({
   firstname: z.string(),
@@ -6,7 +7,7 @@ export const CompanyUserBaseSchema = z.object({
   email: z.string().email(),
   password: z.string(),
   company_id: z.number(),
-  role_id: z.string(),
+  role: CompanyUserRole,
 });
 export const CompanyUserSchema = CompanyUserBaseSchema.extend({
   id: z.number(),

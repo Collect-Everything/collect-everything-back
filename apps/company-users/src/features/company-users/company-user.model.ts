@@ -1,6 +1,11 @@
 import { CreationOptional, DataTypes, Model } from "sequelize";
 import { db } from "../../lib/db";
-import { TCompanyUser, TCompanyUserBase } from "@ce/shared-core";
+import {
+  COMPANY_USER_ROLES,
+  CompanyUserRole,
+  TCompanyUser,
+  TCompanyUserBase,
+} from "@ce/shared-core";
 
 class CompanyUserModel extends Model<TCompanyUser, TCompanyUserBase> {
   declare id: CreationOptional<number>;
@@ -8,7 +13,7 @@ class CompanyUserModel extends Model<TCompanyUser, TCompanyUserBase> {
   declare lastname: string;
   declare email: string;
   declare password: string;
-  declare role_id: number;
+  declare role: CompanyUserRole;
   declare company_id: number;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
@@ -38,8 +43,8 @@ CompanyUserModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    role_id: {
-      type: DataTypes.INTEGER,
+    role: {
+      type: DataTypes.ENUM(...COMPANY_USER_ROLES),
       allowNull: false,
     },
     company_id: {
