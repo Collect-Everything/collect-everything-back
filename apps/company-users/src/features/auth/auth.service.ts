@@ -74,6 +74,7 @@ class AuthService implements IAuthService {
   private createToken(user: CompanyUserModel) {
     return this.signToken({
       sub: user.id,
+      company_id: user.company_id,
       role: "company_user",
     });
   }

@@ -6,12 +6,8 @@ export type TokenRole =
 
 export type CompanyUserTokenPayload = {
   sub: number;
+  company_id: number;
   role: "company_user";
-};
-
-export type CompanyTokenPayload = {
-  sub: number;
-  role: "company";
 };
 
 export type AdminTokenPayload = {
@@ -27,7 +23,6 @@ export type CompanyCustomerTokenPayload = {
 export type TokenData = {
   data:
     | CompanyUserTokenPayload
-    | CompanyTokenPayload
     | AdminTokenPayload
     | CompanyCustomerTokenPayload;
   iat: number;

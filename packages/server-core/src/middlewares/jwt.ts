@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import { Req } from "../types";
 import {
   AdminTokenPayload,
-  CompanyTokenPayload,
   CompanyUserTokenPayload,
+  CompanyCustomerTokenPayload,
 } from "@ce/shared-core";
 
 export const jwtMiddleware: RequestHandler = (req, _res, next) => {
@@ -19,8 +19,8 @@ export const jwtMiddleware: RequestHandler = (req, _res, next) => {
         const jwtPayload = decoded as {
           data:
             | AdminTokenPayload
-            | CompanyTokenPayload
-            | CompanyUserTokenPayload;
+            | CompanyUserTokenPayload
+            | CompanyCustomerTokenPayload;
           iat: number;
           exp: number;
         };

@@ -1,13 +1,7 @@
 import z from "zod";
 
-const RoleBaseSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-});
+export const ROLES = ["ADMIN", "STOCK_MANAGER", "ORDER_MANAGER"] as const;
 
-const RoleSchema = RoleBaseSchema.extend({
-  id: z.string(),
-});
+export const Role = z.enum(ROLES);
 
-export type TRoleBase = z.infer<typeof RoleBaseSchema>;
-export type TRole = z.infer<typeof RoleSchema>;
+export type Role = z.infer<typeof Role>;
