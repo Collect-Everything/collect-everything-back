@@ -7,7 +7,7 @@ import morgan from "morgan";
 import {
   limiter,
   globalErrorHandler,
-  gatewaysMiddleware,
+  gatewaysApiKeyMiddleware,
   jwtMiddleware,
 } from "../middlewares";
 import { ApiConfig } from "@ce/shared-core";
@@ -30,7 +30,7 @@ const applyCommonMiddlewares = (app: Express) => {
 export const createServiceApp = (
   service: Service,
   createApiRouter: (app: Express) => void,
-  apiConfig: ApiConfig,
+  apiConfig: ApiConfig
 ) => {
   const app = express();
 
@@ -38,7 +38,7 @@ export const createServiceApp = (
     app.use(apiConfig.uploads.source, express.static("/static"));
   }
 
-  app.use(gatewaysMiddleware(SERVICES_CONFIG[service].allowedGateways)); // Gateway middleware
+  app.use(gatewaysApiKeyMiddleware(SERVICES_CONFIG[service].allowedGateways)); // Gateway middleware
   applyCommonMiddlewares(app);
 
   createApiRouter(app);
@@ -54,9 +54,9 @@ export const createServiceApp = (
         console.log(
           boldLog(
             greenLog(
-              `Service ${service} is running on port ${SERVICES_CONFIG[service].port}`,
-            ),
-          ),
+              `Service ${service} is running on port ${SERVICES_CONFIG[service].port}`
+            )
+          )
         );
       });
     },
@@ -66,7 +66,7 @@ export const createServiceApp = (
 export const createGatewayApp = (
   gateway: Gateway,
   createApiRouter: (app: Express) => void,
-  apiConfig: ApiConfig,
+  apiConfig: ApiConfig
 ) => {
   const app = express();
 
@@ -85,9 +85,9 @@ export const createGatewayApp = (
         console.log(
           boldLog(
             blueLog(
-              `Gateway ${gateway} is running on port ${GATEWAYS_CONFIG[gateway].port}`,
-            ),
-          ),
+              `Gateway ${gateway} is running on port ${GATEWAYS_CONFIG[gateway].port}`
+            )
+          )
         );
       });
     },

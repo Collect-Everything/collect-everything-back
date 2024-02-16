@@ -1,20 +1,22 @@
 import { CreationOptional, DataTypes, Model } from "sequelize";
 import { db } from "../../lib/db";
-import { TCompanyUser, TCompanyUserBase } from "@ce/shared-core";
+import { TCompanyCustomer, TCompanyCustomerBase } from "@ce/shared-core";
 
-class CompanyUserModel extends Model<TCompanyUser, TCompanyUserBase> {
+class CompanyCustomerModel extends Model<
+  TCompanyCustomer,
+  TCompanyCustomerBase
+> {
   declare id: CreationOptional<number>;
   declare firstname: string;
   declare lastname: string;
   declare email: string;
   declare password: string;
-  declare role_id: number;
   declare company_id: number;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 }
 
-CompanyUserModel.init(
+CompanyCustomerModel.init(
   {
     // Model attributes are defined here
     id: {
@@ -38,10 +40,6 @@ CompanyUserModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    role_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     company_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -58,12 +56,12 @@ CompanyUserModel.init(
   {
     // Other model options go here
     sequelize: db.sequelize, // We need to pass the connection instance
-    modelName: "company_user", // We need to choose the model name
+    modelName: "company_customer", // We need to choose the model name
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
     paranoid: true,
-  },
+  }
 );
 
-export { CompanyUserModel };
+export { CompanyCustomerModel };

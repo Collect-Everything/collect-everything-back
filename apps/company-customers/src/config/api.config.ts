@@ -4,7 +4,7 @@ import { SERVICES_CONFIG } from "@ce/server-core";
 
 export const apiConfig = {
   baseUrl: `http://localhost:${env.port}/`,
-  apiPath: SERVICES_CONFIG.COMPANY_USERS.basePath || "/",
+  apiPath: SERVICES_CONFIG.COMPANY_CUSTOMERS.basePath || "/",
 } satisfies ApiConfig;
 
 export const STATIC_PATH = "/static";

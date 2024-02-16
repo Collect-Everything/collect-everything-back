@@ -1,7 +1,6 @@
 import z from "zod";
 
 const EnvSchema = z.object({
-  port: z.coerce.number().default(3001),
   nodeEnv: z
     .enum(["development", "test", "production", "staging"])
     .default("development"),
@@ -14,7 +13,6 @@ const EnvSchema = z.object({
 });
 
 const ENV_MAP = {
-  port: process.env.PORT,
   nodeEnv: process.env.NODE_ENV,
   dbPort: process.env.DB_PORT,
   dbHost: process.env.DB_HOST,

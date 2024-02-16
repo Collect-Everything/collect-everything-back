@@ -1,15 +1,15 @@
 import { AuthController } from "@ce/server-core";
 import { authService } from "./auth.service";
 import {
-  CreateCompanyUserDto,
+  CreateCompanyCustomerDto,
   LoginDto,
   RefreshTokenDto,
 } from "@ce/shared-core";
 
 export const authController = new AuthController({
-  name: "company-users",
+  name: "company-customers",
   service: authService,
   loginSchema: LoginDto,
-  registerSchema: CreateCompanyUserDto,
+  registerSchema: CreateCompanyCustomerDto,
   refreshTokenSchema: RefreshTokenDto,
 });

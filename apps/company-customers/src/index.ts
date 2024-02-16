@@ -10,9 +10,9 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 export const app = createServiceApp(
-  "COMPANY_USERS",
+  "COMPANY_CUSTOMERS",
   createApiRouter,
-  apiConfig,
+  apiConfig
 );
 
 app.start();

@@ -1,10 +1,10 @@
 import {
-  CompanyUserTokenPayload,
-  CreateCompanyUserDto,
+  CompanyCustomerTokenPayload,
+  CreateCompanyCustomerDto,
   LoginDto,
   TokenData,
 } from "@ce/shared-core";
-import { companyUsersService } from "../company-users/company-users.service";
+import { companyCustomersService } from "../company-customers/company-customers.service";
 import {
   IAuthService,
   comparePasswords,
@@ -13,21 +13,21 @@ import {
 } from "@ce/server-core";
 import jwt from "jsonwebtoken";
 import { env } from "../../env";
-import { CompanyUserModel } from "../company-users/company-user.model";
+import { CompanyCustomerModel } from "../company-customers/company-customer.model";
 
 class AuthService implements IAuthService {
   constructor() {}
 
   async login(loginDto: LoginDto) {
-    const customer = await companyUsersService.findByEmail(loginDto.email);
+    const customer = await companyCustomersService.findByEmail(loginDto.email);
 
     if (!customer) {
-      throw errorBuilder.notFound("User not found");
+      throw errorBuilder.notFound("Customer not found");
     }
 
     const passwordIsValid = await comparePasswords(
       loginDto.password,
-      customer.password,
+      customer.password
     );
 
     if (!passwordIsValid) {
@@ -37,16 +37,18 @@ class AuthService implements IAuthService {
     return this.createToken(customer);
   }
 
-  async register(companyUserDto: CreateCompanyUserDto) {
-    const user = await companyUsersService.findByEmail(companyUserDto.email);
+  async register(companyCustomerDto: CreateCompanyCustomerDto) {
+    const customer = await companyCustomersService.findByEmail(
+      companyCustomerDto.email
+    );
 
-    if (user) {
+    if (customer) {
       throw errorBuilder.alreadyExists();
     }
 
-    const hashedPassword = await hashPassword(companyUserDto.password);
-    return companyUsersService.create({
-      ...companyUserDto,
+    const hashedPassword = await hashPassword(companyCustomerDto.password);
+    return companyCustomersService.create({
+      ...companyCustomerDto,
       password: hashedPassword,
     });
   }
@@ -58,24 +60,23 @@ class AuthService implements IAuthService {
       throw errorBuilder.unauthorized();
     }
 
-    const user = await companyUsersService.get(tokenData.data.sub);
+    const customer = await companyCustomersService.get(tokenData.data.sub);
 
-    if (!user) {
-      throw errorBuilder.notFound("User not found");
+    if (!customer) {
+      throw errorBuilder.notFound("Customer not found");
     }
 
-    return this.createToken(user);
+    return this.createToken(customer);
   }
 
-  private signToken(data: CompanyUserTokenPayload) {
+  private signToken(data: CompanyCustomerTokenPayload) {
     return jwt.sign({ data }, env.jwtSecret, { expiresIn: "7d" });
   }
 
-  private createToken(user: CompanyUserModel) {
+  private createToken(customer: CompanyCustomerModel) {
     return this.signToken({
-      sub: user.id,
-      company_id: user.company_id,
-      role: "company_user",
+      sub: customer.id,
+      role: "company_customer",
     });
   }
 }
