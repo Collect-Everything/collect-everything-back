@@ -1,34 +1,34 @@
 import { CrudController, ctrlWrapper, parseBody } from "@ce/server-core";
-import { customersService } from "./company-users.service";
+import { companyUsersService } from "./company-users.service";
 import {
   ApiResponse,
-  CustomerBaseSchema,
-  CustomerSchema,
+  CompanyUserBaseSchema,
+  CompanyUserSchema,
   LoginDTO,
-  TCustomer,
-  TCustomerBase,
+  TCompanyUser,
+  TCompanyUserBase,
 } from "@ce/shared-core";
-import { CustomerModel } from "./company-user.model";
 import { RequestHandler } from "express";
+import { CompanyUserModel } from "./company-user.model";
 
-class CustomersCtrl extends CrudController<
-  TCustomerBase,
-  TCustomer,
-  CustomerModel
+class CompanyUsersCtrl extends CrudController<
+  TCompanyUserBase,
+  TCompanyUser,
+  CompanyUserModel
 > {
   constructor() {
     super({
-      name: "customers",
-      service: customersService,
-      baseSchema: CustomerBaseSchema,
-      schema: CustomerSchema,
+      name: "company_users",
+      service: companyUsersService,
+      baseSchema: CompanyUserBaseSchema,
+      schema: CompanyUserSchema,
     });
   }
 
   validate: RequestHandler = async (req, res, next) => {
     ctrlWrapper(this.name + "validate", res, async () => {
       const parsedBody = parseBody(req, LoginDTO);
-      const item = await customersService.validate(parsedBody);
+      const item = await companyUsersService.validate(parsedBody);
 
       return {
         success: true,
@@ -38,4 +38,4 @@ class CustomersCtrl extends CrudController<
   };
 }
 
-export const customersCtrl = new CustomersCtrl();
+export const companyUsersCtrl = new CompanyUsersCtrl();

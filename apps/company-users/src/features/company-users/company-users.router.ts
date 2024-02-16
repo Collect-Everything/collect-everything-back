@@ -1,17 +1,17 @@
 import { CrudRouter } from "@ce/server-core";
-import { TCustomer } from "@ce/shared-core";
-import { customersCtrl } from "./company-users.controller";
+import { companyUsersCtrl } from "./company-users.controller";
+import { TCompanyUser } from "@ce/shared-core";
 
-class CustomersRouter extends CrudRouter<TCustomer> {
+class CompanyUsersRouter extends CrudRouter<TCompanyUser> {
   constructor() {
     super({
-      ctrl: customersCtrl,
+      ctrl: companyUsersCtrl,
     });
   }
 
   protected addRoutesBeforeCrud() {
-    this.router.post("/validate", [], customersCtrl.validate);
+    this.router.post("/validate", [], companyUsersCtrl.validate);
   }
 }
 
-export const customersRouter = new CustomersRouter().router;
+export const companyUsersRouter = new CompanyUsersRouter().router;

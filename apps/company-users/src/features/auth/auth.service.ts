@@ -4,7 +4,7 @@ import {
   LoginDTO,
   TokenData,
 } from "@ce/shared-core";
-import { customersService } from "../company-users/company-users.service";
+import { companyUsersService } from "../company-users/company-users.service";
 import {
   IAuthService,
   comparePasswords,
@@ -13,13 +13,13 @@ import {
 } from "@ce/server-core";
 import jwt from "jsonwebtoken";
 import { env } from "../../env";
-import { CustomerModel } from "../company-users/company-user.model";
+import { CompanyUserModel } from "../company-users/company-user.model";
 
 class AuthService implements IAuthService {
   constructor() {}
 
   async login(loginDTO: LoginDTO) {
-    const customer = await customersService.findByEmail(loginDTO.email);
+    const customer = await companyUsersService.findByEmail(loginDTO.email);
 
     if (!customer) {
       throw errorBuilder.notFound("User not found");
@@ -38,14 +38,14 @@ class AuthService implements IAuthService {
   }
 
   async register(userDTO: CompanyUserRegisterDTO) {
-    const user = await customersService.findByEmail(userDTO.email);
+    const user = await companyUsersService.findByEmail(userDTO.email);
 
     if (user) {
       throw errorBuilder.alreadyExists();
     }
 
     const hashedPassword = await hashPassword(userDTO.password);
-    return customersService.create({ ...userDTO, password: hashedPassword });
+    return companyUsersService.create({ ...userDTO, password: hashedPassword });
   }
 
   async refreshToken(token: string) {
@@ -55,7 +55,7 @@ class AuthService implements IAuthService {
       throw errorBuilder.unauthorized();
     }
 
-    const user = await customersService.get(tokenData.data.sub);
+    const user = await companyUsersService.get(tokenData.data.sub);
 
     if (!user) {
       throw errorBuilder.notFound("User not found");
@@ -68,7 +68,7 @@ class AuthService implements IAuthService {
     return jwt.sign({ data }, env.jwtSecret, { expiresIn: "7d" });
   }
 
-  private createToken(user: CustomerModel) {
+  private createToken(user: CompanyUserModel) {
     return this.signToken({
       sub: user.id,
       role: "company_user",

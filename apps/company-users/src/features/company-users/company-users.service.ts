@@ -1,16 +1,16 @@
-import { LoginDTO, TCustomer, TCustomerBase } from "@ce/shared-core";
+import { LoginDTO, TCompanyUser, TCompanyUserBase } from "@ce/shared-core";
 import { apiConfig } from "../../config/api.config";
-import { CustomerModel } from "./company-user.model";
 import { SequelizeService } from "@ce/sequelize";
 import { errorBuilder } from "@ce/server-core";
+import { CompanyUserModel } from "./company-user.model";
 
-class CustomersService extends SequelizeService<
-  TCustomerBase,
-  TCustomer,
-  CustomerModel
+class CompanyUsersService extends SequelizeService<
+  TCompanyUserBase,
+  TCompanyUser,
+  CompanyUserModel
 > {
   constructor() {
-    super(CustomerModel, apiConfig);
+    super(CompanyUserModel, apiConfig);
   }
 
   async findByEmail(email: string) {
@@ -25,4 +25,4 @@ class CustomersService extends SequelizeService<
   }
 }
 
-export const customersService = new CustomersService();
+export const companyUsersService = new CompanyUsersService();

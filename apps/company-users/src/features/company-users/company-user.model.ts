@@ -1,8 +1,8 @@
 import { CreationOptional, DataTypes, Model } from "sequelize";
 import { db } from "../../lib/db";
-import { TCustomer, TCustomerBase } from "@ce/shared-core";
+import { TCompanyUser, TCompanyUserBase } from "@ce/shared-core";
 
-class CustomerModel extends Model<TCustomer, TCustomerBase> {
+class CompanyUserModel extends Model<TCompanyUser, TCompanyUserBase> {
   declare id: CreationOptional<number>;
   declare firstname: string;
   declare lastname: string;
@@ -13,7 +13,7 @@ class CustomerModel extends Model<TCustomer, TCustomerBase> {
   declare updated_at: CreationOptional<Date>;
 }
 
-CustomerModel.init(
+CompanyUserModel.init(
   {
     // Model attributes are defined here
     id: {
@@ -53,11 +53,11 @@ CustomerModel.init(
   {
     // Other model options go here
     sequelize: db.sequelize, // We need to pass the connection instance
-    modelName: "company_customer", // We need to choose the model name
+    modelName: "company_user", // We need to choose the model name
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
   },
 );
 
-export { CustomerModel };
+export { CompanyUserModel };
