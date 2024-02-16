@@ -34,3 +34,9 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+# dotenv environment variables file
+.env
+
+# Log files
+**/*.log
