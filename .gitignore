@@ -15,6 +15,7 @@ build
 
 # other
 dist/
+logs/
 
 # misc
 .DS_Store

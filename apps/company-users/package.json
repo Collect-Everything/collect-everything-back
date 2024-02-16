@@ -8,7 +8,8 @@
     "start": "node ./dist/index.js",
     "build": "tsup src/index.ts --minify --format cjs --out-dir dist",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "clean:logs": "rm -rf logs"
   },
   "jest": {
     "preset": "@ce/jest-presets/jest/node"

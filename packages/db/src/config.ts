@@ -1,11 +1,11 @@
 import z from "zod";
 
 export const DatabaseConfig = z.object({
-  port: z.coerce.number(),
-  host: z.string(),
-  username: z.string(),
-  password: z.string(),
-  database: z.string(),
+  port: z.coerce.number().default(3306),
+  host: z.string().default("localhost"),
+  username: z.string().default("root"),
+  password: z.string().default("password"),
+  database: z.string().default("ce_users"),
 });
 
 export const getConfigFromEnv = () => {

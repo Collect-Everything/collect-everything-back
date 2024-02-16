@@ -18,6 +18,7 @@
     "build:admins": "turbo run build --filter=admins...",
     "start:admins": "dotenv -- turbo run start --filter=admins...",
     "clean": "turbo run clean",
+    "clean:logs": "turbo run clean:logs",
     "dev": "dotenv -- turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",

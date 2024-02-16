@@ -31,6 +31,9 @@
     },
     "clean": {
       "cache": false
+    },
+    "clean:logs": {
+      "cache": false
     }
   }
 }
