@@ -30,7 +30,7 @@ const applyCommonMiddlewares = (app: Express) => {
 export const createServiceApp = (
   service: Service,
   createApiRouter: (app: Express) => void,
-  apiConfig: ApiConfig,
+  apiConfig: ApiConfig
 ) => {
   const app = express();
 
@@ -54,9 +54,9 @@ export const createServiceApp = (
         console.log(
           boldLog(
             greenLog(
-              `Service ${service} is running on port ${SERVICES_CONFIG[service].port}`,
-            ),
-          ),
+              `Service ${service} is running on port ${SERVICES_CONFIG[service].port}`
+            )
+          )
         );
       });
     },
@@ -66,7 +66,7 @@ export const createServiceApp = (
 export const createGatewayApp = (
   gateway: Gateway,
   createApiRouter: (app: Express) => void,
-  apiConfig: ApiConfig,
+  apiConfig: ApiConfig
 ) => {
   const app = express();
 
@@ -85,9 +85,9 @@ export const createGatewayApp = (
         console.log(
           boldLog(
             blueLog(
-              `Gateway ${gateway} is running on port ${GATEWAYS_CONFIG[gateway].port}`,
-            ),
-          ),
+              `Gateway ${gateway} is running on port ${GATEWAYS_CONFIG[gateway].port}`
+            )
+          )
         );
       });
     },
