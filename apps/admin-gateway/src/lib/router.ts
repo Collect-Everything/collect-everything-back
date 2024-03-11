@@ -3,6 +3,7 @@ import express, { Express } from "express";
 import { companyUsersRouter } from "../features/customers";
 import { adminsRouter } from "../features/admins";
 import { productsRouter } from "../features/products";
+import { categoriesRouter } from "../features/categories";
 import { isLogged } from "@ce/server-core";
 
 export const createApiRouter = (app: Express) => {
@@ -11,6 +12,7 @@ export const createApiRouter = (app: Express) => {
   baseApiRouter.use("/company-users", [isLogged], companyUsersRouter);
   baseApiRouter.use("/admins", adminsRouter);
   baseApiRouter.use("/products", productsRouter);
+  baseApiRouter.use("/categories", categoriesRouter);
 
   app.use(apiConfig.apiPath, baseApiRouter);
 };

@@ -21,7 +21,6 @@ class ProductModel extends Model<TProduct, CreateProductDto> {
 
 ProductModel.init(
   {
-    // Model attributes are defined here
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -30,43 +29,43 @@ ProductModel.init(
 
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     price: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: true,
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     photo: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     conditioning: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     size: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     stock: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     unity: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     category_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     parent_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     created_at: {
       type: DataTypes.DATE,
