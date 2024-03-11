@@ -32,7 +32,11 @@ class ProductsCtrl extends GatewayController {
 
   updateProduct: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("updateProduct"), res, async () => {
-      const { data } = await this.fetcher.put("/products", req.body);
+      const { id } = req.params;
+      if (!id) {
+        throw errorBuilder.badRequest();
+      }
+      const { data } = await this.fetcher.patch(`/products/${id}`, req.body);
       return data;
     });
 

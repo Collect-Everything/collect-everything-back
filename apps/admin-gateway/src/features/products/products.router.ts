@@ -6,8 +6,8 @@ const productsRouter = express.Router();
 
 productsRouter.get("/", [], productsCtrl.getlistProducts);
 productsRouter.get("/:id", [], productsCtrl.getOneProduct);
-productsRouter.get("/", [isLogged], productsCtrl.createProduct);
-productsRouter.get("/", [isLogged], productsCtrl.updateProduct);
-productsRouter.get("/:id", [isLogged], productsCtrl.deleteProduct);
+productsRouter.post("/", [isLogged], productsCtrl.createProduct);
+productsRouter.patch("/:id", [isLogged], productsCtrl.updateProduct);
+productsRouter.delete("/:id", [isLogged], productsCtrl.deleteProduct);
 
 export { productsRouter };
