@@ -1,19 +1,10 @@
-import { CrudRouter } from "@ce/server-core";
 import { companyUsersCtrl } from "./company-users.controller";
-import { TCompanyUser } from "@ce/shared-core";
+import express from "express";
 
-class CompanyUsersRouter extends CrudRouter<TCompanyUser> {
-  constructor() {
-    super({
-      ctrl: companyUsersCtrl,
-    });
-  }
+const companyUsersRouter = express.Router();
 
-  protected addRoutesBeforeCrud() {
-    this.router.post("/login", [], companyUsersCtrl.login);
-    this.router.post("/register", [], companyUsersCtrl.register);
-    this.router.post("/refresh", [], companyUsersCtrl.refreshToken);
-  }
-}
+companyUsersRouter.post("/login", [], companyUsersCtrl.login);
+companyUsersRouter.post("/register", [], companyUsersCtrl.register);
+companyUsersRouter.post("/refresh", [], companyUsersCtrl.refreshToken);
 
-export const companyUsersRouter = new CompanyUsersRouter().router;
+export { companyUsersRouter };

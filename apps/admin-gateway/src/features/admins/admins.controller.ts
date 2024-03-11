@@ -1,15 +1,18 @@
-import { GatewayCrudController, ctrlWrapper } from "@ce/server-core";
+import { GatewayController, ctrlWrapper } from "@ce/server-core";
 import { RequestHandler } from "express";
 
-class AdminsCtrl extends GatewayCrudController {
+class AdminsCtrl extends GatewayController {
   constructor() {
-    super(
-      {
-        service: "ADMINS",
-      },
-      "admins",
-    );
+    super("admins", {
+      service: "ADMINS",
+    });
   }
+
+  listAdmins: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier("listAdmins"), res, async () => {
+      const { data } = await this.fetcher.get("/admins");
+      return data;
+    });
 
   login: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("login"), res, async () => {

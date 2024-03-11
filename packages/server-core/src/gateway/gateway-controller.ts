@@ -10,7 +10,10 @@ export type GatewayControllerOptions = {
 export abstract class GatewayController {
   protected fetcher: AxiosInstance;
 
-  constructor(options: GatewayControllerOptions) {
+  constructor(
+    protected readonly name: string,
+    options: GatewayControllerOptions,
+  ) {
     const secret = process.env[`ADMIN_GATEWAY_SECRET`];
 
     if (!secret) {
@@ -27,6 +30,10 @@ export abstract class GatewayController {
       },
     });
   }
+
+  protected getIdentifier = (methodName: string) => {
+    return `[GatewayCrudController] ${this.name}.${methodName}`;
+  };
 
   private getEnvConfig() {
     const protocol = process.env.SERVICES_PROTOCOL;

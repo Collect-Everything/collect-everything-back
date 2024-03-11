@@ -6,6 +6,9 @@ class CompanyRouter extends CrudRouter<TCompany> {
   constructor() {
     super({
       ctrl: companyCtrl,
+      middlewares: {
+        list: [],
+      },
     });
   }
 

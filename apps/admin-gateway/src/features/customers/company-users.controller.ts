@@ -1,13 +1,10 @@
-import { GatewayCrudController } from "@ce/server-core";
+import { GatewayController } from "@ce/server-core";
 
-class CompanyUsersCtrl extends GatewayCrudController {
+class CompanyUsersCtrl extends GatewayController {
   constructor() {
-    super(
-      {
-        service: "COMPANY_USERS",
-      },
-      "company_users",
-    );
+    super("company-users", {
+      service: "COMPANY_USERS",
+    });
   }
 }
 
