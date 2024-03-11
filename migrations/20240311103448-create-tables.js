@@ -35,7 +35,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -127,7 +126,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -173,7 +171,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -211,7 +208,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -257,7 +253,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -299,7 +294,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -327,7 +321,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -383,7 +376,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -421,7 +413,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -467,7 +458,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -491,7 +481,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -557,7 +546,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -597,7 +585,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
 
@@ -639,7 +626,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
       },
     });
   },

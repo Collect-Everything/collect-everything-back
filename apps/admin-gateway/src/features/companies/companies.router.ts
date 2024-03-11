@@ -5,7 +5,7 @@ import { isLogged } from "@ce/server-core";
 const companiesRouter = express.Router();
 companiesRouter.get("/", [], companiesCtrl.getlistCompanies);
 companiesRouter.get("/:id", [], companiesCtrl.getOneCompany);
-companiesRouter.post("/", [isLogged], companiesCtrl.createCompany);
-companiesRouter.patch("/:id", [isLogged], companiesCtrl.updateCompany);
+companiesRouter.post("/", [], companiesCtrl.createCompany);
+companiesRouter.patch("/:id", [], companiesCtrl.updateCompany);
 
 export { companiesRouter };

@@ -118,7 +118,6 @@ CompanyModel.init(
     },
     deleted_at: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
     },
   },
   {
@@ -128,6 +127,7 @@ CompanyModel.init(
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    deletedAt: "deleted_at",
     paranoid: true,
   }
 );
