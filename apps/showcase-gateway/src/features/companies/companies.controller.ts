@@ -8,6 +8,24 @@ class CompaniesCtrl extends GatewayController {
     });
   }
 
+  /**
+   * @openapi
+   * /companies/{id}:
+   *   get:
+   *     tags: [Companies]
+   *     summary: Get a company by id
+   *     parameters:
+   *      - in: path
+   *        name: id
+   *        schema:
+   *          type: string
+   *        required: true
+   *        description: The id of the company
+   *
+   *     responses:
+   *       200:
+   *         description: Returns a company
+   */
   getCompany: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("getCompany"), res, async () => {
       const { id } = req.params;

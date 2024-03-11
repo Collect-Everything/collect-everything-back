@@ -12,7 +12,19 @@ class CompanyUsersCtrl extends GatewayController {
    * @openapi
    * /company-users/login:
    *   post:
-   *     description: Login for company-customers
+   *     tags: [CompanyUsers]
+   *     summary: Login for company-customers
+   *     requestBody:
+   *      required: true
+   *      content:
+   *       application/json:
+   *        schema:
+   *          type: object
+   *          properties:
+   *            email:
+   *              type: string
+   *            password:
+   *              type: string
    *     responses:
    *       200:
    *         description: Returns a token
@@ -27,7 +39,31 @@ class CompanyUsersCtrl extends GatewayController {
    * @openapi
    * /company-users/register:
    *   post:
-   *     description: Register for company-customers
+   *     tags: [CompanyUsers]
+   *     summary: Register for company-customers
+   *     requestBody:
+   *      required: true
+   *      content:
+   *       application/json:
+   *        schema:
+   *          type: object
+   *          properties:
+   *            email:
+   *              type: string
+   *            password:
+   *              type: string
+   *              minLength: 8
+   *              maxLength: 100
+   *            firstname:
+   *              type: string
+   *            lastname:
+   *              type: string
+   *            role:
+   *              type: string
+   *              enum: [ADMIN,STOCK_MANAGER,ORDER_MANAGER]
+   *            company_id:
+   *              type: string
+   *
    *     responses:
    *       200:
    *         description: Returns the created customer
@@ -42,7 +78,17 @@ class CompanyUsersCtrl extends GatewayController {
    * @openapi
    * /company-customers/refresh:
    *   post:
-   *     description: Refresh token for company-customers
+   *     tags: [CompanyUsers]
+   *     summary: Refresh token for company-customers
+   *     requestBody:
+   *       required: true
+   *       content:
+   *        application/json:
+   *          schema:
+   *            type: object
+   *            properties:
+   *              refreshToken:
+   *                type: string
    *     responses:
    *       200:
    *         description: Returns a new token

@@ -21,6 +21,11 @@ const options = {
       title: "Collect&Verything - Showcase Gateway",
       version: "0.0.1",
     },
+    servers: [
+      {
+        url: `${apiConfig.baseUrl}${apiConfig.apiPath.slice(1)}`,
+      },
+    ],
   },
   apis: ["./**/*.controller.ts"], // files containing annotations as above
 };
