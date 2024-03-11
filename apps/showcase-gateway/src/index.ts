@@ -5,7 +5,7 @@ import { createApiRouter } from "./lib/router";
 import { db } from "./lib/db";
 import { apiConfig } from "./config/api.config";
 import swaggerUi from "swagger-ui-express";
-import swaggerJsdoc from "swagger-jsdoc";
+import swaggerJsDoc from "swagger-jsdoc";
 
 if (process.env.NODE_ENV !== "test") {
   db.connectWithRetry();
@@ -15,28 +15,18 @@ const app = createGatewayApp("SHOWCASE_GATEWAY", createApiRouter, apiConfig);
 
 const options = {
   definition: {
-    openapi: "3.1.0",
+    failOnErrors: true,
+    openapi: "3.0.0",
     info: {
-      title: "Collect&Verything API - Showcase Gateway",
+      title: "Collect&Verything - Showcase Gateway",
       version: "0.0.1",
-      description:
-        "La Showcase Gateway fait le lien entre le site vitrine et les microservices de Collect&Verything",
-      license: {
-        name: "MIT",
-        url: "https://spdx.org/licenses/MIT.html",
-      },
     },
-    servers: [
-      {
-        url: "http://localhost:3101",
-      },
-    ],
   },
-  apis: ["./features/customers/*.js"],
+  apis: ["./**/*.controller.ts"], // files containing annotations as above
 };
 
-const specs = swaggerJsdoc(options);
+const openapiSpecification = swaggerJsDoc(options);
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 app.start();

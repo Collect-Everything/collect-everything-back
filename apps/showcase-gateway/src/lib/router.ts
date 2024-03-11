@@ -1,6 +1,6 @@
 import { apiConfig } from "../config/api.config";
 import express, { Express } from "express";
-import { companyUsersRouter } from "../features/customers";
+import { companyUsersRouter } from "../features/company-users";
 import { isLogged } from "@ce/server-core";
 import { companiesRouter } from "../features/companies";
 
