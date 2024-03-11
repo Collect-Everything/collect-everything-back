@@ -29,6 +29,10 @@
     "build:admins-gateway": "turbo run build --filter=admins-gateway...",
     "start:admins-gateway": "dotenv -- turbo run start --filter=admins-gateway...",
 
+    "dev:showcase-gateway": "dotenv -- turbo run dev --filter=showcase-gateway",
+    "build:showcase-gateway": "turbo run build --filter=showcase-gateway...",
+    "start:showcase-gateway": "dotenv -- turbo run start --filter=showcase-gateway...",
+
     "clean": "turbo run clean",
     "clean:logs": "turbo run clean:logs",
     "dev": "dotenv -- turbo run dev",
