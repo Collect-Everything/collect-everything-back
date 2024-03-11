@@ -8,10 +8,6 @@ class ProductsRouter extends CrudRouter<TProduct> {
       ctrl: productsCtrl,
     });
   }
-
-  protected addRoutesBeforeCrud() {
-    this.router.post("/validate", [], productsCtrl.validate);
-  }
 }
 
 export const productsRouter = new ProductsRouter().router;

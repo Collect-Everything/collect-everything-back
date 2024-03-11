@@ -1,7 +1,6 @@
-import { LoginDto, TProduct, TProductBase } from "@ce/shared-core";
+import { TProduct, TProductBase } from "@ce/shared-core";
 import { apiConfig } from "../../config/api.config";
 import { SequelizeService } from "@ce/sequelize";
-import { errorBuilder } from "@ce/server-core";
 import { ProductModel } from "./products.model";
 
 class ProductsService extends SequelizeService<

@@ -1,14 +1,11 @@
-import { CrudController, ctrlWrapper, parseBody } from "@ce/server-core";
+import { CrudController } from "@ce/server-core";
 import { productsService } from "./products.service";
 import {
-  ApiResponse,
   ProductBaseSchema,
   ProductSchema,
-  LoginDto,
   TProduct,
   TProductBase,
 } from "@ce/shared-core";
-import { RequestHandler } from "express";
 import { ProductModel } from "./products.model";
 
 class ProductsCtrl extends CrudController<
