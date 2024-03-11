@@ -3,6 +3,38 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
+    await queryInterface.createTable("admins", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      firstname: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      lastname: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+
     await queryInterface.createTable("companies", {
       id: {
         type: Sequelize.INTEGER,
@@ -136,8 +168,8 @@ module.exports = {
     await queryInterface.createTable("banking_information", {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
+        primaryKey: true,
       },
       user_id: {
         type: Sequelize.INTEGER,
@@ -157,12 +189,21 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("subscription_invoices", {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
       },
       invoice_num: {
         type: Sequelize.STRING,
@@ -190,12 +231,21 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("subscriptions", {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
       },
       name: {
         type: Sequelize.STRING,
@@ -219,11 +269,330 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+
+    await queryInterface.createTable("roles", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+
+    await queryInterface.createTable("company-users", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      firstname: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      lastname: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      company_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "companies",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      role_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: "roles",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+
+    await queryInterface.createTable("orders", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      client_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "company-customers",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+
+    await queryInterface.createTable("order_invoices", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      invoice_num: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      total: {
+        type: Sequelize.DOUBLE,
+        allowNull: false,
+      },
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      order_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "orders",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      pdf: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+
+    await queryInterface.createTable("categories", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+
+    await queryInterface.createTable("products", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      price: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      photo: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      conditioning: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      size: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      stock: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      unity: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      category_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "categories",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      parent_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      deleted_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+
+    await queryInterface.createTable("order_products", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      order_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "orders",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      product_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "products",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+
+    await queryInterface.createTable("sales_stats", {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      order_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "orders",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      products_quantity: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      total: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("companies");
-    await queryInterface.dropTable("company-customers");
+    queryInterface.dropAllTables;
   },
 };
