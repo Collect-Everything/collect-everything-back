@@ -8,9 +8,9 @@ export type CrudRoutes = {
 
 export const crudApiRoutes: () => CrudRoutes = () => {
   return {
-    LIST: "/",
+    LIST: "",
     GET: (itemId: string) => `/${itemId}`,
-    CREATE: "/",
+    CREATE: "",
     PATCH: (itemId: string) => `/${itemId}`,
     DELETE: (itemId: string) => `/${itemId}`,
   };

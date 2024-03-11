@@ -1,19 +1,11 @@
-import { CrudRouter } from "@ce/server-core";
-import { TAdmin } from "@ce/shared-core";
 import { adminsCtrl } from "./admins.controller";
+import express from "express";
 
-class AdminsRouter extends CrudRouter<TAdmin> {
-  constructor() {
-    super({
-      ctrl: adminsCtrl,
-    });
-  }
+const adminsRouter = express.Router();
 
-  protected addRoutesBeforeCrud() {
-    this.router.post("/login", [], adminsCtrl.login);
-    this.router.post("/register", [], adminsCtrl.register);
-    this.router.post("/refresh", [], adminsCtrl.refreshToken);
-  }
-}
+adminsRouter.get("/", [], adminsCtrl.listAdmins);
+adminsRouter.post("/login", [], adminsCtrl.login);
+adminsRouter.post("/register", [], adminsCtrl.register);
+adminsRouter.post("/refresh", [], adminsCtrl.refreshToken);
 
-export const adminsRouter = new AdminsRouter().router;
+export { adminsRouter };

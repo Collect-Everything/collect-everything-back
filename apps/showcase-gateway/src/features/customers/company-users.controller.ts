@@ -1,14 +1,11 @@
-import { GatewayCrudController, ctrlWrapper } from "@ce/server-core";
+import { GatewayController, ctrlWrapper } from "@ce/server-core";
 import { RequestHandler } from "express";
 
-class CompanyUsersCtrl extends GatewayCrudController {
+class CompanyUsersCtrl extends GatewayController {
   constructor() {
-    super(
-      {
-        service: "COMPANY_USERS",
-      },
-      "company_users",
-    );
+    super("company_users", {
+      service: "COMPANY_USERS",
+    });
   }
 
   login: RequestHandler = (req, res) =>

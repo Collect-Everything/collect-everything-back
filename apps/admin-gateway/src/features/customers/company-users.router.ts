@@ -1,15 +1,5 @@
-import { CrudRouter } from "@ce/server-core";
-import { companyUsersCtrl } from "./company-users.controller";
-import { TCompanyUser } from "@ce/shared-core";
+import express from "express";
 
-class CompanyUsersRouter extends CrudRouter<TCompanyUser> {
-  constructor() {
-    super({
-      ctrl: companyUsersCtrl,
-    });
-  }
+const companyUsersRouter = express.Router();
 
-  protected addRoutesBeforeCrud() {}
-}
-
-export const companyUsersRouter = new CompanyUsersRouter().router;
+export { companyUsersRouter };
