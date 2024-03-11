@@ -25,6 +25,7 @@ export const CompanySchema = CompanyBaseSchema.extend({
   external_url: z.string(),
   created_at: z.string(),
   updated_at: z.string(),
+  deleted_at: z.string(),
 });
 
 export type TCompanyBase = z.infer<typeof CompanyBaseSchema>;

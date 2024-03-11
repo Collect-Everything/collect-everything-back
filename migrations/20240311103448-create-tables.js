@@ -33,6 +33,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      deleted_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("companies", {
@@ -121,6 +125,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      deleted_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("company-customers", {
@@ -163,6 +171,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      deleted_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("banking_information", {
@@ -194,6 +206,10 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
       updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      deleted_at: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
@@ -239,6 +255,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      deleted_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("subscriptions", {
@@ -277,6 +297,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      deleted_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("roles", {
@@ -298,6 +322,10 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
       updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      deleted_at: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
@@ -353,6 +381,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      deleted_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("orders", {
@@ -384,6 +416,10 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
       updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      deleted_at: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
@@ -429,6 +465,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      deleted_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("categories", {
@@ -446,6 +486,10 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
       updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      deleted_at: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
@@ -551,6 +595,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      deleted_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("sales_stats", {
@@ -586,6 +634,10 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
       updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      deleted_at: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },

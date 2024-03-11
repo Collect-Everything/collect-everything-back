@@ -1,6 +1,7 @@
 import { CreationOptional, DataTypes, Model } from "sequelize";
 import { db } from "../../lib/db";
 import { TCompany, TCompanyBase } from "@ce/shared-core";
+import { Json } from "sequelize/types/utils";
 
 class CompanyModel extends Model<TCompany, TCompanyBase> {
   declare id: CreationOptional<number>;
@@ -15,7 +16,7 @@ class CompanyModel extends Model<TCompany, TCompanyBase> {
   declare country: string;
   declare color: string;
   declare logo: string;
-  declare key_phrases: string[];
+  declare key_phrases: Json;
   declare products_type: string;
   declare siret: string;
   declare phone_contact: string;
@@ -24,6 +25,7 @@ class CompanyModel extends Model<TCompany, TCompanyBase> {
   declare external_url: CreationOptional<string>;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
+  declare deleted_at: CreationOptional<Date>;
 }
 
 CompanyModel.init(
@@ -36,67 +38,67 @@ CompanyModel.init(
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     address_label: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     street: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     street_number: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     postal_code: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     color: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     logo: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     key_phrases: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: false,
+      type: DataTypes.JSON,
+      allowNull: true,
     },
     products_type: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     siret: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     phone_contact: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     email_contact: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     links: {
       type: DataTypes.JSON,
@@ -114,6 +116,10 @@ CompanyModel.init(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+    deleted_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   },
   {
     // Other model options go here
@@ -123,7 +129,7 @@ CompanyModel.init(
     createdAt: "created_at",
     updatedAt: "updated_at",
     paranoid: true,
-  },
+  }
 );
 
 export { CompanyModel };
