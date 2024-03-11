@@ -34,7 +34,10 @@
     "dev": "dotenv -- turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "migration:create": "npx sequelize-cli migration:create",
+    "migrate": "dotenv -- npx sequelize-cli db:migrate",
+    "migrate:rollback": "dotenv -- npx sequelize-cli db:migrate:undo"
   },
   "devDependencies": {
     "@ce/eslint-config": "*",
