@@ -11,19 +11,19 @@ module.exports = {
       },
       firstname: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       lastname: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -43,47 +43,47 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       phone: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       address_label: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       street: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       street_number: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       postal_code: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       city: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       country: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       color: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       logo: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       key_phrases: {
         type: Sequelize.JSON,
@@ -91,19 +91,19 @@ module.exports = {
       },
       products_type: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       siret: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       phone_contact: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       email_contact: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       links: {
         type: Sequelize.JSON,
@@ -131,23 +131,23 @@ module.exports = {
       },
       firstname: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       lastname: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       company_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "companies",
           key: "id",
@@ -173,7 +173,7 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "company-customers",
           key: "id",
@@ -183,11 +183,11 @@ module.exports = {
       },
       card_number: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       exp_date: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -207,19 +207,19 @@ module.exports = {
       },
       invoice_num: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       total: {
         type: Sequelize.DOUBLE,
-        allowNull: false,
+        allowNull: true,
       },
       date: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       company_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "companies",
           key: "id",
@@ -229,7 +229,7 @@ module.exports = {
       },
       pdf: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -249,19 +249,19 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       price: {
         type: Sequelize.DOUBLE,
-        allowNull: false,
+        allowNull: true,
       },
       description: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       company_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "companies",
           key: "id",
@@ -287,11 +287,11 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       description: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -311,23 +311,23 @@ module.exports = {
       },
       firstname: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       lastname: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       company_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "companies",
           key: "id",
@@ -363,11 +363,11 @@ module.exports = {
       },
       date: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       client_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "company-customers",
           key: "id",
@@ -377,7 +377,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -397,19 +397,19 @@ module.exports = {
       },
       invoice_num: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       total: {
         type: Sequelize.DOUBLE,
-        allowNull: false,
+        allowNull: true,
       },
       date: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       order_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "orders",
           key: "id",
@@ -419,7 +419,7 @@ module.exports = {
       },
       pdf: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -439,7 +439,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -459,39 +459,39 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       price: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       description: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       photo: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       conditioning: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       size: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       stock: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       unity: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       category_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "categories",
           key: "id",
@@ -501,7 +501,7 @@ module.exports = {
       },
       parent_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -525,7 +525,7 @@ module.exports = {
       },
       order_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "orders",
           key: "id",
@@ -535,7 +535,7 @@ module.exports = {
       },
       product_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "products",
           key: "id",
@@ -561,7 +561,7 @@ module.exports = {
       },
       order_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "orders",
           key: "id",
@@ -579,7 +579,7 @@ module.exports = {
       },
       date: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
