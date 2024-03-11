@@ -33,7 +33,7 @@ ProductModel.init(
       allowNull: false,
     },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     description: {
@@ -53,7 +53,7 @@ ProductModel.init(
       allowNull: false,
     },
     stock: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     unity: {
@@ -74,11 +74,11 @@ ProductModel.init(
     },
     updated_at: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+      defaultValue: null,
     },
     deleted_at: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+      defaultValue: null,
     },
   },
   {
@@ -88,6 +88,7 @@ ProductModel.init(
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    deletedAt: "deleted_at",
     paranoid: true,
   },
 );

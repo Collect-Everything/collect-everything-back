@@ -1,15 +1,9 @@
-import { CrudRouter } from "@ce/server-core";
 import { productsCtrl } from "./products.controller";
-import { TProduct } from "@ce/shared-core";
+import express from "express";
 
-class ProductsRouter extends CrudRouter<TProduct> {
-  constructor() {
-    super({
-      ctrl: productsCtrl,
-    });
-  }
+const productsRouter = express.Router();
 
-  protected addRoutesBeforeCrud() {}
-}
+productsRouter.get("/", [], productsCtrl.getlistProducts);
+productsRouter.get("/:id", [], productsCtrl.getOneProduct);
 
-export const productsRouter = new ProductsRouter().router;
+export { productsRouter };
