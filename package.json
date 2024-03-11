@@ -8,18 +8,27 @@
   ],
   "scripts": {
     "build": "turbo run build",
+
     "dev:company-users": "dotenv -- turbo run dev --filter=company-users",
     "build:company-users": "turbo run build --filter=company-users...",
     "start:company-users": "dotenv -- turbo run start --filter=company-users...",
+
     "dev:company-customers": "dotenv -- turbo run dev --filter=company-customers",
     "build:company-customers": "turbo run build --filter=company-customers...",
     "start:company-customers": "dotenv -- turbo run start --filter=company-customers...",
-    "dev:admins-gateway": "dotenv -- turbo run dev --filter=admins-gateway",
-    "build:admins-gateway": "turbo run build --filter=admins-gateway...",
-    "start:admins-gateway": "dotenv -- turbo run start --filter=admins-gateway...",
+    
     "dev:admins": "dotenv -- turbo run dev --filter=admins...",
     "build:admins": "turbo run build --filter=admins...",
     "start:admins": "dotenv -- turbo run start --filter=admins...",
+
+    "dev:products": "dotenv -- turbo run dev --filter=products",
+    "build:products": "turbo run build --filter=products...",
+    "start:products": "dotenv -- turbo run start --filter=products...",
+
+    "dev:admins-gateway": "dotenv -- turbo run dev --filter=admins-gateway",
+    "build:admins-gateway": "turbo run build --filter=admins-gateway...",
+    "start:admins-gateway": "dotenv -- turbo run start --filter=admins-gateway...",
+
     "clean": "turbo run clean",
     "clean:logs": "turbo run clean:logs",
     "dev": "dotenv -- turbo run dev",

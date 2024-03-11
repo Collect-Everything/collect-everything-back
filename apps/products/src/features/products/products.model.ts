@@ -84,7 +84,7 @@ ProductModel.init(
   {
     // Other model options go here
     sequelize: db.sequelize, // We need to pass the connection instance
-    modelName: "company_user", // We need to choose the model name
+    modelName: "product", // We need to choose the model name
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
