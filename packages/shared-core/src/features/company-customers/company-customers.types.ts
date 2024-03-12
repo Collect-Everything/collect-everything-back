@@ -11,6 +11,7 @@ export const CompanyCustomerSchema = CompanyCustomerBaseSchema.extend({
   id: z.number(),
   created_at: z.string(),
   updated_at: z.string(),
+  deleted_at: z.string(),
 });
 
 export type TCompanyCustomerBase = z.infer<typeof CompanyCustomerBaseSchema>;
