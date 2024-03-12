@@ -14,6 +14,7 @@ class CompanyCustomerModel extends Model<
   declare company_id: number;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
+  declare deleted_at: CreationOptional<Date>;
 }
 
 CompanyCustomerModel.init(
@@ -52,14 +53,18 @@ CompanyCustomerModel.init(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+    deleted_at: {
+      type: DataTypes.DATE,
+    },
   },
   {
     // Other model options go here
     sequelize: db.sequelize, // We need to pass the connection instance
-    modelName: "company_customer", // We need to choose the model name
+    modelName: "company-customers", // We need to choose the model name
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    deletedAt: "deleted_at",
     paranoid: true,
   }
 );

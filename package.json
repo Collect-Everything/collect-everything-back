@@ -8,43 +8,43 @@
   ],
   "scripts": {
     "build": "turbo run build",
-
+    "build:packages": "yarn build --filter='./packages/*'",
     "dev:company-users": "dotenv -- turbo run dev --filter=company-users",
     "build:company-users": "turbo run build --filter=company-users...",
     "start:company-users": "dotenv -- turbo run start --filter=company-users...",
-
     "dev:company-customers": "dotenv -- turbo run dev --filter=company-customers",
     "build:company-customers": "turbo run build --filter=company-customers...",
     "start:company-customers": "dotenv -- turbo run start --filter=company-customers...",
-    
+    "dev:companies": "dotenv -- turbo run dev --filter=companies",
+    "build:companies": "turbo run build --filter=companies...",
+    "start:companies": "dotenv -- turbo run start --filter=companies...",
     "dev:admins": "dotenv -- turbo run dev --filter=admins...",
     "build:admins": "turbo run build --filter=admins...",
     "start:admins": "dotenv -- turbo run start --filter=admins...",
-
     "dev:products": "dotenv -- turbo run dev --filter=products",
     "build:products": "turbo run build --filter=products...",
     "start:products": "dotenv -- turbo run start --filter=products...",
-
     "dev:admins-gateway": "dotenv -- turbo run dev --filter=admins-gateway",
     "build:admins-gateway": "turbo run build --filter=admins-gateway...",
     "start:admins-gateway": "dotenv -- turbo run start --filter=admins-gateway...",
-
     "dev:showcase-gateway": "dotenv -- turbo run dev --filter=showcase-gateway",
     "build:showcase-gateway": "turbo run build --filter=showcase-gateway...",
     "start:showcase-gateway": "dotenv -- turbo run start --filter=showcase-gateway...",
-
     "clean": "turbo run clean",
     "clean:logs": "turbo run clean:logs",
     "dev": "dotenv -- turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "migration:create": "npx sequelize-cli migration:create",
+    "migrate": "dotenv -- npx sequelize-cli db:migrate",
+    "migrate:rollback": "dotenv -- npx sequelize-cli db:migrate:undo"
   },
-  "dependencies": {},
   "devDependencies": {
-    "dotenv-cli": "latest",
     "@ce/eslint-config": "*",
+    "dotenv-cli": "latest",
     "prettier": "^3.1.1",
+    "sequelize-cli": "^6.6.2",
     "turbo": "latest"
   },
   "packageManager": "yarn@1.22.19",
