@@ -7,5 +7,6 @@ companiesRouter.get("/", [], companiesCtrl.getlistCompanies);
 companiesRouter.get("/:id", [], companiesCtrl.getOneCompany);
 companiesRouter.post("/", [], companiesCtrl.createCompany);
 companiesRouter.patch("/:id", [], companiesCtrl.updateCompany);
+companiesRouter.delete("/:id", [], companiesCtrl.deleteCompany);
 
 export { companiesRouter };
