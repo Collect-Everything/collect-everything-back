@@ -5,7 +5,7 @@ import { authRouter } from "../features/auth";
 
 export const createApiRouter = (app: Express) => {
   const baseApiRouter = express.Router();
-  baseApiRouter.use("/company-users", companyUsersRouter);
+  baseApiRouter.use("/company_users", companyUsersRouter);
   baseApiRouter.use("/auth", authRouter);
 
   app.use(apiConfig.apiPath, baseApiRouter);

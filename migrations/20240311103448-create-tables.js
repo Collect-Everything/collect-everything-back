@@ -129,7 +129,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable("company-customers", {
+    await queryInterface.createTable("company_customers", {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -184,7 +184,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: "company-customers",
+          model: "company_customers",
           key: "id",
         },
         onUpdate: "CASCADE",
@@ -324,7 +324,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable("company-users", {
+    await queryInterface.createTable("company_users", {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -393,7 +393,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: "company-customers",
+          model: "company_customers",
           key: "id",
         },
         onUpdate: "CASCADE",

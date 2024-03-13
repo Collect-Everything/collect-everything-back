@@ -3,7 +3,7 @@ import { RequestHandler } from "express";
 
 class CompanyCustomersCtrl extends GatewayController {
   constructor() {
-    super("company-customers", {
+    super("company_customers", {
       service: "COMPANY_CUSTOMERS",
     });
   }
