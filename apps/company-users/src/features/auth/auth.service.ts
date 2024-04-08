@@ -27,7 +27,7 @@ class AuthService implements IAuthService {
 
     const passwordIsValid = await comparePasswords(
       loginDto.password,
-      customer.password,
+      customer.password
     );
 
     if (!passwordIsValid) {
@@ -45,6 +45,9 @@ class AuthService implements IAuthService {
     }
 
     const hashedPassword = await hashPassword(companyUserDto.password);
+
+    console.log(hashedPassword);
+
     return companyUsersService.create({
       ...companyUserDto,
       password: hashedPassword,

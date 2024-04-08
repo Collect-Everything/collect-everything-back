@@ -4,6 +4,8 @@ import { SequelizeService } from "@ce/sequelize";
 import { errorBuilder } from "@ce/server-core";
 import { CompanyUserModel } from "./company-user.model";
 
+import { hashPassword } from "@ce/server-core";
+
 class CompanyUsersService extends SequelizeService<
   TCompanyUserBase,
   TCompanyUser,
@@ -22,6 +24,14 @@ class CompanyUsersService extends SequelizeService<
     if (!user) {
       throw errorBuilder.notFound("User not found");
     }
+  }
+
+  // Override
+  async create(data: TCompanyUserBase): Promise<CompanyUserModel>{
+    const hashedPassword = await hashPassword(data.password);
+    console.log(hashedPassword);
+    data.password = hashedPassword;
+    return await super.create(data);
   }
 }
 
