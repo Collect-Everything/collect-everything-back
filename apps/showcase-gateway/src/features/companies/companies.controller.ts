@@ -34,8 +34,13 @@ class CompaniesCtrl extends GatewayController {
         throw errorBuilder.badRequest();
       }
 
-      const { data } = await this.fetcher.get(`/companies/${id}`, req.body);
+      const { data } = await this.fetcher.get(`/companies/${id}`);
       return data;
+    });
+
+  createCompany: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier("createCompany"), res, async () => {
+      await this.fetcher.post("/companies/create", req.body);
     });
 }
 
