@@ -4,7 +4,7 @@ import {
   LoginDto,
   TokenData,
 } from "@ce/shared-core";
-import { companyUsersService } from "../company-users/company-users.service";
+import { companyUsersService } from "../company-users/application/crud/company-users.crud.service";
 import {
   IAuthService,
   comparePasswords,
@@ -13,7 +13,7 @@ import {
 } from "@ce/server-core";
 import jwt from "jsonwebtoken";
 import { env } from "../../env";
-import { CompanyUserModel } from "../company-users/company-user.model";
+import { CompanyUserModel } from "../company-users/model/company-user.model";
 
 class AuthService implements IAuthService {
   constructor() {}

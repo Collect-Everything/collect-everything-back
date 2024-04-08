@@ -1,4 +1,4 @@
-import { CreateCompany } from "@ce/shared-core";
+import { CreateCompany } from "../dto";
 import { CompanyRepository } from "./company.repository";
 
 export class CompanyService {

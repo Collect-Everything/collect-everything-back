@@ -1,7 +1,7 @@
 import { CreationOptional, DataTypes, Model } from "sequelize";
-import { db } from "../../lib/db";
+import { db } from "../../../lib/db";
 import { Json } from "sequelize/types/utils";
-import { CreateCompany } from "./dto";
+import { CreateCompany } from "../dto";
 
 export interface Company {
   id: number;
@@ -160,7 +160,7 @@ CompanyModel.init(
     updatedAt: "updated_at",
     deletedAt: "deleted_at",
     paranoid: true,
-  }
+  },
 );
 
 export { CompanyModel };

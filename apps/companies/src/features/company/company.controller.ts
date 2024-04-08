@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
+import { ctrlWrapper, parseBody } from "@ce/server-core";
 import { CompanyService } from "./application/company.service";
-import { CrudController, ctrlWrapper, parseBody } from "@ce/server-core";
-import { ApiResponse, CreateCompanySchema } from "@ce/shared-core";
+import { CreateCompanySchema } from "./dto";
+import { ApiResponse } from "@ce/shared-core";
 
 export class CompanyCtrl {
   constructor(private companyService: CompanyService) {}

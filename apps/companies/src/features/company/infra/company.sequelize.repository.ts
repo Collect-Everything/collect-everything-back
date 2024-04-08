@@ -1,6 +1,6 @@
-import { CreateCompany } from "@ce/shared-core";
 import { CompanyRepository } from "../application/company.repository";
-import { CompanyModel } from "../company.model";
+import { CompanyModel } from "../model/company.model";
+import { CreateCompany } from "../dto";
 
 export class CompanySequelizeRepository implements CompanyRepository {
   constructor() {}

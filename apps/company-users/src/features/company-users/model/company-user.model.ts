@@ -1,13 +1,22 @@
 import { CreationOptional, DataTypes, Model } from "sequelize";
-import { db } from "../../lib/db";
-import {
-  COMPANY_USER_ROLES,
-  CompanyUserRole,
-  TCompanyUser,
-  TCompanyUserBase,
-} from "@ce/shared-core";
+import { db } from "../../../lib/db";
+import { COMPANY_USER_ROLES, CompanyUserRole } from "./roles";
+import { CreateCompanyUser } from "../dto/create-company-user.dto";
 
-class CompanyUserModel extends Model<TCompanyUser, TCompanyUserBase> {
+export interface CompanyUser {
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  role: CompanyUserRole;
+  company_id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
+}
+
+class CompanyUserModel extends Model<CompanyUser, CreateCompanyUser> {
   declare id: CreationOptional<number>;
   declare firstname: string;
   declare lastname: string;
@@ -60,6 +69,9 @@ CompanyUserModel.init(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+    deleted_at: {
+      type: DataTypes.DATE,
+    },
   },
   {
     // Other model options go here
@@ -70,7 +82,7 @@ CompanyUserModel.init(
     updatedAt: "updated_at",
     deletedAt: "deleted_at",
     paranoid: true,
-  }
+  },
 );
 
 export { CompanyUserModel };

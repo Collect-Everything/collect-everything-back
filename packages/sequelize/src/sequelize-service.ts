@@ -5,10 +5,10 @@ import { ApiConfig, TObjectWithId } from "@ce/shared-core";
 import _ from "lodash";
 
 export abstract class SequelizeService<
-  TModelBase extends object,
-  TModel extends TObjectWithId,
-  SequelizeModel extends Model<TModel, TModelBase>,
-> implements ICrudService<TModelBase, TModel, SequelizeModel>
+  CreateFields extends object,
+  Mdl extends TObjectWithId,
+  SequelizeModel extends Model<Mdl, CreateFields>,
+> implements ICrudService<CreateFields, Mdl, SequelizeModel>
 {
   id: string;
   fileService: FileService | undefined;
@@ -24,7 +24,7 @@ export abstract class SequelizeService<
     }
   }
 
-  create(data: TModelBase) {
+  create(data: CreateFields) {
     return this.model.create(data as any);
   }
 
@@ -37,7 +37,7 @@ export abstract class SequelizeService<
     return this.model.findAll(options);
   }
 
-  async update(itemId: number, data: Partial<TModel>) {
+  async update(itemId: number, data: Partial<Mdl>) {
     const item = await this.get(itemId);
 
     if (!item) {
@@ -96,7 +96,7 @@ export abstract class SequelizeService<
     return options;
   }
 
-  protected async executeUpdate(itemId: number, data: Partial<TModel>) {
+  protected async executeUpdate(itemId: number, data: Partial<Mdl>) {
     const oldItem = await this.get(itemId);
     if (!oldItem) {
       throw new Error("Service / " + this.id + " / " + itemId + " : NOT_FOUND");

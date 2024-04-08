@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { IAuthService } from "./auth.types";
+import { IAuthService } from "./auth.interface";
 import { ctrlWrapper, parseBody } from "../helpers";
 import { ZodSchema } from "zod";
 import { ApiResponse } from "@ce/shared-core";

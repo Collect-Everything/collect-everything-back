@@ -1,14 +1,15 @@
-import { LoginDto, TCompanyUser, TCompanyUserBase } from "@ce/shared-core";
-import { apiConfig } from "../../config/api.config";
+import { apiConfig } from "../../../../config/api.config";
 import { SequelizeService } from "@ce/sequelize";
 import { errorBuilder } from "@ce/server-core";
-import { CompanyUserModel } from "./company-user.model";
+import { CompanyUser, CompanyUserModel } from "../../model/company-user.model";
+import { CreateCompanyUser } from "../../dto/create-company-user.dto";
+import { LoginDto } from "../../dto/login.dto";
 
 import { hashPassword } from "@ce/server-core";
 
 class CompanyUsersService extends SequelizeService<
-  TCompanyUserBase,
-  TCompanyUser,
+  CreateCompanyUser,
+  CompanyUser,
   CompanyUserModel
 > {
   constructor() {

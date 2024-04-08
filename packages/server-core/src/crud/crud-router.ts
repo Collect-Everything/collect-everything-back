@@ -10,7 +10,7 @@ export const CRUD_ROUTES = {
   DELETE: "/:itemId",
 };
 
-export type CrudRouterConfig<TModel> = {
+export type CrudRouterConfig = {
   middlewares?: {
     list?: RequestHandler[];
     get?: RequestHandler[];
@@ -19,14 +19,14 @@ export type CrudRouterConfig<TModel> = {
     delete?: RequestHandler[];
   };
   modelFilesPaths?: string[];
-  ctrl: ICrudController<TModel>;
+  ctrl: ICrudController<any>;
 };
 
-export abstract class CrudRouter<TModel> {
+export abstract class CrudRouter {
   readonly router = express.Router({ mergeParams: true });
   protected multerMiddleware: RequestHandler;
 
-  protected constructor(config: CrudRouterConfig<TModel>) {
+  protected constructor(config: CrudRouterConfig) {
     const { middlewares, ctrl, modelFilesPaths } = config;
     this.multerMiddleware = createMulterMiddleware(modelFilesPaths);
     this.addRoutesBeforeCrud();

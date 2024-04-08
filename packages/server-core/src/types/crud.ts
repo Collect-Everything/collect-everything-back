@@ -2,14 +2,14 @@ import { TListQuery } from "./api";
 import { RequestHandler } from "express";
 
 export interface ICrudService<
-  TModelBase extends Object,
-  TModel extends Object,
+  CreateFields extends Object,
+  Mdl extends Object,
   OrmModel extends unknown,
 > {
   get: (itemId: number) => Promise<OrmModel | null>;
   list: (query: TListQuery) => Promise<OrmModel[]>;
-  create: (item: TModelBase) => Promise<OrmModel>;
-  update: (itemId: number, item: Partial<TModel>) => Promise<OrmModel | null>;
+  create: (item: CreateFields) => Promise<OrmModel>;
+  update: (itemId: number, item: Partial<Mdl>) => Promise<OrmModel | null>;
   delete: (itemId: number) => Promise<OrmModel | undefined>;
   count: (query: TListQuery) => Promise<number>;
 }

@@ -1,27 +1,29 @@
 import { CrudController, ctrlWrapper, parseBody } from "@ce/server-core";
-import { companyUsersService } from "./company-users.service";
-import {
-  ApiResponse,
-  CompanyUserBaseSchema,
-  CompanyUserSchema,
-  LoginDto,
-  TCompanyUser,
-  TCompanyUserBase,
-} from "@ce/shared-core";
+import { companyUsersService } from "./application/crud/company-users.crud.service";
 import { RequestHandler } from "express";
-import { CompanyUserModel } from "./company-user.model";
+import { CompanyUserModel } from "./model/company-user.model";
+import {
+  CreateCompanyUser,
+  CreateCompanyUserSchema,
+} from "./dto/create-company-user.dto";
+import {
+  UpdateCompanyUser,
+  UpdateCompanyUserSchema,
+} from "./dto/update-company-user.dto";
+import { ApiResponse } from "@ce/shared-core";
+import { LoginDto } from "./dto/login.dto";
 
 class CompanyUsersCtrl extends CrudController<
-  TCompanyUserBase,
-  TCompanyUser,
+  CreateCompanyUser,
+  UpdateCompanyUser,
   CompanyUserModel
 > {
   constructor() {
     super({
       name: "company_users",
       service: companyUsersService,
-      baseSchema: CompanyUserBaseSchema,
-      schema: CompanyUserSchema,
+      schemaForCreate: CreateCompanyUserSchema,
+      schemaForUpdate: UpdateCompanyUserSchema,
     });
   }
 

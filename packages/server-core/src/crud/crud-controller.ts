@@ -6,35 +6,35 @@ import { ctrlWrapper, parseBody } from "../helpers/controller";
 import { RequestHandler, Response } from "express";
 
 type CrudControllerConfig<
-  TModelBase extends Object,
-  TModel extends Object,
+  CreateFields extends Object,
+  Mdl extends Object,
   OrmModel extends unknown,
 > = {
   name: string;
-  service: ICrudService<TModelBase, TModel, OrmModel>;
-  baseSchema: ZodSchema<TModelBase>;
-  schema: ZodSchema<TModel>;
+  service: ICrudService<CreateFields, Mdl, OrmModel>;
+  schemaForCreate: ZodSchema<any>;
+  schemaForUpdate: ZodSchema<any>;
 };
 
 export abstract class CrudController<
-  TModelBase extends Object,
-  TModel extends Object,
+  CreateFields extends Object,
+  Mdl extends Object,
   OrmModel extends unknown,
-> implements ICrudController<TModel>
+> implements ICrudController<any>
 {
   protected readonly name: string = "";
-  protected readonly service: ICrudService<TModelBase, TModel, OrmModel>;
-  protected readonly schema: ZodSchema<TModel>;
-  protected readonly baseSchema: ZodSchema<TModelBase>;
+  protected readonly service: ICrudService<CreateFields, Mdl, OrmModel>;
+  protected readonly schema: ZodSchema<any>;
+  protected readonly baseSchema: ZodSchema<any>;
 
   protected constructor(
-    config: CrudControllerConfig<TModelBase, TModel, OrmModel>,
+    config: CrudControllerConfig<CreateFields, Mdl, OrmModel>,
   ) {
     this.name = config.name;
     this.service = config.service;
 
-    this.baseSchema = config.baseSchema;
-    this.schema = config.schema;
+    this.baseSchema = config.schemaForCreate;
+    this.schema = config.schemaForUpdate;
   }
 
   list: RequestHandler = (req: Req, res: Response) => {
@@ -42,7 +42,7 @@ export abstract class CrudController<
       const query = req.query;
       const parsedQuery = ListQuery.parse(query);
       const items = await this.service.list(parsedQuery);
-      const reformattedItems: TModel[] = [];
+      const reformattedItems: Mdl[] = [];
       for (const item of items) {
         const reformattedItem = await this.reformatItem(req, item);
         reformattedItems.push(reformattedItem);
@@ -99,7 +99,7 @@ export abstract class CrudController<
       const parsedBody = parseBody(req, (this.schema as any).partial());
       const item = await this.service.update(
         itemId,
-        parsedBody as Partial<TModel>,
+        parsedBody as Partial<Mdl>,
       );
 
       return {
@@ -115,10 +115,7 @@ export abstract class CrudController<
     }
     return itemId;
   }
-  protected async reformatItem(
-    _req: Req,
-    item: TModel | OrmModel,
-  ): Promise<any> {
+  protected async reformatItem(_req: Req, item: Mdl | OrmModel): Promise<any> {
     return item;
   }
 

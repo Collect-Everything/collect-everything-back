@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { CompanyUserRole } from "../role.types";
+import { CompanyUserRole } from "../model/roles";
 
-export const CreateCompanyUserDto = z.object({
+export const CreateCompanyUserSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(100),
   firstname: z.string(),
@@ -10,4 +10,4 @@ export const CreateCompanyUserDto = z.object({
   company_id: z.number(),
 });
 
-export type CreateCompanyUserDto = z.infer<typeof CreateCompanyUserDto>;
+export type CreateCompanyUser = z.infer<typeof CreateCompanyUserSchema>;
