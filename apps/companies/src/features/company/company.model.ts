@@ -1,9 +1,35 @@
 import { CreationOptional, DataTypes, Model } from "sequelize";
 import { db } from "../../lib/db";
-import { TCompany, TCompanyBase } from "@ce/shared-core";
 import { Json } from "sequelize/types/utils";
+import { CreateCompany } from "./dto";
 
-class CompanyModel extends Model<TCompany, TCompanyBase> {
+export interface Company {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  address_label: string;
+  street: string;
+  street_number: string;
+  postal_code: string;
+  city: string;
+  country: string;
+  password: string;
+  color: string;
+  logo: string;
+  key_phrases: Record<string, string>;
+  products_type: string;
+  siret: string;
+  phone_contact: string;
+  email_contact: string;
+  links: Record<string, string>;
+  external_url: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
+}
+
+class CompanyModel extends Model<Company, CreateCompany> {
   declare id: CreationOptional<number>;
   declare name: string;
   declare phone: string;
@@ -14,13 +40,14 @@ class CompanyModel extends Model<TCompany, TCompanyBase> {
   declare postal_code: string;
   declare city: string;
   declare country: string;
-  declare color: string;
-  declare logo: string;
-  declare key_phrases: Json;
-  declare products_type: string;
-  declare siret: string;
-  declare phone_contact: string;
-  declare email_contact: string;
+  declare password: string;
+  declare color: CreationOptional<string>;
+  declare logo: CreationOptional<string>;
+  declare key_phrases: CreationOptional<Json>;
+  declare products_type: CreationOptional<string>;
+  declare siret: CreationOptional<string>;
+  declare phone_contact: CreationOptional<string>;
+  declare email_contact: CreationOptional<string>;
   declare links: CreationOptional<Record<string, string>>;
   declare external_url: CreationOptional<string>;
   declare created_at: CreationOptional<Date>;
@@ -69,6 +96,10 @@ CompanyModel.init(
       allowNull: true,
     },
     country: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    password: {
       type: DataTypes.STRING,
       allowNull: true,
     },
