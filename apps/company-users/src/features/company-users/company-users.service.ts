@@ -29,7 +29,6 @@ class CompanyUsersService extends SequelizeService<
   // Override
   async create(data: TCompanyUserBase): Promise<CompanyUserModel>{
     const hashedPassword = await hashPassword(data.password);
-    console.log(hashedPassword);
     data.password = hashedPassword;
     return await super.create(data);
   }
