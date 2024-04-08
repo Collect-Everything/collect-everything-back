@@ -1,11 +1,11 @@
-import { TCompany, TCompanyBase } from "@ce/shared-core";
-import { apiConfig } from "../../config/api.config";
+import { CreateCompany, TCompany } from "@ce/shared-core";
+import { apiConfig } from "../../../config/api.config";
 import { SequelizeService } from "@ce/sequelize";
-import { CompanyModel } from "./company.model";
+import { Company, CompanyModel } from "../company.model";
 
 class CompanyService extends SequelizeService<
-  TCompanyBase,
-  TCompany,
+  CreateCompany,
+  Company,
   CompanyModel
 > {
   constructor() {

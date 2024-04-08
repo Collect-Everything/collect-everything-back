@@ -18,7 +18,11 @@ class CompaniesCtrl extends GatewayController {
    */
   getlistCompanies: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("getlistCompanies"), res, async () => {
-      const { data } = await this.fetcher.get("/companies");
+      const query = req.originalUrl;
+      console.log(query);
+      let querys = query.split("?");
+      let queryString = "?" + querys[1];
+      const { data } = await this.fetcher.get("/companies" + queryString);
       return data;
     });
 

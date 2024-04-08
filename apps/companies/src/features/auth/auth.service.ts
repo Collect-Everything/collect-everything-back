@@ -4,7 +4,7 @@ import {
   LoginDTO,
   TokenData,
 } from "@ce/shared-core";
-import { companyService } from "../company/company.service";
+import { companyService } from "../company/crud/company.crud.service";
 import {
   IAuthService,
   comparePasswords,
@@ -27,7 +27,7 @@ class AuthService implements IAuthService {
 
     const passwordIsValid = await comparePasswords(
       loginDTO.password,
-      customer.password,
+      customer.password
     );
 
     if (!passwordIsValid) {
