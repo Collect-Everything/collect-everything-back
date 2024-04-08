@@ -60,6 +60,12 @@ class CompanyUsersCtrl extends GatewayController {
    *                 type: string
    *               email:
    *                 type: string
+   *               role:
+   *                 type: string
+   *                 enum:
+   *                   - ADMIN
+   *                   - STOCK_MANAGER
+   *                   - ORDER_MANAGER
    *               password:
    *                 type: string
    *               company_id:
@@ -92,6 +98,12 @@ class CompanyUsersCtrl extends GatewayController {
    *                 type: string
    *               email:
    *                 type: string
+   *               role:
+   *                 type: string
+   *                 enum:
+   *                   - ADMIN
+   *                   - STOCK_MANAGER
+   *                   - ORDER_MANAGER
    *               password:
    *                 type: string
    *               company_id:

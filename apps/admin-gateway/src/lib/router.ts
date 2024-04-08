@@ -6,12 +6,11 @@ import { productsRouter } from "../features/products";
 import { categoriesRouter } from "../features/categories";
 import { companiesRouter } from "../features/companies";
 import { companyCustomersRouter } from "../features/company-customers";
-import { isLogged } from "@ce/server-core";
 
 export const createApiRouter = (app: Express) => {
   const baseApiRouter = express.Router();
 
-  baseApiRouter.use("/company-users", [isLogged], companyUsersRouter);
+  baseApiRouter.use("/company-users", companyUsersRouter);
   baseApiRouter.use("/admins", adminsRouter);
   baseApiRouter.use("/products", productsRouter);
   baseApiRouter.use("/categories", categoriesRouter);
