@@ -18,7 +18,7 @@ class CompanyUsersCtrl extends GatewayController {
    */
   getlistCompanyUsers: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("getlistCompanyUsers"), res, async () => {
-      const { data } = await this.fetcher.get("/company-users");
+      const { data } = await this.fetcher.get("/company_users");
       return data;
     });
 
@@ -36,7 +36,7 @@ class CompanyUsersCtrl extends GatewayController {
       if (!id) {
         throw errorBuilder.badRequest();
       }
-      const { data } = await this.fetcher.get(`/company-users/${id}`);
+      const { data } = await this.fetcher.get(`/company_users/${id}`);
       return data;
     });
 
@@ -67,7 +67,7 @@ class CompanyUsersCtrl extends GatewayController {
    */
   createCompanyUser: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("createCompanyUser"), res, async () => {
-      const { data } = await this.fetcher.post("/company-users", req.body);
+      const { data } = await this.fetcher.post("/company_users", req.body);
       return data;
     });
 
@@ -104,7 +104,7 @@ class CompanyUsersCtrl extends GatewayController {
         throw errorBuilder.badRequest();
       }
       const { data } = await this.fetcher.patch(
-        `/company-users/${id}`,
+        `/company_users/${id}`,
         req.body
       );
       return data;
@@ -124,7 +124,7 @@ class CompanyUsersCtrl extends GatewayController {
       if (!id) {
         throw errorBuilder.badRequest();
       }
-      const { data } = await this.fetcher.delete(`/company-users/${id}`);
+      const { data } = await this.fetcher.delete(`/company_users/${id}`);
       return data;
     });
 }

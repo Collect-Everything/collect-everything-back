@@ -17,6 +17,7 @@ class CompanyUserModel extends Model<TCompanyUser, TCompanyUserBase> {
   declare company_id: number;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
+  declare deleted_at: CreationOptional<Date>;
 }
 
 CompanyUserModel.init(
@@ -67,6 +68,7 @@ CompanyUserModel.init(
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    deletedAt: "deleted_at",
     paranoid: true,
   }
 );
