@@ -53,9 +53,6 @@ CompanyCustomerModel.init(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
-    deleted_at: {
-      type: DataTypes.DATE,
-    },
   },
   {
     // Other model options go here
