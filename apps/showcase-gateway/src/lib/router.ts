@@ -7,8 +7,9 @@ import { companiesRouter } from "../features/companies";
 export const createApiRouter = (app: Express) => {
   const baseApiRouter = express.Router();
 
-  baseApiRouter.use("/company_users", [isLogged], companyUsersRouter);
+  // baseApiRouter.use("/company_users", [isLogged], companyUsersRouter);
   baseApiRouter.use("/companies", [], companiesRouter);
+  baseApiRouter.use("/company_users", [], companyUsersRouter);
 
   app.use(apiConfig.apiPath, baseApiRouter);
 };

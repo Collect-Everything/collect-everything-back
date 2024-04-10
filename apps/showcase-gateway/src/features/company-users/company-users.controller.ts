@@ -36,6 +36,43 @@ class CompanyUsersCtrl extends GatewayController {
     });
 
   /**
+   * @swagger
+   * /company-users:
+   *   post:
+   *     summary: Create Company-User
+   *     tags:
+   *       - Company-User
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               firstname:
+   *                 type: string
+   *               lastname:
+   *                 type: string
+   *               email:
+   *                 type: string
+   *               role:
+   *                 type: string
+   *                 enum:
+   *                   - ADMIN
+   *                   - STOCK_MANAGER
+   *                   - ORDER_MANAGER
+   *               password:
+   *                 type: string
+   *               company_id:
+   *                 type: integer
+   */
+  createCompanyUser: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier("createCompanyUser"), res, async () => {
+      const { data } = await this.fetcher.post("/company_users", req.body);
+      return data;
+    });
+
+  /**
    * @openapi
    * /company-users/register:
    *   post:

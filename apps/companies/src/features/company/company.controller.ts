@@ -7,15 +7,19 @@ import { ApiResponse } from "@ce/shared-core";
 export class CompanyCtrl {
   constructor(private companyService: CompanyService) {}
 
-  create: RequestHandler = (req, res) =>
+  createCompany: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("create"), res, async () => {
       const parsedBody = parseBody(req, CreateCompanySchema);
 
-      await this.companyService.create(parsedBody);
+      console.log("company_controller_parsedBody", parsedBody);
+
+      const company = await this.companyService.create(parsedBody);
+
+      console.log("company_controller_company", company);
 
       return {
         success: true,
-        data: {},
+        data: company,
       } satisfies ApiResponse;
     });
   private getIdentifier = (methodName: string) => {

@@ -1,5 +1,6 @@
-import { CreateCompany } from "@ce/shared-core";
+import { CreateCompany } from "../dto";
+import { CompanyModel } from "../model/company.model";
 
 export interface CompanyRepository {
-  create: (data: CreateCompany) => Promise<void>;
+  create: (data: CreateCompany) => Promise<CompanyModel>;
 }

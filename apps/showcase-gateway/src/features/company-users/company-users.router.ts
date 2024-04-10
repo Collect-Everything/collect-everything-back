@@ -6,5 +6,10 @@ const companyUsersRouter = express.Router();
 companyUsersRouter.post("/login", [], companyUsersCtrl.login);
 companyUsersRouter.post("/register", [], companyUsersCtrl.register);
 companyUsersRouter.post("/refresh", [], companyUsersCtrl.refreshToken);
+companyUsersRouter.post(
+  "/createCompanyUser",
+  [],
+  companyUsersCtrl.createCompanyUser
+);
 
 export { companyUsersRouter };

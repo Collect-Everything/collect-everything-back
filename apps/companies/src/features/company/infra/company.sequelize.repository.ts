@@ -6,6 +6,7 @@ export class CompanySequelizeRepository implements CompanyRepository {
   constructor() {}
 
   async create(data: CreateCompany) {
-    await CompanyModel.create(data);
+    const company = await CompanyModel.create(data);
+    return company;
   }
 }

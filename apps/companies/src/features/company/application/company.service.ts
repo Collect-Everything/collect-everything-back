@@ -1,10 +1,14 @@
 import { CreateCompany } from "../dto";
-import { CompanyRepository } from "./company.repository";
+import { CompanySequelizeRepository } from "../infra/company.sequelize.repository";
 
 export class CompanyService {
-  constructor(private readonly companyRepository: CompanyRepository) {}
+  constructor(
+    private readonly companySequelizeRepository: CompanySequelizeRepository
+  ) {}
 
   async create(data: CreateCompany) {
-    await this.companyRepository.create(data);
+    const company = await this.companySequelizeRepository.create(data);
+
+    return company;
   }
 }

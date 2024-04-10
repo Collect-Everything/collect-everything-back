@@ -160,7 +160,7 @@ CompanyModel.init(
     updatedAt: "updated_at",
     deletedAt: "deleted_at",
     paranoid: true,
-  },
+  }
 );
 
 export { CompanyModel };

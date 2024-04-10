@@ -21,7 +21,7 @@ class CompanyRouter extends CrudRouter {
   }
 
   protected addRoutesBeforeCrud() {
-    this.router.post("/create", [], companyController.create);
+    this.router.post("/create", [], companyController.createCompany);
   }
 }
 
