@@ -1,4 +1,4 @@
-import { Entity } from "@ce/shared-core";
+import { Entity, EntityValidationError } from "@ce/shared-core";
 import { z } from "zod";
 
 const CompanyPropsSchema = z.object({
@@ -56,6 +56,10 @@ export class Company extends Entity<CompanyProps, string> {
     this.validate();
   }
 
+  get name(): string {
+    return this._props.name;
+  }
+
   get data(): CompanyData {
     return this._props;
   }
@@ -65,6 +69,10 @@ export class Company extends Entity<CompanyProps, string> {
   }
 
   private validate() {
-    CompanyPropsSchema.parse(this._props);
+    const result = CompanyPropsSchema.safeParse(this._props);
+
+    if (!result.success) {
+      throw new EntityValidationError(result.error.errors);
+    }
   }
 }

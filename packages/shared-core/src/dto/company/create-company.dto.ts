@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CreateCompanySchema = z.object({
+export const CreateCompanyDTOSchema = z.object({
   name: z.string(),
   phone: z.string(),
   email: z.string().email(),
@@ -13,4 +13,4 @@ export const CreateCompanySchema = z.object({
   password: z.string(),
 });
 
-export type CreateCompany = z.infer<typeof CreateCompanySchema>;
+export type CreateCompanyDTO = z.infer<typeof CreateCompanyDTOSchema>;
