@@ -1,15 +1,14 @@
-import { BaseError } from "./base-error";
-import { transformPlainTree } from "../helpers/tree";
-import { ERROR_KEYS } from "@ce/shared-core";
+import { HttpException } from "./http-exception";
 
-type ErrorBuilder = (message?: string, info?: string) => BaseError;
-
-export const errorBuilder = transformPlainTree<
-  typeof ERROR_KEYS,
-  string,
-  ErrorBuilder
->(
-  ERROR_KEYS,
-  (errorKey) => (message?: string, info?: string) =>
-    new BaseError(errorKey, message, info),
-);
+export const errorBuilder = {
+  unauthorized: (message?: string) =>
+    new HttpException(401, message ?? "Unauthorized"),
+  forbidden: (message?: string) =>
+    new HttpException(403, message ?? "Forbidden"),
+  notFound: (message?: string) =>
+    new HttpException(404, message ?? "Not Found"),
+  badRequest: (message?: string) =>
+    new HttpException(400, message ?? "Bad Request"),
+  internalServerError: (message?: string) =>
+    new HttpException(500, message ?? "Internal Server Error"),
+};

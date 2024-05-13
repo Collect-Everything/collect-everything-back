@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
-import { errorBuilder } from "../errors/error-builder";
 import { Req } from "../types";
+import { errorBuilder } from "../errors/error-builder";
 
 export const isLogged = (req: Req, res: Response, next: NextFunction) => {
   const isLogged = !!req.user;

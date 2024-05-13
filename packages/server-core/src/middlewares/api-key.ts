@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { errorBuilder } from "../errors";
 import { Gateway } from "../config";
 import { createGatewayApiKey } from "../helpers/api-key";
+import { errorBuilder } from "../errors";
 
 export const gatewaysApiKeyMiddleware =
   (allowed: Gateway[]) => (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +19,7 @@ export const gatewaysApiKeyMiddleware =
     const secret = process.env[`${providedGateway.toUpperCase()}_SECRET`];
 
     if (!secret) {
-      return res.status(500).send(errorBuilder.internal());
+      return res.status(500).send(errorBuilder.internalServerError());
     }
 
     const hash = createGatewayApiKey(providedGateway, secret);

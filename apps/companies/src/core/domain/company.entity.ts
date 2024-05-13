@@ -50,14 +50,14 @@ export interface CompanyData {
 export type CompanyProps = z.infer<typeof CompanyPropsSchema>;
 
 export class Company extends Entity<CompanyProps, string> {
-  constructor(private props: CompanyProps) {
+  constructor(props: CompanyProps) {
     super(props);
 
     this.validate();
   }
 
   get data(): CompanyData {
-    return this.props;
+    return this._props;
   }
 
   static fromData(data: CompanyData): Company {
@@ -65,6 +65,6 @@ export class Company extends Entity<CompanyProps, string> {
   }
 
   private validate() {
-    CompanyPropsSchema.parse(this.props);
+    CompanyPropsSchema.parse(this._props);
   }
 }

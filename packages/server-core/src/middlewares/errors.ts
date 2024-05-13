@@ -1,5 +1,5 @@
 import { ErrorRequestHandler } from "express";
-import { errorHandler } from "../errors/error-handler";
+import { errorHandler } from "../helpers";
 
 export const globalErrorHandler: ErrorRequestHandler = (
   err,
@@ -7,5 +7,5 @@ export const globalErrorHandler: ErrorRequestHandler = (
   res,
   next,
 ) => {
-  errorHandler(req.originalUrl, res, err);
+  errorHandler(res, err, req.originalUrl);
 };
