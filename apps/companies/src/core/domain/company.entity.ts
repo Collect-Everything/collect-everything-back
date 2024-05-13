@@ -1,3 +1,4 @@
+import { Entity } from "@ce/shared-core";
 import { z } from "zod";
 
 const CompanyPropsSchema = z.object({
@@ -48,11 +49,11 @@ export interface CompanyData {
 
 export type CompanyProps = z.infer<typeof CompanyPropsSchema>;
 
-export class Company {
-  constructor(private props: CompanyProps) {}
+export class Company extends Entity<CompanyProps, string> {
+  constructor(private props: CompanyProps) {
+    super(props);
 
-  get id() {
-    return this.props.id;
+    this.validate();
   }
 
   get data(): CompanyData {
@@ -61,5 +62,9 @@ export class Company {
 
   static fromData(data: CompanyData): Company {
     return new Company(data);
+  }
+
+  private validate() {
+    CompanyPropsSchema.parse(this.props);
   }
 }

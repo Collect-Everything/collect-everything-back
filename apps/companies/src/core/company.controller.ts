@@ -12,13 +12,11 @@ export class CompanyCtrl {
 
       console.log("company_controller_parsedBody", parsedBody);
 
-      const company = await this.companyService.create(parsedBody);
-
-      console.log("company_controller_company", company);
+      await this.companyService.create(parsedBody);
 
       return {
         success: true,
-        data: company,
+        data: {},
       } satisfies ApiResponse;
     });
   private getIdentifier = (methodName: string) => {
