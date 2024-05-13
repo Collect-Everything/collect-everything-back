@@ -28,6 +28,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@ce/shared-core": "*",
     "pino": "^8.18.0",
     "sequelize": "^6.37.0",
     "zod": "^3.22.4"

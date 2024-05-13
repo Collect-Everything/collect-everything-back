@@ -1,8 +1,7 @@
 import { CrudRouter } from "@ce/server-core";
 import { companyCustomersCtrl } from "./company-customers.controller";
-import { TCompanyCustomer } from "@ce/shared-core";
 
-class CompanyCustomersRouter extends CrudRouter<TCompanyCustomer> {
+class CompanyCustomersRouter extends CrudRouter {
   constructor() {
     super({
       ctrl: companyCustomersCtrl,

@@ -19,7 +19,7 @@ export type CrudRouterConfig = {
     delete?: RequestHandler[];
   };
   modelFilesPaths?: string[];
-  ctrl: ICrudController<any>;
+  ctrl: ICrudController;
 };
 
 export abstract class CrudRouter {

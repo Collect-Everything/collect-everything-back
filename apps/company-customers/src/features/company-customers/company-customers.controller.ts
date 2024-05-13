@@ -4,30 +4,23 @@ import {
   ApiResponse,
   CompanyCustomerBaseSchema,
   CompanyCustomerSchema,
-  LoginDto,
-  TCompanyCustomer,
-  TCompanyCustomerBase,
+  LoginDTO,
 } from "@ce/shared-core";
 import { RequestHandler } from "express";
-import { CompanyCustomerModel } from "./company-customer.model";
 
-class CompanyCustomersCtrl extends CrudController<
-  TCompanyCustomerBase,
-  TCompanyCustomer,
-  CompanyCustomerModel
-> {
+class CompanyCustomersCtrl extends CrudController {
   constructor() {
     super({
       name: "company_customers",
       service: companyCustomersService,
-      baseSchema: CompanyCustomerBaseSchema,
-      schema: CompanyCustomerSchema,
+      schemaForCreate: CompanyCustomerBaseSchema,
+      schemaForUpdate: CompanyCustomerSchema,
     });
   }
 
-  validate: RequestHandler = async (req, res, next) => {
+  validate: RequestHandler = async (req, res) => {
     ctrlWrapper(this.getIdentifier("validate"), res, async () => {
-      const parsedBody = parseBody(req, LoginDto);
+      const parsedBody = parseBody(req, LoginDTO);
       const item = await companyCustomersService.validate(parsedBody);
 
       return {

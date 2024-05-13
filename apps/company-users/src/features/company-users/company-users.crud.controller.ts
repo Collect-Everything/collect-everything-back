@@ -1,23 +1,13 @@
-import { CrudController, ctrlWrapper, parseBody } from "@ce/server-core";
+import { CrudController, ctrlWrapper } from "@ce/server-core";
 import { companyUsersService } from "./application/crud/company-users.crud.service";
 import { RequestHandler } from "express";
-import { CompanyUserModel } from "./model/company-user.model";
 import {
-  CreateCompanyUser,
+  ApiResponse,
   CreateCompanyUserSchema,
-} from "./dto/create-company-user.dto";
-import {
-  UpdateCompanyUser,
   UpdateCompanyUserSchema,
-} from "./dto/update-company-user.dto";
-import { ApiResponse } from "@ce/shared-core";
-import { LoginDto } from "./dto/login.dto";
+} from "@ce/shared-core";
 
-class CompanyUsersCtrl extends CrudController<
-  CreateCompanyUser,
-  UpdateCompanyUser,
-  CompanyUserModel
-> {
+class CompanyUsersCtrl extends CrudController {
   constructor() {
     super({
       name: "company_users",
@@ -27,10 +17,13 @@ class CompanyUsersCtrl extends CrudController<
     });
   }
 
-  validate: RequestHandler = async (req, res, next) => {
+  validate: RequestHandler = async (req, res) => {
     ctrlWrapper(this.getIdentifier("validate"), res, async () => {
-      const parsedBody = parseBody(req, LoginDto);
-      const item = await companyUsersService.validate(parsedBody);
+      const email = req.body.email;
+      if (!email) {
+        throw new Error("Email is required");
+      }
+      const item = await companyUsersService.validate(email);
 
       return {
         success: true,

@@ -6,7 +6,9 @@ export const getPortFromEnv = (service: Service | Gateway): number => {
   }
   const port = process.env[service + "_PORT"];
   if (!port) {
-    throw new Error(`Port for service ${port} is not defined in env file.`);
+    throw new Error(
+      `Port for service ${service} is not defined in env file. Please add ${service}_PORT to your env file.`,
+    );
   }
   return parseInt(port);
 };

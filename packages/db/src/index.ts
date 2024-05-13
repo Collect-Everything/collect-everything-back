@@ -2,6 +2,8 @@ import { Sequelize } from "sequelize";
 import { getConfigFromEnv } from "./config";
 import pino from "pino";
 
+export * from "./schemas";
+
 export class CollectEverythingDB {
   sequelize: Sequelize;
   private MAX_RETRIES = 5;

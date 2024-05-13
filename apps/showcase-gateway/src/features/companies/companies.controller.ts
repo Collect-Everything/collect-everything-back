@@ -3,9 +3,7 @@ import { RequestHandler } from "express";
 
 class CompaniesCtrl extends GatewayController {
   constructor() {
-    super("companies", {
-      service: "COMPANIES",
-    });
+    super("companies");
   }
 
   /**
@@ -57,7 +55,7 @@ class CompaniesCtrl extends GatewayController {
 
       const companyData = await this.fetcher.post(
         "/companies/create",
-        companyDataCreation
+        companyDataCreation,
       );
       const company = companyData.data;
       console.log("data_company", company);
@@ -75,7 +73,7 @@ class CompaniesCtrl extends GatewayController {
 
       const adminCompanyData = await this.fetcher.post(
         "/company_users/createCompanyUser",
-        companyAdminData
+        companyAdminData,
       );
 
       const adminCompany = adminCompanyData.data;

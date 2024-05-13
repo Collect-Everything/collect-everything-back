@@ -5,31 +5,20 @@ import { ZodSchema } from "zod";
 import { ctrlWrapper, parseBody } from "../helpers/controller";
 import { RequestHandler, Response } from "express";
 
-type CrudControllerConfig<
-  CreateFields extends Object,
-  Mdl extends Object,
-  OrmModel extends unknown,
-> = {
+type CrudControllerConfig = {
   name: string;
-  service: ICrudService<CreateFields, Mdl, OrmModel>;
+  service: ICrudService<any, any, any>;
   schemaForCreate: ZodSchema<any>;
   schemaForUpdate: ZodSchema<any>;
 };
 
-export abstract class CrudController<
-  CreateFields extends Object,
-  Mdl extends Object,
-  OrmModel extends unknown,
-> implements ICrudController<any>
-{
+export abstract class CrudController implements ICrudController {
   protected readonly name: string = "";
-  protected readonly service: ICrudService<CreateFields, Mdl, OrmModel>;
+  protected readonly service: ICrudService<any, any, any>;
   protected readonly schema: ZodSchema<any>;
   protected readonly baseSchema: ZodSchema<any>;
 
-  protected constructor(
-    config: CrudControllerConfig<CreateFields, Mdl, OrmModel>,
-  ) {
+  protected constructor(config: CrudControllerConfig) {
     this.name = config.name;
     this.service = config.service;
 
@@ -42,7 +31,7 @@ export abstract class CrudController<
       const query = req.query;
       const parsedQuery = ListQuery.parse(query);
       const items = await this.service.list(parsedQuery);
-      const reformattedItems: Mdl[] = [];
+      const reformattedItems: any[] = [];
       for (const item of items) {
         const reformattedItem = await this.reformatItem(req, item);
         reformattedItems.push(reformattedItem);
@@ -99,7 +88,7 @@ export abstract class CrudController<
       const parsedBody = parseBody(req, (this.schema as any).partial());
       const item = await this.service.update(
         itemId,
-        parsedBody as Partial<Mdl>,
+        parsedBody as Partial<any>,
       );
 
       return {
@@ -115,7 +104,7 @@ export abstract class CrudController<
     }
     return itemId;
   }
-  protected async reformatItem(_req: Req, item: Mdl | OrmModel): Promise<any> {
+  protected async reformatItem(_req: Req, item: any): Promise<any> {
     return item;
   }
 

@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "dev:packages": "dotenv -- turbo run dev --filter='./packages/*'",
     "build:packages": "yarn build --filter='./packages/*'",
     "dev:company-users": "dotenv -- turbo run dev --filter=company-users",
     "build:company-users": "turbo run build --filter=company-users...",

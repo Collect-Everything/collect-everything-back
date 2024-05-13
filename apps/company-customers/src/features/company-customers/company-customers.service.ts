@@ -1,22 +1,16 @@
-import {
-  LoginDto,
-  TCompanyCustomer,
-  TCompanyCustomerBase,
-} from "@ce/shared-core";
+import { LoginDto } from "@ce/shared-core";
 import { apiConfig } from "../../config/api.config";
 import { SequelizeService } from "@ce/sequelize";
 import { errorBuilder } from "@ce/server-core";
-import { CompanyCustomerModel } from "./company-customer.model";
 
 import { hashPassword } from "@ce/server-core";
+import { CompanyCustomerModel } from "@ce/db";
+import { companyCustomerModel } from "../../lib/db";
+import { InferCreationAttributes } from "sequelize";
 
-class CompanyCustomersService extends SequelizeService<
-  TCompanyCustomerBase,
-  TCompanyCustomer,
-  CompanyCustomerModel
-> {
+class CompanyCustomersService extends SequelizeService<CompanyCustomerModel> {
   constructor() {
-    super(CompanyCustomerModel, apiConfig);
+    super(companyCustomerModel, apiConfig);
   }
 
   async findByEmail(email: string) {
@@ -31,12 +25,11 @@ class CompanyCustomersService extends SequelizeService<
   }
 
   // Override
-  async create(data: TCompanyCustomerBase): Promise<CompanyCustomerModel>{
+  async create(data: InferCreationAttributes<CompanyCustomerModel>) {
     const hashedPassword = await hashPassword(data.password);
     data.password = hashedPassword;
     return await super.create(data);
   }
-
 }
 
 export const companyCustomersService = new CompanyCustomersService();
