@@ -30,6 +30,7 @@ describe("Check Validation Token", () => {
     await fixture.whenUserCheckValidationToken("stub-token");
 
     fixture.thenCheckValidationTokenResponseShouldBe({
+      email: "johndoe@gmail.com",
       isValid: true,
     });
   });

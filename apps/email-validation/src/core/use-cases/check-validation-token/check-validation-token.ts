@@ -9,6 +9,7 @@ import {
 } from "./check-validation-token.errors";
 
 export interface CheckValidationTokenResponse {
+  email: string;
   isValid: boolean;
 }
 
@@ -43,6 +44,6 @@ export class CheckValidationTokenUseCase {
       return Err.of(new EmailValidationExpiredError());
     }
 
-    return Ok.of({ isValid: true });
+    return Ok.of({ email: emailValidation.email, isValid: true });
   }
 }
