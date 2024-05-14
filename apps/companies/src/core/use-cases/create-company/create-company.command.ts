@@ -8,5 +8,4 @@ export interface CreateCompanyCommand {
   postalCode: string;
   city: string;
   country: string;
-  password: string;
 }

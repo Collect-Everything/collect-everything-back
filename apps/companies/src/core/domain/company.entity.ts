@@ -12,7 +12,6 @@ const CompanyPropsSchema = z.object({
   postalCode: z.string(),
   city: z.string(),
   country: z.string(),
-  password: z.string(),
   color: z.string().optional(),
   logo: z.string().optional(),
   keyPhrases: z.record(z.string()).optional(),
@@ -35,7 +34,6 @@ export interface CompanyData {
   postalCode: string;
   city: string;
   country: string;
-  password: string;
   color?: string;
   logo?: string;
   keyPhrases?: Record<string, string>;
