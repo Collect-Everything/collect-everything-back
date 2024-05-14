@@ -17,6 +17,7 @@ const SERVICES = [
   "COMPANY_CUSTOMERS_INVOICES",
   "CART_AND_ORDERS",
   "AUTH",
+  "EMAIL_VALIDATION",
 ] as const;
 
 export type Service = (typeof SERVICES)[number];
@@ -64,6 +65,11 @@ export const SERVICES_CONFIG: Record<Service, ServiceConfig> = {
   },
   AUTH: {
     port: getPortFromEnv("AUTH"),
+    basePath: "/api/v1",
+    allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
+  },
+  EMAIL_VALIDATION: {
+    port: getPortFromEnv("EMAIL_VALIDATION"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
