@@ -1,10 +1,11 @@
 import { describe, test, beforeEach } from "vitest";
-import { EmailValidation } from "../domain/email-validation.entity";
+import { EmailValidation } from "../../domain/email-validation.entity";
 import { EntityValidationError } from "@ce/shared-core";
 import {
   EmailValidationFixture,
   createEmailValidationFixture,
-} from "../__tests__/email-validation-fixture";
+} from "../_fixtures/email-validation-fixture";
+import { EmailValidationAlreadySentError } from "./send-validation-email.errors";
 
 describe("Validate Email", () => {
   let fixture: EmailValidationFixture;
@@ -45,6 +46,21 @@ describe("Validate Email", () => {
       "johndoe@gmail.com",
       new Date("2021-01-01T00:10:00Z"),
     );
+  });
+
+  test("email validation with same email and that is not expired exists, it should throw an error", async () => {
+    fixture.givenSomeEmailValidationExists([
+      EmailValidation.create({
+        id: "id-1",
+        email: "johndoe@gmail.com",
+        token: "stub-token",
+        createdAt: new Date("2021-01-01T00:00:00Z"),
+      }),
+    ]);
+
+    await fixture.whenUserTryToValidateEmail("johndoe@gmail.com");
+
+    fixture.thenErrorShouldBe(EmailValidationAlreadySentError);
   });
 
   test("email is not valid, it should throw an error", async () => {

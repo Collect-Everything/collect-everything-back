@@ -1,3 +1,5 @@
+import { EmailValidation } from "../domain/email-validation.entity";
+
 export interface EmailValidator {
-  sendConfirmationEmail(email: string): Promise<void>;
+  sendConfirmationEmail(emailValidation: EmailValidation): Promise<void>;
 }

@@ -1,10 +1,4 @@
-import {
-  Entity,
-  EntityValidationError,
-  Err,
-  Ok,
-  Result,
-} from "@ce/shared-core";
+import { Entity, EntityValidationError } from "@ce/shared-core";
 import z from "zod";
 
 const EmailValidationPropsSchema = z.object({
@@ -28,6 +22,7 @@ const EMAIL_VALIDATION_EXPIRATION_TIME = 10 * 60 * 1000; // 10 minutes
 export class EmailValidation extends Entity<EmailValidationProps, string> {
   constructor(props: EmailValidationProps) {
     super(props);
+    this.validate();
   }
 
   get email() {
@@ -40,19 +35,23 @@ export class EmailValidation extends Entity<EmailValidationProps, string> {
     );
   }
 
-  static create(props: EmailValidationProps): Result<EmailValidation, Error> {
-    const result = EmailValidationPropsSchema.safeParse(props);
-    if (!result.success) {
-      return Err.of(new EntityValidationError(result.error.errors));
-    }
+  isExpired(now: Date): boolean {
+    return now.getTime() > this.expiresAt.getTime();
+  }
 
-    return Ok.of(
-      new EmailValidation({
-        id: props.id,
-        email: props.email,
-        token: props.token,
-        createdAt: props.createdAt,
-      }),
-    );
+  static create(props: EmailValidationProps): EmailValidation {
+    return new EmailValidation({
+      id: props.id,
+      email: props.email,
+      token: props.token,
+      createdAt: props.createdAt,
+    });
+  }
+
+  private validate() {
+    const result = EmailValidationPropsSchema.safeParse(this._props);
+    if (!result.success) {
+      throw new EntityValidationError(result.error.errors);
+    }
   }
 }

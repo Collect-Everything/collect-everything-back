@@ -1,11 +1,11 @@
 import { expect } from "vitest";
-import { InMemoryEmailValidationRepository } from "../adapters/email-validation.inmemory.repository";
-import { StubDateProvider } from "../adapters/stub-date-provider";
-import { StubEmailValidator } from "../adapters/stub-email-validator";
-import { StubIDProvider } from "../adapters/stub-id-provider";
-import { StubTokenProvider } from "../adapters/stub-token-provider";
-import { EmailValidation } from "../domain/email-validation.entity";
-import { EmailValidationService } from "../services/email-verification.service";
+import { InMemoryEmailValidationRepository } from "../../adapters/email-validation.inmemory.repository";
+import { StubDateProvider } from "../../adapters/stub-date-provider";
+import { StubEmailValidator } from "../../adapters/stub-email-validator";
+import { StubIDProvider } from "../../adapters/stub-id-provider";
+import { StubTokenProvider } from "../../adapters/stub-token-provider";
+import { EmailValidation } from "../../domain/email-validation.entity";
+import { SendValidationEmailUseCase } from "../send-validation-email/send-validation-email";
 
 export const createEmailValidationFixture = () => {
   let emailSentTo: string;
@@ -20,7 +20,7 @@ export const createEmailValidationFixture = () => {
 
   const repository = new InMemoryEmailValidationRepository();
 
-  const service = new EmailValidationService(
+  const sendValidationEmailUseCase = new SendValidationEmailUseCase(
     repository,
     emailValidator,
     dateProvider,
@@ -38,8 +38,11 @@ export const createEmailValidationFixture = () => {
     givenIDIs: (id: string) => {
       idProvider.id = id;
     },
+    givenSomeEmailValidationExists: (emailValidations: EmailValidation[]) => {
+      repository.emailValidations = emailValidations;
+    },
     whenUserTryToValidateEmail: async (email: string) => {
-      const result = await service.validate(email);
+      const result = await sendValidationEmailUseCase.execute({ email });
 
       if (result.isErr()) {
         thrownError = result.error;
