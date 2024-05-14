@@ -16,4 +16,8 @@ export class InMemoryEmailValidationRepository
   async findByEmail(email: string): Promise<EmailValidation | null> {
     return this.emailValidations.find((e) => e.email === email) ?? null;
   }
+
+  async findByToken(token: string): Promise<EmailValidation | null> {
+    return this.emailValidations.find((e) => e.token === token) ?? null;
+  }
 }

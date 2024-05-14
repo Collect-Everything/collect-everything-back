@@ -29,6 +29,10 @@ export class EmailValidation extends Entity<EmailValidationProps, string> {
     return this._props.email;
   }
 
+  get token() {
+    return this._props.token;
+  }
+
   get expiresAt(): Date {
     return new Date(
       this._props.createdAt.getTime() + EMAIL_VALIDATION_EXPIRATION_TIME,
@@ -37,6 +41,10 @@ export class EmailValidation extends Entity<EmailValidationProps, string> {
 
   isExpired(now: Date): boolean {
     return now.getTime() > this.expiresAt.getTime();
+  }
+
+  isTokenValid(token: string): boolean {
+    return this._props.token === token;
   }
 
   static create(props: EmailValidationProps): EmailValidation {

@@ -6,6 +6,10 @@ import { StubIDProvider } from "../../adapters/stub-id-provider";
 import { StubTokenProvider } from "../../adapters/stub-token-provider";
 import { EmailValidation } from "../../domain/email-validation.entity";
 import { SendValidationEmailUseCase } from "../send-validation-email/send-validation-email";
+import {
+  CheckValidationTokenResponse,
+  CheckValidationTokenUseCase,
+} from "../check-validation-token/check-validation-token";
 
 export const createEmailValidationFixture = () => {
   let emailSentTo: string;
@@ -28,6 +32,13 @@ export const createEmailValidationFixture = () => {
     idProvider,
   );
 
+  const checkValidationTokenUseCase = new CheckValidationTokenUseCase(
+    repository,
+    dateProvider,
+  );
+
+  let checkValidationTokenResponse: CheckValidationTokenResponse;
+
   return {
     givenNowIs: (now: Date) => {
       dateProvider.now = now;
@@ -48,6 +59,16 @@ export const createEmailValidationFixture = () => {
         thrownError = result.error;
       }
     },
+    whenUserCheckValidationToken: async (token: string) => {
+      const result = await checkValidationTokenUseCase.execute({ token });
+
+      if (result.isErr()) {
+        thrownError = result.error;
+        return;
+      }
+
+      checkValidationTokenResponse = result.value;
+    },
     thenEmailShouldBeSentTo: async (expectedEmail: string) => {
       expect(emailSentTo).toBe(expectedEmail);
     },
@@ -66,6 +87,11 @@ export const createEmailValidationFixture = () => {
       const emailValidation = await repository.findByEmail(email);
 
       expect(emailValidation?.expiresAt).toEqual(expected);
+    },
+    thenCheckValidationTokenResponseShouldBe: (
+      expected: CheckValidationTokenResponse,
+    ) => {
+      expect(checkValidationTokenResponse).toEqual(expected);
     },
   };
 };
