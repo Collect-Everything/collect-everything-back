@@ -3,3 +3,9 @@ export class EntityValidationError extends Error {
     super("EntityValidationError");
   }
 }
+
+export class ValueObjectValidationError extends Error {
+  constructor(public errors: any[]) {
+    super("ValueObjectValidationError");
+  }
+}

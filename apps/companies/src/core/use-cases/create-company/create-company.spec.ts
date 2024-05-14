@@ -24,7 +24,6 @@ describe("Create Company", () => {
       postalCode: "12345",
       city: "City",
       country: "Country",
-      password: "Password123",
     });
 
     await fixture.thenCompanyShouldBeCreated(
@@ -39,7 +38,6 @@ describe("Create Company", () => {
         postalCode: "12345",
         city: "City",
         country: "Country",
-        password: "Password123",
       }),
     );
   });
@@ -57,7 +55,6 @@ describe("Create Company", () => {
         postalCode: "12345",
         city: "City",
         country: "Country",
-        password: "Password123",
       }),
     ]);
 
@@ -71,7 +68,6 @@ describe("Create Company", () => {
       postalCode: "12345",
       city: "City",
       country: "Country",
-      password: "Password123",
     });
 
     fixture.thenErrorShouldBe(CompanyAlreadyExistsError);

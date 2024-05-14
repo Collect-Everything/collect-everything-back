@@ -1,5 +1,9 @@
 import { Entity, EntityValidationError } from "@ce/shared-core";
 import { z } from "zod";
+import {
+  StoreConfiguration,
+  StoreConfigurationData,
+} from "./store-configuration.vo";
 
 const CompanyPropsSchema = z.object({
   id: z.string(),
@@ -12,15 +16,8 @@ const CompanyPropsSchema = z.object({
   postalCode: z.string(),
   city: z.string(),
   country: z.string(),
-  color: z.string().optional(),
-  logo: z.string().optional(),
-  keyPhrases: z.record(z.string()).optional(),
-  productsType: z.string().optional(),
   siret: z.string().optional(),
-  phoneContact: z.string().optional(),
-  emailContact: z.string().optional(),
-  links: z.record(z.string()).optional(),
-  externalUrl: z.string().optional(),
+  storeConfiguration: z.instanceof(StoreConfiguration).optional(),
 });
 
 export interface CompanyData {
@@ -34,15 +31,8 @@ export interface CompanyData {
   postalCode: string;
   city: string;
   country: string;
-  color?: string;
-  logo?: string;
-  keyPhrases?: Record<string, string>;
-  productsType?: string;
   siret?: string;
-  phoneContact?: string;
-  emailContact?: string;
-  links?: Record<string, string>;
-  externalUrl?: string;
+  storeConfiguration?: StoreConfigurationData;
 }
 
 export type CompanyProps = z.infer<typeof CompanyPropsSchema>;
@@ -59,11 +49,23 @@ export class Company extends Entity<CompanyProps, string> {
   }
 
   get data(): CompanyData {
-    return this._props;
+    return {
+      ...this._props,
+      storeConfiguration: this._props.storeConfiguration?.props,
+    };
+  }
+
+  configureStore(data: StoreConfigurationData) {
+    this._props.storeConfiguration = StoreConfiguration.fromData(data);
   }
 
   static fromData(data: CompanyData): Company {
-    return new Company(data);
+    return new Company({
+      ...data,
+      storeConfiguration: data.storeConfiguration
+        ? StoreConfiguration.fromData(data.storeConfiguration)
+        : undefined,
+    });
   }
 
   private validate() {
