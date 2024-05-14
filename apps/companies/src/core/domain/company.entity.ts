@@ -55,6 +55,10 @@ export class Company extends Entity<CompanyProps, string> {
     };
   }
 
+  get storeConfiguration(): StoreConfigurationData | undefined {
+    return this._props.storeConfiguration?.props;
+  }
+
   configureStore(data: StoreConfigurationData) {
     this._props.storeConfiguration = StoreConfiguration.fromData(data);
   }
