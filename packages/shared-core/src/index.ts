@@ -6,3 +6,4 @@ export * from "./value-object";
 export * from "./result";
 export * from "./equatable";
 export * from "./errors";
+export * from "./utils";
