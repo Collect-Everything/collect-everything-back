@@ -39,6 +39,15 @@ export class EmailValidation extends Entity<EmailValidationProps, string> {
     );
   }
 
+  get data() {
+    return {
+      id: this._props.id,
+      email: this._props.email,
+      token: this._props.token,
+      createdAt: this._props.createdAt,
+    };
+  }
+
   isExpired(now: Date): boolean {
     return now.getTime() > this.expiresAt.getTime();
   }
