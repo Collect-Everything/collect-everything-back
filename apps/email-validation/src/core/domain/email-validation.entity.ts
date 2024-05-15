@@ -17,7 +17,7 @@ export interface EmailValidationData {
   createdAt: Date;
 }
 
-const EMAIL_VALIDATION_EXPIRATION_TIME = 10 * 60 * 1000; // 10 minutes
+export const EMAIL_VALIDATION_EXPIRATION_TIME = 10 * 60 * 1000; // 10 minutes
 
 export class EmailValidation extends Entity<EmailValidationProps, string> {
   constructor(props: EmailValidationProps) {

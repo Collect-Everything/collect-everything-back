@@ -1,5 +1,6 @@
 import { RedisClientType } from "redis";
 import {
+  EMAIL_VALIDATION_EXPIRATION_TIME,
   EmailValidation,
   EmailValidationData,
 } from "../domain/email-validation.entity";
@@ -14,6 +15,9 @@ export class RedisEmailValidationRepository
     await this.redisClient.set(
       this.getStorageKey(emailValidation),
       JSON.stringify(emailValidation.data),
+      {
+        EX: EMAIL_VALIDATION_EXPIRATION_TIME / 1000,
+      },
     );
   }
 
