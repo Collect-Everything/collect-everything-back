@@ -6,5 +6,16 @@ export class EmailValidationRouter extends BaseRouter {
     super();
   }
 
-  initRoutes() {}
+  initRoutes() {
+    this.router.post(
+      "/send-validation-email",
+      [],
+      this.controller.sendValidationEmail,
+    );
+    this.router.get(
+      "/check-validation-token/:token",
+      [],
+      this.controller.checkValidationToken,
+    );
+  }
 }

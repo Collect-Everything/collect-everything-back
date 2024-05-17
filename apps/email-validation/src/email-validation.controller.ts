@@ -15,13 +15,13 @@ export class EmailValidationController extends BaseController {
 
   sendValidationEmail: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("sendValidationEmail"), res, async () => {
-      const { email } = req.params;
+      const body = req.body;
 
-      if (!email) {
-        throw new HttpException(400, "Missing email param");
+      if (!body || !req.body.email) {
+        throw new HttpException(400, "Missing required email in body");
       }
 
-      await this.sendValidationEmailUseCase.execute({ email });
+      await this.sendValidationEmailUseCase.execute(body);
 
       return {
         success: true,
