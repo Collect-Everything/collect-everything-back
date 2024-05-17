@@ -1,6 +1,3 @@
-import { CollectEverythingDB, getCompanyModel } from "@ce/db";
-import { logger } from "@ce/logger";
+import { PrismaClient } from "@ce/db";
 
-export const db = new CollectEverythingDB(logger);
-
-export const companyModel = getCompanyModel(db.sequelize);
+export const client = new PrismaClient();

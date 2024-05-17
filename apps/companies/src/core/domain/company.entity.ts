@@ -6,7 +6,7 @@ import {
 } from "./store-configuration.vo";
 
 const CompanyPropsSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   name: z.string(),
   phone: z.string(),
   email: z.string(),
@@ -21,7 +21,7 @@ const CompanyPropsSchema = z.object({
 });
 
 export interface CompanyData {
-  id: string;
+  id: number;
   name: string;
   phone: string;
   email: string;
@@ -37,7 +37,7 @@ export interface CompanyData {
 
 export type CompanyProps = z.infer<typeof CompanyPropsSchema>;
 
-export class Company extends Entity<CompanyProps, string> {
+export class Company extends Entity<CompanyProps, number> {
   constructor(props: CompanyProps) {
     super(props);
 
