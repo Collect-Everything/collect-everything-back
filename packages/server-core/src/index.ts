@@ -5,3 +5,4 @@ export * from "./config";
 export * from "./gateway";
 export * from "./auth";
 export * from "./base";
+export * from "./errors";
