@@ -1,5 +1,5 @@
 export interface ConfigureStoreCommand {
-  companyId: string;
+  companyId: number;
   storeName: string;
   color?: string;
   logo?: string;

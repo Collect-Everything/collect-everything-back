@@ -3,7 +3,7 @@ import { Company } from "../domain/company.entity";
 export class CompanyMapper {
   static toDomain(raw: any): Company {
     return Company.fromData({
-      id: raw.id,
+      id: String(raw.id),
       name: raw.name,
       phone: raw.phone,
       email: raw.email,
@@ -28,8 +28,12 @@ export class CompanyMapper {
     });
   }
   static toPersistence(company: Company) {
+    const id =
+      typeof parseInt(company.id) === "number"
+        ? parseInt(company.id)
+        : undefined;
     return {
-      id: company.id,
+      id,
       name: company.data.name,
       phone: company.data.phone,
       email: company.data.email,

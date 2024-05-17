@@ -10,7 +10,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
     const data = CompanyMapper.toPersistence(company);
 
     await this.client.companies.upsert({
-      where: { id: company.id },
+      where: { id: data.id },
       update: data,
       create: data,
     });

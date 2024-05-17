@@ -11,7 +11,7 @@ import {
 import { StoreNameAlreadyExistsError } from "./configure-store.errors";
 
 const testCompanyData = {
-  id: "id-1",
+  id: "1",
   name: "Company 1",
   phone: "123456789",
   email: "company@gmail.com",
@@ -34,14 +34,14 @@ describe("Configure Store", () => {
 
   test("All informations are correct, it should save the configuration", async () => {
     await fixture.whenUserConfiguresStore({
-      companyId: "id-1",
+      companyId: 1,
       storeName: "Store 1",
       color: "#FFFFFF",
       logo: "/logo.png",
     });
 
     const expectedCompany = Company.fromData({
-      id: "id-1",
+      id: "1",
       name: "Company 1",
       phone: "123456789",
       email: "company@gmail.com",
@@ -64,13 +64,13 @@ describe("Configure Store", () => {
 
   test("The color is not provided, it should save the configuration with the default color", async () => {
     await fixture.whenUserConfiguresStore({
-      companyId: "id-1",
+      companyId: 1,
       storeName: "Store 1",
       logo: "/logo.png",
     });
 
     const expectedCompany = Company.fromData({
-      id: "id-1",
+      id: "1",
       name: "Company 1",
       phone: "123456789",
       email: "company@gmail.com",
@@ -93,12 +93,12 @@ describe("Configure Store", () => {
 
   test("The logo is not provided, it should save the configuration with the default logo", async () => {
     await fixture.whenUserConfiguresStore({
-      companyId: "id-1",
+      companyId: 1,
       storeName: "Store 1",
     });
 
     const expectedCompany = Company.fromData({
-      id: "id-1",
+      id: "1",
       name: "Company 1",
       phone: "123456789",
       email: "company@gmail.com",
@@ -122,7 +122,7 @@ describe("Configure Store", () => {
   test("The store name is already used, it should throw an error", async () => {
     await fixture.givenSomeCompanies([
       Company.fromData({
-        id: "id-2",
+        id: "2",
         name: "Company 2",
         phone: "123456789",
         email: "company-2@gmail.com",
@@ -141,7 +141,7 @@ describe("Configure Store", () => {
     ]);
 
     await fixture.whenUserConfiguresStore({
-      companyId: "id-1",
+      companyId: 1,
       storeName: "Store 1",
       color: "#FFFFFF",
       logo: "/logo.png",
