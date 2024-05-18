@@ -1,6 +1,7 @@
 import { Company } from "../domain/company.entity";
+import { CompanyRepository } from "../ports/company.repository";
 
-export class InMemoryCompanyRepository {
+export class InMemoryCompanyRepository implements CompanyRepository {
   companies: Company[] = [];
   async save(company: Company) {
     const exists = await this.findById(company.id);
@@ -17,7 +18,7 @@ export class InMemoryCompanyRepository {
     return this.companies.find((c) => c.id === id);
   }
 
-  async findByName(name: string) {
-    return this.companies.find((c) => c.name === name);
+  async findByNameOrEmail(name: string, email: string) {
+    return this.companies.find((c) => c.name === name || c.email === email);
   }
 }

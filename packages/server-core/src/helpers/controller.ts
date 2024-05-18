@@ -4,6 +4,11 @@ import { boldLog, redLog } from "./console";
 import { HttpException, STATUS_TEXT } from "../errors";
 import { AxiosError } from "axios";
 
+export interface ErrorResponse {
+  statusText: string;
+  message?: string;
+  errors?: any[];
+}
 export async function ctrlWrapper(
   identifier: string,
   response: Response,
@@ -83,10 +88,10 @@ export function errorHandler(
 
 export function axiosErrorHandler(
   res: Response,
-  error: AxiosError,
+  error: AxiosError<ErrorResponse>,
   identifier: string,
 ) {
-  const message = error.message;
+  const message = error.response?.data?.message ?? error.message;
   let status = error.status ?? 500;
 
   logError(identifier, message);

@@ -13,7 +13,10 @@ export class CreateCompanyUseCase {
 
   async execute(command: CreateCompanyCommand) {
     try {
-      const exists = await this.companyRepository.findByName(command.name);
+      const exists = await this.companyRepository.findByNameOrEmail(
+        command.name,
+        command.email,
+      );
 
       if (exists) {
         return Err.of(new CompanyAlreadyExistsError());

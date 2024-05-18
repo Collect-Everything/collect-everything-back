@@ -16,8 +16,8 @@ const CompanyPropsSchema = z.object({
   postalCode: z.string(),
   city: z.string(),
   country: z.string(),
-  siret: z.string().optional(),
-  storeConfiguration: z.instanceof(StoreConfiguration).optional(),
+  siret: z.string().nullish(),
+  storeConfiguration: z.instanceof(StoreConfiguration).nullish(),
 });
 
 export interface CompanyData {
@@ -48,9 +48,14 @@ export class Company extends Entity<CompanyProps, string> {
     return this._props.name;
   }
 
+  get email() {
+    return this._props.email;
+  }
+
   get data(): CompanyData {
     return {
       ...this._props,
+      siret: this._props.siret ?? undefined,
       storeConfiguration: this._props.storeConfiguration?.props,
     };
   }

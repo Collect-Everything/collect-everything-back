@@ -23,10 +23,7 @@ export class CompanyController extends BaseController {
       if (result.isErr()) {
         logger.error(result.error);
         if (result.error instanceof CompanyAlreadyExistsError) {
-          throw new HttpException(
-            400,
-            `Company with name ${body.name} already exists`,
-          );
+          throw new HttpException(400, `Company already exists`);
         }
 
         throw new HttpException(500, "Unknown error");

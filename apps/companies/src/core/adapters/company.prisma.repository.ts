@@ -16,10 +16,11 @@ export class PrismaCompanyRepository implements CompanyRepository {
     });
   }
 
-  async findByName(name: string) {
+  async findByNameOrEmail(name: string, email: string) {
     const raw = await this.client.company.findFirst({
       where: {
         name,
+        email,
       },
     });
 
