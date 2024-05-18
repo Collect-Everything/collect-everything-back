@@ -1,8 +1,9 @@
+import { eventsService } from "../../lib/events";
 import { CompaniesController } from "./companies.controller";
 import { CompaniesRouter } from "./companies.router";
 import { CompaniesService } from "./companies.service";
 
-const companiesService = new CompaniesService();
+const companiesService = new CompaniesService(eventsService);
 
 const companiesCtrl = new CompaniesController(companiesService);
 

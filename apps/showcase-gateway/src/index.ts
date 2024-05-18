@@ -5,6 +5,7 @@ import { createApiRouter } from "./lib/router";
 import { apiConfig } from "./config/api.config";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
+import { eventsHandler } from "./lib/events";
 
 const app = createGatewayApp("SHOWCASE_GATEWAY", createApiRouter, apiConfig);
 
@@ -28,5 +29,7 @@ const options = {
 const openapiSpecification = swaggerJsDoc(options);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+
+eventsHandler.init();
 
 app.start();

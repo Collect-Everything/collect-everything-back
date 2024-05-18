@@ -1,8 +1,9 @@
+import { EventsService } from "@ce/events";
 import { GatewayService } from "@ce/server-core";
 import { ApiResponse, CreateCompanyDTO } from "@ce/shared-core";
 
 export class CompaniesService extends GatewayService {
-  constructor() {
+  constructor(private readonly eventsService: EventsService) {
     super("companies", {
       gatewayName: "SHOWCASE_GATEWAY",
       serviceName: "COMPANIES",

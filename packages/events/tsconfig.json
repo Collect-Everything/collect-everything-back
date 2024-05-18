@@ -1,0 +1,12 @@
+{
+  "extends": "@ce/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": ["es2021"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  },
+  "include": ["src", "../../apps/companies/src/features/company/dto"],
+  "exclude": ["node_modules"]
+}
