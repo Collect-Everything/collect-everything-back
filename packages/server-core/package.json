@@ -4,20 +4,11 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "lint": "eslint \"src/**/*.ts*\" --max-warnings 0",
-    "test": "jest"
+    "lint": "eslint \"src/**/*.ts*\" --max-warnings 0"
   },
-  "jest": {
-    "preset": "@ce/jest-presets/jest/node"
-  },
-  "license": "MIT",
   "devDependencies": {
-    "@ce/tsup-config": "*",
     "@ce/eslint-config": "*",
     "@ce/files": "*",
-    "@ce/jest-presets": "*",
     "@ce/shared-core": "*",
     "@ce/typescript-config": "*",
     "@types/bcrypt": "^5.0.2",
@@ -28,7 +19,6 @@
     "eslint": "^8.56.0",
     "express": "^4.18.2",
     "lodash": "^4.17.21",
-    "tsup": "^8.0.1",
     "typescript": "^5.3.3",
     "zod": "^3.22.4"
   },

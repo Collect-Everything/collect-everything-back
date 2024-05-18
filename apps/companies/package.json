@@ -11,13 +11,9 @@
     "test": "vitest",
     "clean:logs": "rm -rf logs"
   },
-  "jest": {
-    "preset": "@ce/jest-presets/jest/node"
-  },
   "dependencies": {
     "@ce/db": "*",
     "@ce/logger": "*",
-    "@ce/sequelize": "*",
     "@ce/server-core": "*",
     "@ce/shared-core": "*",
     "bcrypt": "^5.1.1",
@@ -25,20 +21,16 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.9.1",
-    "sequelize": "^6.37.0",
     "uuid": "^9.0.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@ce/eslint-config": "*",
-    "@ce/jest-presets": "*",
     "@ce/typescript-config": "*",
     "@types/body-parser": "^1.19.5",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.6",
-    "@types/supertest": "^6.0.2",
     "@types/uuid": "^9.0.8",
     "eslint": "^8.56.0",
     "tsx": "^4.7.1",
