@@ -28,7 +28,7 @@ export class CreateCompanyUseCase {
 
       await this.companyRepository.save(company);
 
-      return Ok.of(undefined);
+      return Ok.of({ id: company.id });
     } catch (error) {
       return Err.of(error);
     }

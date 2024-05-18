@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint \"src/**/*.ts*\" --max-warnings 0",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate --accept-data-loss"
+    "db:push": "prisma db push --skip-generate --accept-data-loss",
+    "db:studio": "prisma studio"
   },
   "license": "MIT",
   "devDependencies": {

@@ -38,7 +38,8 @@
     "build:showcase-gateway": "turbo run build --filter=showcase-gateway...",
     "start:showcase-gateway": "dotenv -- turbo run start --filter=showcase-gateway...",
     "db:push": "dotenv -- turbo run db:push",
-    "db:generate": "dotenv -- turbo run db:generate"
+    "db:generate": "dotenv -- turbo run db:generate",
+    "db:studio": "dotenv -- turbo run db:studio"
   },
   "devDependencies": {
     "@ce/eslint-config": "*",

@@ -31,7 +31,7 @@ export class CompanyController extends BaseController {
 
       return {
         success: true,
-        data: {},
+        data: { companyId: result.value.id },
       } satisfies ApiResponse;
     });
 }
