@@ -40,7 +40,13 @@ export function parseBody<T>(req: Request, schema: ZodSchema<T>): T {
     throw new HttpException(400, "Invalid request body");
   }
 
-  return schema.parse(body);
+  const result = schema.safeParse(body);
+
+  if (result.success) {
+    return result.data;
+  } else {
+    throw new HttpException(400, "Body validation error", result.error.errors);
+  }
 }
 
 const formatError = (identifier: string, message: string) => {
@@ -67,7 +73,8 @@ export function errorHandler(
 
   logError(identifier, message.toString());
   res.status(status).send({
-    error: message,
+    message,
     statusText: STATUS_TEXT?.[status] ?? "Unknown",
+    errors: error.errors,
   });
 }
