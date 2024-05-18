@@ -3,56 +3,52 @@ import { Company } from "../domain/company.entity";
 export class CompanyMapper {
   static toDomain(raw: any): Company {
     return Company.fromData({
-      id: String(raw.id),
+      id: raw.id,
       name: raw.name,
       phone: raw.phone,
       email: raw.email,
-      addressLabel: raw.address_label,
+      addressLabel: raw.addressLabel,
       street: raw.street,
-      streetNumber: raw.street_number,
-      postalCode: raw.postal_code,
+      streetNumber: raw.streetNumber,
+      postalCode: raw.postalCode,
       city: raw.city,
       country: raw.country,
       siret: raw.siret,
       storeConfiguration: {
-        storeName: raw.store_name,
+        storeName: raw.storeName,
         color: raw.color,
         logo: raw.logo,
-        keyPhrases: raw.key_phrases,
-        productsType: raw.products_type,
-        phoneContact: raw.phone_contact,
-        emailContact: raw.email_contact,
+        keyPhrases: raw.keyPhrases,
+        productsType: raw.productsType,
+        phoneContact: raw.phoneContact,
+        emailContact: raw.emailContact,
         links: raw.links,
-        externalUrl: raw.external_url,
+        externalUrl: raw.externalUrl,
       },
     });
   }
   static toPersistence(company: Company) {
-    const id =
-      typeof parseInt(company.id) === "number"
-        ? parseInt(company.id)
-        : undefined;
     return {
-      id,
+      id: company.id,
       name: company.data.name,
       phone: company.data.phone,
       email: company.data.email,
-      address_label: company.data.addressLabel,
+      addressLabel: company.data.addressLabel,
       street: company.data.street,
-      street_number: company.data.streetNumber,
-      postal_code: company.data.postalCode,
+      streetNumber: company.data.streetNumber,
+      postalCode: company.data.postalCode,
       city: company.data.city,
       country: company.data.country,
       siret: company.data.siret,
-      store_name: company.storeConfiguration?.storeName,
+      storeName: company.storeConfiguration?.storeName,
       color: company.storeConfiguration?.color,
       logo: company.storeConfiguration?.logo,
-      key_phrases: company.storeConfiguration?.keyPhrases,
-      products_type: company.storeConfiguration?.productsType,
-      phone_contact: company.storeConfiguration?.phoneContact,
-      email_contact: company.storeConfiguration?.emailContact,
+      keyPhrases: company.storeConfiguration?.keyPhrases,
+      productsType: company.storeConfiguration?.productsType,
+      phoneContact: company.storeConfiguration?.phoneContact,
+      emailContact: company.storeConfiguration?.emailContact,
       links: company.storeConfiguration?.links,
-      external_url: company.storeConfiguration?.externalUrl,
+      externalUrl: company.storeConfiguration?.externalUrl,
     };
   }
 }

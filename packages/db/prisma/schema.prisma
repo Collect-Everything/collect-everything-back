@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Admin {
-  id        Int      @id @default(autoincrement())
+  id String @id
   firstname String
   lastname  String
   email     String
@@ -18,7 +18,7 @@ model Admin {
 }
 
 model Company {
-  id               Int               @id @default(autoincrement())
+  id String @id
   name             String
   phone            String
   email            String
@@ -46,34 +46,34 @@ model Company {
 }
 
 model CompanyCustomer {
-  id        Int      @id @default(autoincrement())
+  id        String      @id
   firstname String
   lastname  String
   email     String
   password  String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId Int
+  companyId String 
   orders    Order[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 model CompanyUser {
-  id        Int      @id @default(autoincrement())
+  id        String      @id
   firstname String
   lastname  String
   email     String
   password  String
-  roleId    Int
+  roleId    String 
   company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId Int
+  companyId String 
   Role      Role?    @relation(fields: [roleId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 model Role {
-  id           Int           @id @default(autoincrement())
+  id String @id
   name         String
   description  String
   CompanyUsers CompanyUser[]
@@ -82,9 +82,9 @@ model Role {
 }
 
 model Order {
-  id                Int              @id @default(autoincrement())
+  id String @id
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @default(now())
   CompanyCustomer   CompanyCustomer? @relation(fields: [companyCustomerId], references: [id])
-  companyCustomerId Int?
+  companyCustomerId String?
 }

@@ -9,7 +9,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
   async save(company: Company) {
     const data = CompanyMapper.toPersistence(company);
 
-    await this.client.companies.upsert({
+    await this.client.company.upsert({
       where: { id: data.id },
       update: data,
       create: data,
@@ -17,12 +17,12 @@ export class PrismaCompanyRepository implements CompanyRepository {
   }
 
   async findByName(name: string) {
-    const raw = await this.client.companies.findFirst({
+    const raw = await this.client.company.findFirst({
       where: {
         name,
       },
     });
 
-    return CompanyMapper.toDomain(raw);
+    return raw ? CompanyMapper.toDomain(raw) : undefined;
   }
 }

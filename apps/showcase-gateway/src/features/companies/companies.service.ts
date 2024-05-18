@@ -10,6 +10,6 @@ export class CompaniesService extends GatewayService {
   }
 
   async createCompany(data: CreateCompanyDTO) {
-    const companyID = await this.fetcher.post("/companies/create", data);
+    const companyID = await this.fetcher.post("/create", data);
   }
 }

@@ -8,6 +8,12 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "dev": "dotenv -- turbo run dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "clean:logs": "turbo run clean:logs",
     "dev:packages": "dotenv -- turbo run dev --filter='./packages/*'",
     "build:packages": "yarn build --filter='./packages/*'",
     "dev:company-users": "dotenv -- turbo run dev --filter=company-users",
@@ -31,15 +37,8 @@
     "dev:showcase-gateway": "dotenv -- turbo run dev --filter=showcase-gateway",
     "build:showcase-gateway": "turbo run build --filter=showcase-gateway...",
     "start:showcase-gateway": "dotenv -- turbo run start --filter=showcase-gateway...",
-    "clean": "turbo run clean",
-    "clean:logs": "turbo run clean:logs",
-    "dev": "dotenv -- turbo run dev",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "migration:create": "npx sequelize-cli migration:create",
-    "migrate": "dotenv -- npx sequelize-cli db:migrate",
-    "migrate:rollback": "dotenv -- npx sequelize-cli db:migrate:undo"
+    "db:push": "dotenv -- turbo run db:push",
+    "db:generate": "dotenv -- turbo run db:generate"
   },
   "devDependencies": {
     "@ce/eslint-config": "*",

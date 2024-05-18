@@ -2,6 +2,7 @@ import { ZodSchema } from "zod";
 import { Request, Response } from "express";
 import { boldLog, redLog } from "./console";
 import { HttpException, STATUS_TEXT } from "../errors";
+import { AxiosError } from "axios";
 
 export async function ctrlWrapper(
   identifier: string,
@@ -14,6 +15,8 @@ export async function ctrlWrapper(
   } catch (error) {
     if (error instanceof HttpException) {
       errorHandler(response, error, identifier);
+    } else if (error instanceof AxiosError) {
+      axiosErrorHandler(response, error, identifier);
     } else {
       response.status(500).send({
         error: "Internal server error",
@@ -21,7 +24,6 @@ export async function ctrlWrapper(
       });
     }
     if (process.env.NODE_ENV !== "production") {
-      console.error(error);
     }
   }
 }
@@ -76,5 +78,20 @@ export function errorHandler(
     message,
     statusText: STATUS_TEXT?.[status] ?? "Unknown",
     errors: error.errors,
+  });
+}
+
+export function axiosErrorHandler(
+  res: Response,
+  error: AxiosError,
+  identifier: string,
+) {
+  const message = error.message;
+  let status = error.status ?? 500;
+
+  logError(identifier, message);
+  res.status(status).send({
+    message,
+    statusText: STATUS_TEXT?.[status] ?? "Unknown",
   });
 }

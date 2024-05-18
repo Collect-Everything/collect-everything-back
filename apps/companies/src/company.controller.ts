@@ -1,8 +1,10 @@
 import { RequestHandler } from "express";
-import { BaseController, ctrlWrapper } from "@ce/server-core";
+import { BaseController, HttpException, ctrlWrapper } from "@ce/server-core";
 import { ApiResponse, CreateCompanyDTO } from "@ce/shared-core";
 import { CreateCompanyUseCase } from "./core/use-cases/create-company/create-company.usecase";
 import { ConfigureStoreUseCase } from "./core/use-cases/configure-store/configure-store.usecase";
+import { CompanyAlreadyExistsError } from "./core/use-cases/create-company/create-company.errors";
+import { logger } from "@ce/logger";
 
 export class CompanyController extends BaseController {
   constructor(
@@ -16,7 +18,19 @@ export class CompanyController extends BaseController {
     ctrlWrapper(this.getIdentifier("createCompany"), res, async () => {
       const body = req.body as CreateCompanyDTO;
 
-      await this.createCompanyUseCase.execute(body);
+      const result = await this.createCompanyUseCase.execute(body);
+
+      if (result.isErr()) {
+        logger.error(result.error);
+        if (result.error instanceof CompanyAlreadyExistsError) {
+          throw new HttpException(
+            400,
+            `Company with name ${body.name} already exists`,
+          );
+        }
+
+        throw new HttpException(500, "Unknown error");
+      }
 
       return {
         success: true,
