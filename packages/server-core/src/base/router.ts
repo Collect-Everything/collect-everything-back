@@ -1,11 +1,9 @@
 import express from "express";
 
-export class BaseRouter {
+export abstract class BaseRouter {
   router: express.Router;
   constructor() {
     this.router = express.Router({ mergeParams: true });
-
-    this.initRoutes();
   }
 
   initRoutes() {

@@ -6,7 +6,7 @@
   "pipeline": {
     "build": {
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^db:generate"],
       "env": ["NEXT_PUBLIC_API_HOST"]
     },
     "test": {
@@ -17,6 +17,7 @@
       "dependsOn": ["^build"]
     },
     "dev": {
+      "dependsOn": ["^db:generate"],
       "dotEnv": [
         ".env.development.local",
         ".env.development",
