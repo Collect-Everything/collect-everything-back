@@ -7,223 +7,84 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model admins {
-  id         Int       @id @default(autoincrement())
-  firstname  String?   @db.VarChar(255)
-  lastname   String?   @db.VarChar(255)
-  email      String?   @db.VarChar(255)
-  password   String?   @db.VarChar(255)
-  created_at DateTime? @db.DateTime(0)
-  updated_at DateTime? @db.DateTime(0)
-  deleted_at DateTime? @db.DateTime(0)
+model Admin {
+  id        Int      @id @default(autoincrement())
+  firstname String
+  lastname  String
+  email     String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
-model banking_information {
-  id                Int                @id @default(autoincrement())
-  user_id           Int?
-  card_number       String?            @db.VarChar(255)
-  exp_date          String?            @db.VarChar(255)
-  created_at        DateTime?          @db.DateTime(0)
-  updated_at        DateTime?          @db.DateTime(0)
-  deleted_at        DateTime?          @db.DateTime(0)
-  company_customers company_customers? @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "banking_information_ibfk_1")
-
-  @@index([user_id], map: "user_id")
-}
-
-model categories {
-  id         Int        @id @default(autoincrement())
-  name       String?    @db.VarChar(255)
-  created_at DateTime?  @db.DateTime(0)
-  updated_at DateTime?  @db.DateTime(0)
-  deleted_at DateTime?  @db.DateTime(0)
-  products   products[]
-}
-
-model companies {
-  id                    Int                     @id @default(autoincrement())
-  name                  String                 @db.VarChar(255)
-  phone                 String                 @db.VarChar(255)
-  email                 String                 @db.VarChar(255) 
-  address_label         String                 @db.VarChar(255)
-  street                String                 @db.VarChar(255)
-  street_number         String                 @db.VarChar(255)
-  postal_code           String                 @db.VarChar(255)
-  city                  String                 @db.VarChar(255)
-  country               String                 @db.VarChar(255)
-  color                 String?                 @db.VarChar(255)
-  logo                  String?                 @db.VarChar(255)
-  key_phrases           Json?
-  products_type         String?                 @db.VarChar(255)
-  siret                 String?                 @db.VarChar(255)
-  phone_contact         String?                 @db.VarChar(255)
-  email_contact         String?                 @db.VarChar(255)
-  links                 Json?
-  external_url          String?                 @db.VarChar(255)
-  created_at            DateTime?               @db.DateTime(0)
-  updated_at            DateTime?               @db.DateTime(0)
-  company_customers     company_customers[]
-  company_users         company_users[]
-  subscription_invoices subscription_invoices[]
-  subscriptions         subscriptions[]
+model Company {
+  id               Int               @id @default(autoincrement())
+  name             String
+  phone            String
+  email            String
+  addressLabel     String
+  street           String
+  streetNumber     String
+  postalCode       String
+  city             String
+  country          String
+  color            String?
+  logo             String?
+  key_phrases      Json?
+  productsType     String?
+  siret            String?
+  phoneContact     String?
+  emailContact     String?
+  links            Json?
+  externalUrl      String?
+  companyCustomers CompanyCustomer[]
+  companyUsers     CompanyUser[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now())
 
   @@unique([email])
 }
 
-model company_customers {
-  id                  Int                   @id @default(autoincrement())
-  firstname           String?               @db.VarChar(255)
-  lastname            String?               @db.VarChar(255)
-  email               String?               @db.VarChar(255)
-  password            String?               @db.VarChar(255)
-  company_id          Int?
-  created_at          DateTime?             @db.DateTime(0)
-  updated_at          DateTime?             @db.DateTime(0)
-  deleted_at          DateTime?             @db.DateTime(0)
-  banking_information banking_information[]
-  companies           companies?            @relation(fields: [company_id], references: [id], onDelete: Cascade, map: "company_customers_ibfk_1")
-  orders              orders[]
-
-  @@index([company_id], map: "company_id")
+model CompanyCustomer {
+  id        Int      @id @default(autoincrement())
+  firstname String
+  lastname  String
+  email     String
+  password  String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId Int
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
-model company_users {
-  id         Int        @id @default(autoincrement())
-  firstname  String?    @db.VarChar(255)
-  lastname   String?    @db.VarChar(255)
-  email      String?    @db.VarChar(255)
-  password   String?    @db.VarChar(255)
-  company_id Int?
-  role_id    Int?
-  created_at DateTime?  @db.DateTime(0)
-  updated_at DateTime?  @db.DateTime(0)
-  deleted_at DateTime?  @db.DateTime(0)
-  companies  companies? @relation(fields: [company_id], references: [id], onDelete: Cascade, map: "company_users_ibfk_1")
-  roles      roles?     @relation(fields: [role_id], references: [id], onDelete: Cascade, map: "company_users_ibfk_2")
-
-  @@index([company_id], map: "company_id")
-  @@index([role_id], map: "role_id")
+model CompanyUser {
+  id        Int      @id @default(autoincrement())
+  firstname String
+  lastname  String
+  email     String
+  password  String
+  roleId    Int
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId Int
+  Role      Role?    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
-model migrations {
-  name String @id @unique(map: "name") @db.VarChar(255)
+model Role {
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String
+  CompanyUsers CompanyUser[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
 }
 
-model order_invoices {
-  id          Int       @id @default(autoincrement())
-  invoice_num String?   @db.VarChar(255)
-  total       Float?
-  date        DateTime? @db.DateTime(0)
-  order_id    Int?
-  pdf         String?   @db.VarChar(255)
-  created_at  DateTime? @db.DateTime(0)
-  updated_at  DateTime? @db.DateTime(0)
-  deleted_at  DateTime? @db.DateTime(0)
-  orders      orders?   @relation(fields: [order_id], references: [id], onDelete: Cascade, map: "order_invoices_ibfk_1")
-
-  @@index([order_id], map: "order_id")
-}
-
-model order_products {
-  id         Int       @id @default(autoincrement())
-  order_id   Int?
-  product_id Int?
-  created_at DateTime? @db.DateTime(0)
-  updated_at DateTime? @db.DateTime(0)
-  deleted_at DateTime? @db.DateTime(0)
-  orders     orders?   @relation(fields: [order_id], references: [id], onDelete: Cascade, map: "order_products_ibfk_1")
-  products   products? @relation(fields: [product_id], references: [id], onDelete: Cascade, map: "order_products_ibfk_2")
-
-  @@index([order_id], map: "order_id")
-  @@index([product_id], map: "product_id")
-}
-
-model orders {
-  id                Int                @id @default(autoincrement())
-  date              DateTime?          @db.DateTime(0)
-  client_id         Int?
-  status            String?            @db.VarChar(255)
-  created_at        DateTime?          @db.DateTime(0)
-  updated_at        DateTime?          @db.DateTime(0)
-  deleted_at        DateTime?          @db.DateTime(0)
-  order_invoices    order_invoices[]
-  order_products    order_products[]
-  company_customers company_customers? @relation(fields: [client_id], references: [id], onDelete: Cascade, map: "orders_ibfk_1")
-  sales_stats       sales_stats[]
-
-  @@index([client_id], map: "client_id")
-}
-
-model products {
-  id             Int              @id @default(autoincrement())
-  name           String?          @db.VarChar(255)
-  price          String?          @db.VarChar(255)
-  description    String?          @db.VarChar(255)
-  photo          String?          @db.VarChar(255)
-  conditioning   String?          @db.VarChar(255)
-  size           String?          @db.VarChar(255)
-  stock          String?          @db.VarChar(255)
-  unity          String?          @db.VarChar(255)
-  category_id    Int?
-  parent_id      Int?
-  created_at     DateTime?        @db.DateTime(0)
-  updated_at     DateTime?        @db.DateTime(0)
-  deleted_at     DateTime?        @db.DateTime(0)
-  order_products order_products[]
-  categories     categories?      @relation(fields: [category_id], references: [id], onDelete: Cascade, map: "products_ibfk_1")
-
-  @@index([category_id], map: "category_id")
-}
-
-model roles {
-  id            Int             @id @default(autoincrement())
-  name          String?         @db.VarChar(255)
-  description   String?         @db.VarChar(255)
-  created_at    DateTime?       @db.DateTime(0)
-  updated_at    DateTime?       @db.DateTime(0)
-  deleted_at    DateTime?       @db.DateTime(0)
-  company_users company_users[]
-}
-
-model sales_stats {
-  id                Int       @id @default(autoincrement())
-  order_id          Int?
-  products_quantity Int?
-  total             Int?
-  date              DateTime? @db.DateTime(0)
-  created_at        DateTime? @db.DateTime(0)
-  updated_at        DateTime? @db.DateTime(0)
-  deleted_at        DateTime? @db.DateTime(0)
-  orders            orders?   @relation(fields: [order_id], references: [id], onDelete: Cascade, map: "sales_stats_ibfk_1")
-
-  @@index([order_id], map: "order_id")
-}
-
-model subscription_invoices {
-  id          Int        @id @default(autoincrement())
-  invoice_num String?    @db.VarChar(255)
-  total       Float?
-  date        DateTime?  @db.DateTime(0)
-  company_id  Int?
-  pdf         String?    @db.VarChar(255)
-  created_at  DateTime?  @db.DateTime(0)
-  updated_at  DateTime?  @db.DateTime(0)
-  deleted_at  DateTime?  @db.DateTime(0)
-  companies   companies? @relation(fields: [company_id], references: [id], onDelete: Cascade, map: "subscription_invoices_ibfk_1")
-
-  @@index([company_id], map: "company_id")
-}
-
-model subscriptions {
-  id          Int        @id @default(autoincrement())
-  name        String?    @db.VarChar(255)
-  price       Float?
-  description String?    @db.VarChar(255)
-  company_id  Int?
-  created_at  DateTime?  @db.DateTime(0)
-  updated_at  DateTime?  @db.DateTime(0)
-  deleted_at  DateTime?  @db.DateTime(0)
-  companies   companies? @relation(fields: [company_id], references: [id], onDelete: Cascade, map: "subscriptions_ibfk_1")
-
-  @@index([company_id], map: "company_id")
+model Order {
+  id                Int              @id @default(autoincrement())
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @default(now())
+  CompanyCustomer   CompanyCustomer? @relation(fields: [companyCustomerId], references: [id])
+  companyCustomerId Int?
 }
