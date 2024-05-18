@@ -10,7 +10,6 @@ export const CreateCompanyDTOSchema = z.object({
   postalCode: z.string(),
   city: z.string(),
   country: z.string(),
-  password: z.string(),
 });
 
 export type CreateCompanyDTO = z.infer<typeof CreateCompanyDTOSchema>;

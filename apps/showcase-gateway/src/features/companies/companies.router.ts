@@ -1,7 +1,12 @@
-import express from "express";
-import { companiesCtrl } from "./companies.controller";
+import { CompaniesController } from "./companies.controller";
+import { BaseRouter } from "@ce/server-core";
 
-const companiesRouter = express.Router();
-companiesRouter.post("/create", companiesCtrl.createCompany);
+export class CompaniesRouter extends BaseRouter {
+  constructor(private readonly companiesCtrl: CompaniesController) {
+    super();
+  }
 
-export { companiesRouter };
+  initRoutes(): void {
+    this.router.post("/create", this.companiesCtrl.createCompany);
+  }
+}

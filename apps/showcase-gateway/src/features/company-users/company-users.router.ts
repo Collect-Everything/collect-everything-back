@@ -1,15 +1,12 @@
-import { companyUsersCtrl } from "./company-users.controller";
-import express from "express";
+import { BaseRouter } from "@ce/server-core";
+import { CompanyUsersController } from "./company-users.controller";
 
-const companyUsersRouter = express.Router();
+export class CompanyUsersRouter extends BaseRouter {
+  constructor(private readonly companyUsersCtrl: CompanyUsersController) {
+    super();
+  }
 
-companyUsersRouter.post("/login", [], companyUsersCtrl.login);
-companyUsersRouter.post("/register", [], companyUsersCtrl.register);
-companyUsersRouter.post("/refresh", [], companyUsersCtrl.refreshToken);
-companyUsersRouter.post(
-  "/createCompanyUser",
-  [],
-  companyUsersCtrl.createCompanyUser
-);
-
-export { companyUsersRouter };
+  initRoutes(): void {
+    this.router.post("/create", [], this.companyUsersCtrl.createCompanyUser);
+  }
+}
