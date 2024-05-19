@@ -1,10 +1,10 @@
-.PHONY: start-db
-start-db:
-	docker compose --env-file .env -f ./docker/db-docker-compose.yml up -d --force-recreate --build
+.PHONY: start-infra
+start-infra:
+	docker compose --env-file .env -f ./docker/infra-docker-compose.yml up -d --force-recreate --build
 
-.PHONY: stop-db
-stop-db:
-	docker compose --env-file .env -f ./docker/db-docker-compose.yml down
+.PHONY: stop-infra
+stop-infra:
+	docker compose --env-file .env -f ./docker/infra-docker-compose.yml down
 
 .PHONY: start-services
 start-services:

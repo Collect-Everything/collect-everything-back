@@ -3,7 +3,7 @@ version: "3"
 services:
   mysql:
     image: mysql:latest
-    container_name: collect_everything_db
+    container_name: ce_db
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASS}
       MYSQL_DATABASE: ${DB_NAME}
@@ -16,9 +16,17 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - ce_network
+  redis:
+    image: redis:latest
+    container_name: ce_redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/var/lib/redis
 
 volumes:
   mysql_data:
+  redis_data:
 
 networks:
   ce_network:
