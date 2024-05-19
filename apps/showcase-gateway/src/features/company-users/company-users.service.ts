@@ -1,4 +1,4 @@
-import { EventsService, Event } from "@ce/events";
+import { EventsService, ServerEvent } from "@ce/events";
 import { GatewayService } from "@ce/server-core";
 import { CreateCompanyUserDTO } from "@ce/shared-core";
 import { COMPANY_USER_CREATED } from "../../events/handlers/company-users.events-handler";
@@ -16,7 +16,7 @@ export class CompanyUsersService extends GatewayService {
 
     if (res.isOk()) {
       this.eventsService.send(
-        Event.create({
+        ServerEvent.create({
           type: COMPANY_USER_CREATED,
           payload: { email: data.email },
         }),

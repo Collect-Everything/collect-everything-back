@@ -1,5 +1,4 @@
-import { EventsService } from "@ce/events";
+import { Handler } from "@ce/events";
+import { registerCompanyUsersEvents } from "./company-users.events-handler";
 
-export type Handler = (service: EventsService) => void;
-
-export const ALL_EVENTS_HANDLERS: Handler[] = [];
+export const ALL_EVENTS_HANDLERS: Handler[] = [registerCompanyUsersEvents];

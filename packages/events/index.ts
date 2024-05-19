@@ -1,6 +1,6 @@
 import { logger } from "@ce/logger";
 
-export class Event<T = undefined> {
+export class ServerEvent<T = undefined> {
   type: string;
   payload: T;
   private constructor(type: string, payload: T) {
@@ -15,17 +15,22 @@ export class Event<T = undefined> {
     type: string;
     payload: T;
   }) {
-    return new Event(type, payload);
+    return new ServerEvent(type, payload);
   }
 }
 
 export class EventsService {
+  constructor(private readonly handlers: Handler[]) {
+    this.init();
+  }
   allListeners: ((payload: any) => void)[] = [];
   listeners: { [type: string]: ((payload: any) => void)[] } = {};
 
-  init() {}
+  init() {
+    this.handlers.forEach((handler) => handler(this));
+  }
 
-  send<T>(event: Event<T>) {
+  send<T>(event: ServerEvent<T>) {
     logger.info(`[EVENTS SERVICE] - ${event.type}`);
     const listeners = [
       ...this.allListeners,
@@ -45,12 +50,13 @@ export class EventsService {
   }
 
   on<T>(type: string, callback: (payload: T) => void) {
+    console.log("on", type);
     if (!this.listeners[type]) this.listeners[type] = [];
     this.listeners[type].push(callback);
     return () => this.unregister(callback, this.listeners[type]);
   }
 
-  onAll(callback: (event: Event<any>) => void) {
+  onAll(callback: (event: ServerEvent<any>) => void) {
     this.allListeners.push(callback);
     return () => this.unregister(callback, this.allListeners);
   }
@@ -59,3 +65,5 @@ export class EventsService {
     list.splice(list?.indexOf(callback), 1);
   }
 }
+
+export type Handler = (service: EventsService) => void;
