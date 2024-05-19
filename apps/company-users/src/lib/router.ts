@@ -1,12 +1,10 @@
 import { apiConfig } from "../config/api.config";
 import express, { Express } from "express";
-import { companyUsersRouter } from "../features/company-users";
-import { authRouter } from "../features/auth";
+import { companyUserRouter } from "../dependency-injection";
 
 export const createApiRouter = (app: Express) => {
   const baseApiRouter = express.Router();
-  baseApiRouter.use("/company-users", companyUsersRouter);
-  baseApiRouter.use("/auth", authRouter);
+  baseApiRouter.use("/", companyUserRouter);
 
   app.use(apiConfig.apiPath, baseApiRouter);
 };

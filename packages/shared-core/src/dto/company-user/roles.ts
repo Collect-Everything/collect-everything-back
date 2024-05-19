@@ -6,6 +6,6 @@ export const COMPANY_USER_ROLES = [
   "ORDER_MANAGER",
 ] as const;
 
-export const CompanyUserRole = z.enum(COMPANY_USER_ROLES);
+export const CompanyUserRoleSchema = z.enum(COMPANY_USER_ROLES);
 
-export type CompanyUserRole = z.infer<typeof CompanyUserRole>;
+export type CompanyUserRole = z.infer<typeof CompanyUserRoleSchema>;
