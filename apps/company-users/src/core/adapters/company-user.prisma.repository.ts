@@ -10,8 +10,27 @@ export class PrismaCompanyUserRepository implements CompanyUserRepository {
     const data = CompanyUserMapper.toPersistence(companyUser);
     await this.prisma.companyUser.upsert({
       where: { id: companyUser.id },
-      update: data,
-      create: data,
+      update: {
+        email: data.email,
+        password: data.password,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        role: data.role,
+        company: {
+          connect: { id: data.companyId },
+        },
+      },
+      create: {
+        id: data.id,
+        email: data.email,
+        password: data.password,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        role: data.role,
+        company: {
+          connect: { id: data.companyId },
+        },
+      },
     });
   }
 

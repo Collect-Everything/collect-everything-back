@@ -58,29 +58,24 @@ model CompanyCustomer {
   updatedAt DateTime @default(now())
 }
 
+enum CompanyUserRole {
+    ADMIN
+    STOCK_MANAGER
+    ORDER_MANAGER
+  }
 model CompanyUser {
   id        String      @id
   firstname String
   lastname  String
   email     String
   password  String
-  roleId    String 
   company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String 
-  Role      Role?    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  role CompanyUserRole
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
   @@unique([email])
-}
-
-model Role {
-  id String @id
-  name         String
-  description  String
-  CompanyUsers CompanyUser[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @default(now())
 }
 
 model Order {

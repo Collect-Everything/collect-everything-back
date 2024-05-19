@@ -4,7 +4,7 @@
     "outDir": "./dist",
     "lib": ["ES2015", "WebWorker", "DOM"],
     "rootDir": "./src",
-    "types": ["jest", "node"]
+    "types": ["node"]
   },
   "include": ["."],
   "exclude": ["node_modules", "dist"]

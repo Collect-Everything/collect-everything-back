@@ -39,7 +39,7 @@ export class CompaniesController extends GatewayController {
       const registerResult = await this.companyUsersService.register({
         ...body.admin,
         companyId: createCompanyResult.value.data.companyId,
-        roles: ["ADMIN"],
+        role: "ADMIN",
       });
 
       if (registerResult.isErr()) {

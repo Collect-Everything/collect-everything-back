@@ -7,7 +7,7 @@ export const CreateCompanyUserDTOSchema = z.object({
   firstname: z.string(),
   lastname: z.string(),
   companyId: z.string(),
-  roles: z.array(CompanyUserRoleSchema),
+  role: CompanyUserRoleSchema,
 });
 
 export type CreateCompanyUserDTO = z.infer<typeof CreateCompanyUserDTOSchema>;

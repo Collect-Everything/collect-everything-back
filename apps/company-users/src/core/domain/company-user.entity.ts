@@ -13,7 +13,7 @@ const CompanyUserPropsSchema = z.object({
   firstname: z.string(),
   lastname: z.string(),
   companyId: z.string(),
-  roles: z.array(z.enum(COMPANY_USER_ROLES)),
+  role: z.enum(COMPANY_USER_ROLES),
 });
 
 export type CompanyUserProps = z.infer<typeof CompanyUserPropsSchema>;
@@ -25,7 +25,7 @@ export interface CompanyUserData {
   firstname: string;
   lastname: string;
   companyId: string;
-  roles: CompanyUserRole[];
+  role: CompanyUserRole;
 }
 
 export class CompanyUser extends Entity<CompanyUserProps, string> {
@@ -47,7 +47,7 @@ export class CompanyUser extends Entity<CompanyUserProps, string> {
       firstname: this._props.firstname,
       lastname: this._props.lastname,
       companyId: this._props.companyId,
-      roles: this._props.roles,
+      role: this._props.role,
     };
   }
 
@@ -59,7 +59,7 @@ export class CompanyUser extends Entity<CompanyUserProps, string> {
       firstname: data.firstname,
       lastname: data.lastname,
       companyId: data.companyId,
-      roles: data.roles,
+      role: data.role,
     });
   }
 

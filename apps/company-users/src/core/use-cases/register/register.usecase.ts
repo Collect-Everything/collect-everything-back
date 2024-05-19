@@ -30,7 +30,7 @@ export class RegisterUseCase {
         firstname: command.firstname,
         lastname: command.lastname,
         companyId: command.companyId,
-        roles: command.roles,
+        role: command.role,
       });
 
       await this.companyUserRepository.save(companyUser);

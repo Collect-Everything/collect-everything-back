@@ -1,7 +1,7 @@
 import { CompanyUser } from "../domain/company-user.entity";
 
 export class CompanyUserMapper {
-  static toDomain(raw: any): any {
+  static toDomain(raw: any) {
     return CompanyUser.fromData({
       id: raw.id,
       email: raw.email,
@@ -9,11 +9,11 @@ export class CompanyUserMapper {
       firstname: raw.firstname,
       lastname: raw.lastname,
       companyId: raw.companyId,
-      roles: raw.roles,
+      role: raw.role,
     });
   }
 
-  static toPersistence(domain: CompanyUser): any {
+  static toPersistence(domain: CompanyUser) {
     return {
       id: domain.id,
       email: domain.email,
@@ -21,7 +21,7 @@ export class CompanyUserMapper {
       firstname: domain.data.firstname,
       lastname: domain.data.lastname,
       companyId: domain.data.companyId,
-      roles: domain.data.roles,
+      role: domain.data.role,
     };
   }
 }

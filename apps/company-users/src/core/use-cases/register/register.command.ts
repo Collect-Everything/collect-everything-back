@@ -6,5 +6,5 @@ export interface RegisterCommand {
   firstname: string;
   lastname: string;
   companyId: string;
-  roles: CompanyUserRole[];
+  role: CompanyUserRole;
 }

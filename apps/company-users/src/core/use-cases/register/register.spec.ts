@@ -23,7 +23,7 @@ describe("Create company user", () => {
       firstname: "John",
       lastname: "Doe",
       companyId: "1",
-      roles: ["ADMIN"],
+      role: "ADMIN",
     });
 
     await fixture.thenCompanyUserShouldBeRegistered(
@@ -34,7 +34,7 @@ describe("Create company user", () => {
         firstname: "John",
         lastname: "Doe",
         companyId: "1",
-        roles: ["ADMIN"],
+        role: "ADMIN",
       }),
     );
   });
@@ -48,7 +48,7 @@ describe("Create company user", () => {
       firstname: "John",
       lastname: "Doe",
       companyId: "1",
-      roles: ["ADMIN"],
+      role: "ADMIN",
     });
 
     fixture.thenErrorShouldBe(EntityValidationError);
@@ -65,7 +65,7 @@ describe("Create company user", () => {
         firstname: "John",
         lastname: "Doe",
         companyId: "1",
-        roles: ["ADMIN"],
+        role: "ADMIN",
       }),
     ]);
 
@@ -75,7 +75,7 @@ describe("Create company user", () => {
       firstname: "John",
       lastname: "Doe",
       companyId: "1",
-      roles: ["ADMIN"],
+      role: "ADMIN",
     });
 
     fixture.thenErrorShouldBe(EmailAlreadyTakenError);
