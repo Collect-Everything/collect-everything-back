@@ -1,6 +1,6 @@
 import { EventsService } from "@ce/events";
-import { GatewayService } from "@ce/server-core";
-import { ApiResponse, CreateCompanyDTO } from "@ce/shared-core";
+import { BaseResponse, GatewayService } from "@ce/server-core";
+import { CreateCompanyDTO } from "@ce/shared-core";
 
 export class CompaniesService extends GatewayService {
   constructor(private readonly eventsService: EventsService) {
@@ -11,11 +11,11 @@ export class CompaniesService extends GatewayService {
   }
 
   async createCompany(data: CreateCompanyDTO) {
-    const res = await this.fetcher.post<ApiResponse<{ companyId: string }>>(
+    const handler = this.fetcher.post<BaseResponse<{ companyId: string }>>(
       "/create",
       data,
     );
 
-    return res.data.data.companyId;
+    return this.executeRequest(handler);
   }
 }

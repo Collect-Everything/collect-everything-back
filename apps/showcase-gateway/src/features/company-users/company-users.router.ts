@@ -9,6 +9,10 @@ export class CompanyUsersRouter extends BaseRouter {
   }
 
   initRoutes(): void {
-    this.router.post("/create", [], this.companyUsersCtrl.createCompanyUser);
+    this.router.post(
+      "/register",
+      [],
+      this.companyUsersCtrl.registerCompanyUser,
+    );
   }
 }

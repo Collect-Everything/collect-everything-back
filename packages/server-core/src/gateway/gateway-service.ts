@@ -1,7 +1,9 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { Gateway, SERVICES_CONFIG, Service } from "../config";
 import { createGatewayApiKey } from "../helpers/api-key";
 import { boldLog, orangeLog } from "../helpers/console";
+import { Err, Ok, Result } from "@ce/shared-core";
+import { ServiceCallError } from "../errors";
 
 export type GatewayServiceOptions = {
   gatewayName: Gateway;
@@ -30,6 +32,23 @@ export abstract class GatewayService {
         "x-api-key": createGatewayApiKey(options.gatewayName, secret),
       },
     });
+  }
+
+  protected async executeRequest<T>(
+    req: Promise<AxiosResponse<T>>,
+  ): Promise<Result<T, ServiceCallError | Error>> {
+    try {
+      const response = await req;
+
+      return Ok.of(response.data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const msg = error.response?.data?.message || error.message;
+        return Err.of(new ServiceCallError(msg));
+      }
+
+      return Err.of(error as Error);
+    }
   }
 
   private getEnvConfig() {

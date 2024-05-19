@@ -39,18 +39,20 @@
     "start:showcase-gateway": "dotenv -- turbo run start --filter=showcase-gateway...",
     "db:push": "dotenv -- turbo run db:push",
     "db:generate": "dotenv -- turbo run db:generate",
-    "db:studio": "dotenv -- turbo run db:studio"
-  },
-  "devDependencies": {
-    "@ce/eslint-config": "*",
-    "dotenv-cli": "latest",
-    "prettier": "^3.1.1",
-    "sequelize-cli": "^6.6.2",
-    "turbo": "latest"
+    "db:studio": "dotenv -- turbo run db:studio",
+    "fix-deps": "manypkg fix"
   },
   "packageManager": "yarn@1.22.19",
   "engines": {
     "node": ">=14.0.0",
     "npm": ">=7.0.0"
+  },
+  "dependencies": {
+    "@ce/eslint-config": "*",
+    "@manypkg/cli": "^0.21.4",
+    "dotenv-cli": "latest",
+    "prettier": "^3.1.1",
+    "sequelize-cli": "^6.6.2",
+    "turbo": "latest"
   }
 }

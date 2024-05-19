@@ -14,11 +14,11 @@
     "lint": "eslint \"src/**/*.ts*\" --max-warnings 0"
   },
   "devDependencies": {
-    "@ce/tsup-config": "*",
     "@ce/eslint-config": "*",
+    "@ce/tsup-config": "*",
     "@ce/typescript-config": "*",
     "eslint": "^8.56.0",
-    "pino": "^8.17.2",
+    "pino": "^8.18.0",
     "pino-http": "^9.0.0",
     "pino-pretty": "^10.3.1",
     "typescript": "^5.3.3"

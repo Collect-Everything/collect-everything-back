@@ -1,8 +1,13 @@
-import { BaseController, ctrlWrapper } from "@ce/server-core";
+import {
+  BaseController,
+  BaseResponse,
+  HttpException,
+  ctrlWrapper,
+} from "@ce/server-core";
 import { RegisterUseCase } from "./core/use-cases/register/register.usecase";
 import { RequestHandler } from "express";
 import { RegisterCommand } from "./core/use-cases/register/register.command";
-import { ApiResponse } from "@ce/shared-core";
+import { EmailAlreadyTakenError } from "./core/use-cases/register/register.errors";
 
 export class CompanyUserController extends BaseController {
   constructor(private readonly registerUseCase: RegisterUseCase) {
@@ -13,11 +18,20 @@ export class CompanyUserController extends BaseController {
     ctrlWrapper("register", res, async () => {
       const body = req.body as RegisterCommand;
 
-      await this.registerUseCase.execute(body);
+      const result = await this.registerUseCase.execute(body);
+
+      if (result.isErr()) {
+        if (result.error instanceof EmailAlreadyTakenError) {
+          throw new HttpException(400, "Email already taken");
+        }
+
+        throw new HttpException(500, "Internal server error", result.error);
+      }
 
       return {
+        status: 201,
         success: true,
         data: {},
-      } satisfies ApiResponse;
+      } satisfies BaseResponse;
     });
 }

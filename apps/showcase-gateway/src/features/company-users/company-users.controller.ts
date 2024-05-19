@@ -8,10 +8,10 @@ export class CompanyUsersController extends GatewayController {
     super("company_users");
   }
 
-  createCompanyUser: RequestHandler = (req, res) =>
+  registerCompanyUser: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("createCompanyUser"), res, async () => {
       const body = parseBody(req, CreateCompanyUserDTOSchema);
-      await this.companyUsersService.create(body);
+      await this.companyUsersService.register(body);
 
       return { success: true, data: {} } satisfies ApiResponse;
     });

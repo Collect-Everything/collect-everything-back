@@ -3,9 +3,19 @@ import { logger } from "@ce/logger";
 export class Event<T = undefined> {
   type: string;
   payload: T;
-  constructor(type: string, payload: T) {
+  private constructor(type: string, payload: T) {
     this.type = type;
     this.payload = payload;
+  }
+
+  static create<T = undefined>({
+    type,
+    payload,
+  }: {
+    type: string;
+    payload: T;
+  }) {
+    return new Event(type, payload);
   }
 }
 

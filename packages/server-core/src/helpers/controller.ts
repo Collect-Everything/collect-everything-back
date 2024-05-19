@@ -2,7 +2,7 @@ import { ZodSchema } from "zod";
 import { Request, Response } from "express";
 import { boldLog, redLog } from "./console";
 import { HttpException, STATUS_TEXT } from "../errors";
-import { AxiosError } from "axios";
+import { BaseResponse } from "../types";
 
 export interface ErrorResponse {
   statusText: string;
@@ -12,23 +12,19 @@ export interface ErrorResponse {
 export async function ctrlWrapper(
   identifier: string,
   response: Response,
-  handler: () => Promise<any>,
+  handler: () => Promise<BaseResponse>,
 ) {
   try {
     const result = await handler();
-    response.status(200).send(result);
+    response.status(result.status ?? 200).send(result);
   } catch (error) {
     if (error instanceof HttpException) {
-      errorHandler(response, error, identifier);
-    } else if (error instanceof AxiosError) {
-      axiosErrorHandler(response, error, identifier);
+      httpErrorHandler(response, error, identifier);
     } else {
       response.status(500).send({
         error: "Internal server error",
         statusText: "Internal Server Error",
       });
-    }
-    if (process.env.NODE_ENV !== "production") {
     }
   }
 }
@@ -60,17 +56,21 @@ const formatError = (identifier: string, message: string) => {
   return `[${identifier}] : ${message}`;
 };
 
-const logError = (identifier: string, message: string) => {
+const logError = (identifier: string, message: string, details?: any) => {
   if (process.env.NODE_ENV !== "production") {
     const date = new Date().toISOString();
 
     console.log(
-      `${boldLog(redLog(date + " - API ERROR | "))}${redLog(formatError(identifier, message))}`,
+      `${boldLog(redLog(date + " | "))}${redLog(formatError(identifier, message))}`,
     );
+
+    if (details) {
+      console.error(details);
+    }
   }
 };
 
-export function errorHandler(
+export function httpErrorHandler(
   res: Response,
   error: HttpException,
   identifier: string,
@@ -78,25 +78,11 @@ export function errorHandler(
   const message = error.message;
   let status = error.status;
 
-  logError(identifier, message.toString());
+  logError(identifier, message.toString(), error.errors);
+
   res.status(status).send({
     message,
     statusText: STATUS_TEXT?.[status] ?? "Unknown",
     errors: error.errors,
-  });
-}
-
-export function axiosErrorHandler(
-  res: Response,
-  error: AxiosError<ErrorResponse>,
-  identifier: string,
-) {
-  const message = error.response?.data?.message ?? error.message;
-  let status = error.status ?? 500;
-
-  logError(identifier, message);
-  res.status(status).send({
-    message,
-    statusText: STATUS_TEXT?.[status] ?? "Unknown",
   });
 }

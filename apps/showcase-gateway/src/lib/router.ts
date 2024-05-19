@@ -1,7 +1,6 @@
 import { apiConfig } from "../config/api.config";
 import express, { Express } from "express";
-import { companyUsersRouter } from "../features/company-users";
-import { companiesRouter } from "../features/companies";
+import { companiesRouter, companyUsersRouter } from "../features";
 
 export const createApiRouter = (app: Express) => {
   const baseApiRouter = express.Router();

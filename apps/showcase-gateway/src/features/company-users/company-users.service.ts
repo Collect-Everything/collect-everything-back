@@ -1,15 +1,28 @@
+import { EventsService, Event } from "@ce/events";
 import { GatewayService } from "@ce/server-core";
 import { CreateCompanyUserDTO } from "@ce/shared-core";
+import { COMPANY_USER_CREATED } from "../../events/handlers/company-users.events-handler";
 
 export class CompanyUsersService extends GatewayService {
-  constructor() {
+  constructor(private readonly eventsService: EventsService) {
     super("companyUsers", {
       gatewayName: "SHOWCASE_GATEWAY",
       serviceName: "COMPANY_USERS",
     });
   }
 
-  async create(data: CreateCompanyUserDTO) {
-    await this.fetcher.post("/company-users/", data);
+  async register(data: CreateCompanyUserDTO) {
+    const res = await this.executeRequest(this.fetcher.post("/register", data));
+
+    if (res.isOk()) {
+      this.eventsService.send(
+        Event.create({
+          type: COMPANY_USER_CREATED,
+          payload: { email: data.email },
+        }),
+      );
+    }
+
+    return res;
   }
 }

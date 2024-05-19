@@ -6,8 +6,8 @@ export const CreateCompanyUserDTOSchema = z.object({
   password: z.string().min(8).max(100),
   firstname: z.string(),
   lastname: z.string(),
-  companyId: z.number(),
-  role: CompanyUserRoleSchema,
+  companyId: z.string(),
+  roles: z.array(CompanyUserRoleSchema),
 });
 
 export type CreateCompanyUserDTO = z.infer<typeof CreateCompanyUserDTOSchema>;
