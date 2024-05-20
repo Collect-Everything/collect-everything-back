@@ -18,8 +18,8 @@ export const createEmailValidationFixture = () => {
   const dateProvider = new StubDateProvider();
   const tokenProvider = new StubTokenProvider();
   const idProvider = new StubIDProvider();
-  const emailValidator = new StubEmailValidator((email) => {
-    emailSentTo = email;
+  const emailValidator = new StubEmailValidator((emailValidation) => {
+    emailSentTo = emailValidation.email;
   });
 
   const repository = new InMemoryEmailValidationRepository();

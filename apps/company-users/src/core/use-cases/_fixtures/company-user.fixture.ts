@@ -5,6 +5,7 @@ import { RegisterCommand } from "../register/register.command";
 import { CompanyUser } from "../../domain/company-user.entity";
 import { StubIdProvider } from "../../adapters/stub-id-provider";
 import { StubPasswordHasher } from "../../adapters/stub-password-hasher";
+import { ValidateEmailUseCase } from "../validate-email/validate-email.usecase";
 
 export const createCompanyUserFixture = () => {
   const idProvider = new StubIdProvider();
@@ -15,6 +16,7 @@ export const createCompanyUserFixture = () => {
     idProvider,
     passwordHasher,
   );
+  const validateEmailUseCase = new ValidateEmailUseCase(repository);
 
   let thrownError: any;
   return {
@@ -31,11 +33,23 @@ export const createCompanyUserFixture = () => {
         thrownError = result.error;
       }
     },
+    whenValidatingEmail: async (email: string) => {
+      const result = await validateEmailUseCase.execute({ email });
+
+      if (result.isErr()) {
+        thrownError = result.error;
+      }
+    },
 
     thenCompanyUserShouldBeRegistered: async (expected: CompanyUser) => {
       const companyUser = await repository.findById(expected.id);
 
       expect(companyUser).toEqual(expected);
+    },
+    thenCompanyUserShouldBeValidated: async (id: string) => {
+      const companyUser = await repository.findById(id);
+
+      expect(companyUser?.isVerified).toBe(true);
     },
 
     thenErrorShouldBe: (error: new (...args: any[]) => Error) => {

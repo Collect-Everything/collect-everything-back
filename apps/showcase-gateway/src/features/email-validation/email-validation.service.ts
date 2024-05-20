@@ -12,4 +12,9 @@ export class EmailValidationService extends GatewayService {
     const handler = this.fetcher.post("/send-validation-email", { email });
     return this.executeRequest(handler);
   }
+
+  async checkValidationToken(token: string) {
+    const handler = this.fetcher.post("/check-validation-token", { token });
+    return this.executeRequest(handler);
+  }
 }

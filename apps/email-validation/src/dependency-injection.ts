@@ -13,8 +13,10 @@ import { EmailValidationRouter } from "./email-validation.router";
 const dateProvider = new RealDateProvider();
 const idProvider = new RealIDProvider();
 const tokenProvider = new RealTokenProvider();
-const emailValidator = new StubEmailValidator((email) =>
-  console.log(`Sending email to ${email}`),
+const emailValidator = new StubEmailValidator((emailValidation) =>
+  console.log(
+    `Sending email to ${emailValidation.email}, the code is : ${emailValidation.token}`,
+  ),
 );
 
 const repository = new RedisEmailValidationRepository(

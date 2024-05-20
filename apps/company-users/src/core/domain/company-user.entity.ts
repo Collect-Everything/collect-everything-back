@@ -14,6 +14,7 @@ const CompanyUserPropsSchema = z.object({
   lastname: z.string(),
   companyId: z.string(),
   role: z.enum(COMPANY_USER_ROLES),
+  emailVerified: z.boolean().optional(),
 });
 
 export type CompanyUserProps = z.infer<typeof CompanyUserPropsSchema>;
@@ -26,6 +27,7 @@ export interface CompanyUserData {
   lastname: string;
   companyId: string;
   role: CompanyUserRole;
+  emailVerified?: boolean;
 }
 
 export class CompanyUser extends Entity<CompanyUserProps, string> {
@@ -48,7 +50,16 @@ export class CompanyUser extends Entity<CompanyUserProps, string> {
       lastname: this._props.lastname,
       companyId: this._props.companyId,
       role: this._props.role,
+      emailVerified: this._props.emailVerified,
     };
+  }
+
+  get isVerified() {
+    return this._props.emailVerified || false;
+  }
+
+  validateEmail() {
+    this._props.emailVerified = true;
   }
 
   static fromData(data: CompanyUserData): CompanyUser {
@@ -60,6 +71,7 @@ export class CompanyUser extends Entity<CompanyUserProps, string> {
       lastname: data.lastname,
       companyId: data.companyId,
       role: data.role,
+      emailVerified: data.emailVerified,
     });
   }
 
