@@ -19,6 +19,7 @@ export class PrismaCompanyUserRepository implements CompanyUserRepository {
         company: {
           connect: { id: data.companyId },
         },
+        emailVerified: data.emailVerified,
       },
       create: {
         id: data.id,
@@ -30,6 +31,7 @@ export class PrismaCompanyUserRepository implements CompanyUserRepository {
         company: {
           connect: { id: data.companyId },
         },
+        emailVerified: data.emailVerified,
       },
     });
   }

@@ -51,7 +51,7 @@ describe("Check Validation Token", () => {
     fixture.thenErrorShouldBe(EmailValidationExpiredError);
   });
 
-  test("token is invalid, it should return error", async () => {
+  test("token is invalid, it should return false", async () => {
     fixture.givenNowIs(new Date("2021-01-01T00:10:01Z"));
     fixture.givenSomeEmailValidationExists([
       EmailValidation.create({

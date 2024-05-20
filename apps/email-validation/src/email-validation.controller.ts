@@ -1,9 +1,10 @@
-import { BaseController, ctrlWrapper } from "@ce/server-core";
+import { BaseController, BaseResponse, ctrlWrapper } from "@ce/server-core";
 import { CheckValidationTokenUseCase } from "./core/use-cases/check-validation-token/check-validation-token";
 import { SendValidationEmailUseCase } from "./core/use-cases/send-validation-email/send-validation-email";
 import { RequestHandler } from "express";
 import { ApiResponse } from "@ce/shared-core";
 import { HttpException } from "@ce/server-core";
+import { EmailValidationNotFoundError } from "./core/use-cases/check-validation-token/check-validation-token.errors";
 
 export class EmailValidationController extends BaseController {
   constructor(
@@ -37,15 +38,26 @@ export class EmailValidationController extends BaseController {
         throw new HttpException(400, "Missing token param");
       }
 
-      const res = await this.checkValidationTokenUseCase.execute({ token });
+      const result = await this.checkValidationTokenUseCase.execute({ token });
 
-      if (res.isErr()) {
-        throw new HttpException(400, res.error.message);
+      if (result.isErr()) {
+        if (result.error instanceof EmailValidationNotFoundError) {
+          return {
+            success: true,
+            data: {
+              isValid: false,
+            },
+          } satisfies BaseResponse;
+        }
+        throw new HttpException(400, result.error.message);
       }
 
       return {
         success: true,
-        data: res.value,
-      } satisfies ApiResponse;
+        data: {
+          email: result.value.email,
+          isValid: true,
+        },
+      } satisfies BaseResponse;
     });
 }

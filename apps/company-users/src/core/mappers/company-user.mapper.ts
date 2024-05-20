@@ -10,6 +10,7 @@ export class CompanyUserMapper {
       lastname: raw.lastname,
       companyId: raw.companyId,
       role: raw.role,
+      emailVerified: raw.emailVerified,
     });
   }
 
@@ -22,6 +23,7 @@ export class CompanyUserMapper {
       lastname: domain.data.lastname,
       companyId: domain.data.companyId,
       role: domain.data.role,
+      emailVerified: domain.isVerified,
     };
   }
 }

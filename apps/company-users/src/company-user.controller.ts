@@ -45,7 +45,7 @@ export class CompanyUserController extends BaseController {
 
   validateEmail: RequestHandler = async (req, res) =>
     ctrlWrapper("validateEmail", res, async () => {
-      const { email } = req.params;
+      const email = req.body.email;
 
       if (!email) {
         throw new HttpException(400, "Email is required");

@@ -25,6 +25,7 @@ export async function ctrlWrapper(
         error: "Internal server error",
         statusText: "Internal Server Error",
       });
+      logError(identifier, "Error throwed in controller", error);
     }
   }
 }

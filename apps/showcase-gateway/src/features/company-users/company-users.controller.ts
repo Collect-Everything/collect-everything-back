@@ -5,7 +5,7 @@ import { ApiResponse, CreateCompanyUserDTOSchema } from "@ce/shared-core";
 
 export class CompanyUsersController extends GatewayController {
   constructor(private readonly companyUsersService: CompanyUsersService) {
-    super("company_users");
+    super("companyUsers");
   }
 
   registerCompanyUser: RequestHandler = (req, res) =>

@@ -11,6 +11,6 @@ export class CompanyUserRouter extends BaseRouter {
   initRoutes() {
     this.router.post("/register", this.controller.register);
 
-    this.router.get("/validate-email/:email", this.controller.validateEmail);
+    this.router.post("/validate-email", this.controller.validateEmail);
   }
 }
