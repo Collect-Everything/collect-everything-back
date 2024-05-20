@@ -9,7 +9,10 @@ import {
   DEFAULT_STORE_LOGO,
   StoreConfiguration,
 } from "../../domain/store-configuration.vo";
-import { StoreNameAlreadyExistsError } from "./configure-store.errors";
+import {
+  CompanyNotFoundError,
+  StoreNameAlreadyExistsError,
+} from "./configure-store.errors";
 
 const testCompanyData = {
   id: "1",
@@ -158,5 +161,16 @@ describe("Configure Store", () => {
     });
 
     fixture.thenErrorShouldBe(StoreNameAlreadyExistsError);
+  });
+
+  test("the company id provided does not exist, it should throw an error", async () => {
+    await fixture.whenUserConfiguresStore({
+      companyId: "id-1",
+      storeName: "Store 1",
+      color: "#FFFFFF",
+      logo: "/logo.png",
+    });
+
+    fixture.thenErrorShouldBe(CompanyNotFoundError);
   });
 });

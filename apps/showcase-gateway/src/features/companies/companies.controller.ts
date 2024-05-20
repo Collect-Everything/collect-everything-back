@@ -12,6 +12,7 @@ import {
   CreateCompanyAndAdminDTO,
   CreateCompanyAndAdminDTOSchema,
 } from "../../dtos/create-company-and-admin.dto";
+import { ConfigureStoreDTOSchema } from "../../dtos/configure-store.dto";
 
 export class CompaniesController extends GatewayController {
   constructor(
@@ -48,6 +49,23 @@ export class CompaniesController extends GatewayController {
 
       return {
         status: 201,
+        success: true,
+        data: {},
+      } satisfies BaseResponse;
+    });
+
+  configureStore: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier("configureStore"), res, async () => {
+      const companyId = req.params.companyId;
+      const storeConfiguration = parseBody(req, ConfigureStoreDTOSchema);
+      const configureStoreResult = await this.companiesService.configureStore(
+        companyId,
+        storeConfiguration,
+      );
+      if (configureStoreResult.isErr()) {
+        throw new HttpException(400, configureStoreResult.error.message);
+      }
+      return {
         success: true,
         data: {},
       } satisfies BaseResponse;

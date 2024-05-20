@@ -1,8 +1,8 @@
-import { Company } from "../domain/company.entity";
+import { Company, CompanyData } from "../domain/company.entity";
 
 export class CompanyMapper {
   static toDomain(raw: any): Company {
-    return Company.fromData({
+    const data: CompanyData = {
       id: raw.id,
       name: raw.name,
       phone: raw.phone,
@@ -14,7 +14,10 @@ export class CompanyMapper {
       city: raw.city,
       country: raw.country,
       siret: raw.siret,
-      storeConfiguration: {
+    };
+
+    if (raw.storeName) {
+      data.storeConfiguration = {
         storeName: raw.storeName,
         color: raw.color,
         logo: raw.logo,
@@ -24,8 +27,9 @@ export class CompanyMapper {
         emailContact: raw.emailContact,
         links: raw.links,
         externalUrl: raw.externalUrl,
-      },
-    });
+      };
+    }
+    return Company.fromData(data);
   }
   static toPersistence(company: Company) {
     return {

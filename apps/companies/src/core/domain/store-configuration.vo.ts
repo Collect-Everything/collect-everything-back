@@ -50,7 +50,11 @@ export class StoreConfiguration extends ValueObject<StoreConfigurationProps> {
     const result = StoreConfigurationPropsSchema.safeParse(this.props);
 
     if (!result.success) {
-      throw new ValueObjectValidationError(result.error.errors);
+      throw new ValueObjectValidationError(
+        this.constructor.name,
+        result.error.errors,
+        result.error.message,
+      );
     }
   }
 }

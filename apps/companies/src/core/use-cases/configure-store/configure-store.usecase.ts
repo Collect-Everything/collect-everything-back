@@ -1,7 +1,10 @@
 import { Err, Ok, Result } from "@ce/shared-core";
 import { CompanyRepository } from "../../ports/company.repository";
 import { ConfigureStoreCommand } from "./configure-store.command";
-import { StoreNameAlreadyExistsError } from "./configure-store.errors";
+import {
+  CompanyNotFoundError,
+  StoreNameAlreadyExistsError,
+} from "./configure-store.errors";
 
 export class ConfigureStoreUseCase {
   constructor(private readonly companyRepository: CompanyRepository) {}
@@ -18,7 +21,7 @@ export class ConfigureStoreUseCase {
       const company = await this.companyRepository.findById(command.companyId);
 
       if (!company) {
-        return Err.of(new Error());
+        return Err.of(new CompanyNotFoundError(command.companyId));
       }
 
       company.configureStore({

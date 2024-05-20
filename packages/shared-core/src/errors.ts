@@ -5,7 +5,13 @@ export class EntityValidationError extends Error {
 }
 
 export class ValueObjectValidationError extends Error {
-  constructor(public errors: any[]) {
-    super("ValueObjectValidationError");
+  constructor(
+    public name: string,
+    public errors: any[],
+    message?: string,
+  ) {
+    super(
+      `[${name}] ValueObjectVaLidationError ${message ? " - " + message : ""}`,
+    );
   }
 }

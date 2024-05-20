@@ -10,5 +10,10 @@ export class CompanyRouter extends BaseRouter {
 
   initRoutes(): void {
     this.router.post("/create", [], this.controller.createCompany);
+    this.router.post(
+      "/:companyId/configure-store",
+      [],
+      this.controller.configureStore,
+    );
   }
 }
