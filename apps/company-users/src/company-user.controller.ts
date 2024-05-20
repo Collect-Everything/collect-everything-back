@@ -13,11 +13,13 @@ import {
   CompanyUserNotFoundError,
   EmailAlreadyVerifiedError,
 } from "./core/use-cases/validate-email/validate-email.errors";
+import { ValidateCredentialsUseCase } from "./core/use-cases/validate-credentials/validate-credentials.usecase";
 
 export class CompanyUserController extends BaseController {
   constructor(
     private readonly registerUseCase: RegisterUseCase,
     private readonly validateEmailUseCase: ValidateEmailUseCase,
+    private readonly validateCredentialsUseCase: ValidateCredentialsUseCase,
   ) {
     super("CompanyUser");
   }
@@ -69,6 +71,27 @@ export class CompanyUserController extends BaseController {
         status: 200,
         success: true,
         data: {},
+      } satisfies BaseResponse;
+    });
+
+  validateCredentials: RequestHandler = async (req, res) =>
+    ctrlWrapper("validateCredentials", res, async () => {
+      const email = req.body.email;
+      const password = req.body.password;
+      if (!email || !password) {
+        throw new HttpException(400, "Email and password are required");
+      }
+      const result = await this.validateCredentialsUseCase.execute({
+        email,
+        password,
+      });
+      if (result.isErr()) {
+        throw new HttpException(401, "Invalid credentials");
+      }
+      return {
+        status: 200,
+        success: true,
+        data: result.value,
       } satisfies BaseResponse;
     });
 }

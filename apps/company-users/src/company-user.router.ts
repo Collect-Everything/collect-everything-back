@@ -12,5 +12,10 @@ export class CompanyUserRouter extends BaseRouter {
     this.router.post("/register", this.controller.register);
 
     this.router.post("/validate-email", this.controller.validateEmail);
+
+    this.router.post(
+      "/validate-credentials",
+      this.controller.validateCredentials,
+    );
   }
 }
