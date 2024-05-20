@@ -6,6 +6,9 @@ import { CompanyUser } from "../../domain/company-user.entity";
 import { StubIdProvider } from "../../adapters/stub-id-provider";
 import { StubPasswordHasher } from "../../adapters/stub-password-hasher";
 import { ValidateEmailUseCase } from "../validate-email/validate-email.usecase";
+import { ValidateCredentialsQuery } from "../validate-credentials/validate-credentials.query";
+import { ValidateCredentialsUseCase } from "../validate-credentials/validate-credentials.usecase";
+import { ValidateCredentialsResponse } from "../validate-credentials/validate-credentials.response";
 
 export const createCompanyUserFixture = () => {
   const idProvider = new StubIdProvider();
@@ -17,8 +20,14 @@ export const createCompanyUserFixture = () => {
     passwordHasher,
   );
   const validateEmailUseCase = new ValidateEmailUseCase(repository);
+  const validateCredentialsUseCase = new ValidateCredentialsUseCase(
+    repository,
+    passwordHasher,
+  );
 
   let thrownError: any;
+
+  let returnedUser: ValidateCredentialsResponse | null = null;
   return {
     givenPredefinedId: (id: string) => {
       idProvider.id = id;
@@ -40,6 +49,14 @@ export const createCompanyUserFixture = () => {
         thrownError = result.error;
       }
     },
+    whenValidatingCredentials: async (query: ValidateCredentialsQuery) => {
+      const result = await validateCredentialsUseCase.execute(query);
+      if (result.isErr()) {
+        thrownError = result.error;
+      } else {
+        returnedUser = result.value;
+      }
+    },
 
     thenCompanyUserShouldBeRegistered: async (expected: CompanyUser) => {
       const companyUser = await repository.findById(expected.id);
@@ -50,6 +67,9 @@ export const createCompanyUserFixture = () => {
       const companyUser = await repository.findById(id);
 
       expect(companyUser?.isVerified).toBe(true);
+    },
+    thenShouldReturnUser: (expected: ValidateCredentialsResponse) => {
+      expect(returnedUser).toEqual(expected);
     },
 
     thenErrorShouldBe: (error: new (...args: any[]) => Error) => {

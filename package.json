@@ -5,7 +5,7 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "docs/"
+    "docs"
   ],
   "scripts": {
     "build": "turbo run build",
@@ -41,6 +41,7 @@
     "db:push": "dotenv -- turbo run db:push",
     "db:generate": "dotenv -- turbo run db:generate",
     "db:studio": "dotenv -- turbo run db:studio",
+    "docs": "cd docs && yarn start",
     "fix-deps": "manypkg fix"
   },
   "packageManager": "yarn@1.22.19",

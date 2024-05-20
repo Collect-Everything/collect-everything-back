@@ -41,6 +41,22 @@ export class CompanyUser extends Entity<CompanyUserProps, string> {
     return this._props.email;
   }
 
+  get firstname() {
+    return this._props.firstname;
+  }
+
+  get lastname() {
+    return this._props.lastname;
+  }
+
+  get companyId() {
+    return this._props.companyId;
+  }
+
+  get role() {
+    return this._props.role;
+  }
+
   get data(): CompanyUserData {
     return {
       id: this._props.id,
