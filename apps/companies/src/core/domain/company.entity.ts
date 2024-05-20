@@ -60,8 +60,8 @@ export class Company extends Entity<CompanyProps, string> {
     };
   }
 
-  get storeConfiguration(): StoreConfigurationData | undefined {
-    return this._props.storeConfiguration?.props;
+  get storeConfiguration(): StoreConfiguration | undefined {
+    return this._props.storeConfiguration ?? undefined;
   }
 
   configureStore(data: StoreConfigurationData) {

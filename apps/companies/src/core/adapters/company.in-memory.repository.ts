@@ -21,4 +21,10 @@ export class InMemoryCompanyRepository implements CompanyRepository {
   async findByNameOrEmail(name: string, email: string) {
     return this.companies.find((c) => c.name === name || c.email === email);
   }
+
+  async findByStoreName(storeName: string) {
+    return this.companies.find(
+      (c) => c.storeConfiguration?.props.storeName === storeName,
+    );
+  }
 }

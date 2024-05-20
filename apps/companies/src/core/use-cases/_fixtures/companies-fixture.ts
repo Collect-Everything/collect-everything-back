@@ -6,6 +6,7 @@ import { CreateCompanyCommand } from "../create-company/create-company.command";
 import { CreateCompanyUseCase } from "../create-company/create-company.usecase";
 import { ConfigureStoreUseCase } from "../configure-store/configure-store.usecase";
 import { ConfigureStoreCommand } from "../configure-store/configure-store.command";
+import { StoreConfiguration } from "../../domain/store-configuration.vo";
 
 export const createCompaniesFixture = () => {
   const idProvider = new StubIDProvider();
@@ -41,10 +42,13 @@ export const createCompaniesFixture = () => {
 
       expect(company).toEqual(expectedCompany);
     },
-    thenStoreShouldBeConfigured: async (expectedCompany: Company) => {
-      const company = await repository.findById(expectedCompany.id);
+    thenStoreShouldBeConfigured: async (
+      id: string,
+      expectedConfiguration: StoreConfiguration,
+    ) => {
+      const company = await repository.findById(id);
 
-      expect(company).toEqual(expectedCompany);
+      expect(company?.storeConfiguration).toEqual(expectedConfiguration);
     },
     thenErrorShouldBe: (error: new (...args: any) => Error) => {
       expect(thrownError).toBeInstanceOf(error);

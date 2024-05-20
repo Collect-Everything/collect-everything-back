@@ -26,4 +26,20 @@ export class PrismaCompanyRepository implements CompanyRepository {
 
     return raw ? CompanyMapper.toDomain(raw) : undefined;
   }
+
+  async findByStoreName(storeName: string) {
+    const raw = await this.client.company.findFirst({
+      where: {
+        storeName,
+      },
+    });
+    return raw ? CompanyMapper.toDomain(raw) : undefined;
+  }
+
+  async findById(id: string) {
+    const raw = await this.client.company.findUnique({
+      where: { id },
+    });
+    return raw ? CompanyMapper.toDomain(raw) : undefined;
+  }
 }

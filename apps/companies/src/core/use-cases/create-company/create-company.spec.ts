@@ -11,7 +11,7 @@ describe("Create Company", () => {
   beforeEach(() => {
     fixture = createCompaniesFixture();
   });
-  test("should create a company", async () => {
+  test("informations are correct, it should create a company", async () => {
     fixture.givenPredefinedID("id-1");
 
     await fixture.whenUserCreatesCompany({

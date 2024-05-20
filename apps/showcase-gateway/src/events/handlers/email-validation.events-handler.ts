@@ -18,7 +18,5 @@ export const registerEmailValidationEvents: Handler = (service) => {
       );
       return;
     }
-
-    logger.info(`Email validated: ${payload.email}`);
   });
 };

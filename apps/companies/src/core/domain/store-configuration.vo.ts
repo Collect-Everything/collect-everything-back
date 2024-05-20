@@ -38,13 +38,12 @@ export class StoreConfiguration extends ValueObject<StoreConfigurationProps> {
     this.validate();
   }
 
-  static fromData(
-    data: StoreConfigurationData,
-  ): StoreConfiguration | undefined {
-    if (!data.storeName) {
-      return undefined;
-    }
-    return new StoreConfiguration(data);
+  static fromData(data: StoreConfigurationData): StoreConfiguration {
+    return new StoreConfiguration({
+      ...data,
+      color: data.color ?? DEFAULT_STORE_COLOR,
+      logo: data.logo ?? DEFAULT_STORE_LOGO,
+    });
   }
 
   private validate() {

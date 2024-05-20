@@ -28,6 +28,7 @@ model Company {
   postalCode       String
   city             String
   country          String
+  storeName String?
   color            String?
   logo             String?
   key_phrases      Json?
