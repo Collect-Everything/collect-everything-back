@@ -30,4 +30,12 @@ export class CompanyUsersService extends GatewayService {
     const handler = this.fetcher.post("/validate-email", { email });
     return this.executeRequest(handler);
   }
+
+  async validateCredentials(email: string, password: string) {
+    const handler = this.fetcher.post("/validate-credentials", {
+      email,
+      password,
+    });
+    return this.executeRequest(handler);
+  }
 }
