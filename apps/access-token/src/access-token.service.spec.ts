@@ -1,5 +1,5 @@
-import { describe, test, beforeEach, expect } from "vitest";
-import { AccessTokenService } from "./access-token.service";
+import { describe, test, expect } from "vitest";
+import { AccessTokenService, InvalidTokenError } from "./access-token.service";
 
 describe("AccessTokenService", () => {
   test("create() - given any payload, it should return a token", () => {
@@ -22,6 +22,25 @@ describe("AccessTokenService", () => {
     expect(verifiedPayload).toEqual({
       ...payload,
       iat: expect.any(Number),
+      exp: expect.any(Number),
     });
+  });
+
+  test("verify() - given an invalid token, it should throw an error", () => {
+    let thrownError: any;
+
+    try {
+      const service = new AccessTokenService("secret");
+
+      const payload = { userId: 1, email: "johndoe@gmail.com" };
+
+      const token = service.create(payload);
+
+      service.verify(token + "invalid");
+    } catch (error) {
+      thrownError = error;
+    }
+
+    expect(thrownError).toBeInstanceOf(InvalidTokenError);
   });
 });

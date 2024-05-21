@@ -1,4 +1,11 @@
 import jwt from "jsonwebtoken";
+
+export class InvalidTokenError extends Error {
+  constructor() {
+    super("Invalid token");
+  }
+}
+
 export class AccessTokenService {
   constructor(private readonly secret: string) {}
 
@@ -9,6 +16,11 @@ export class AccessTokenService {
   }
 
   verify(token: string): any {
-    return jwt.verify(token, this.secret);
+    try {
+      const payload = jwt.verify(token, this.secret);
+      return payload;
+    } catch (error) {
+      throw new InvalidTokenError();
+    }
   }
 }
