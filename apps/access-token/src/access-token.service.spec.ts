@@ -15,11 +15,19 @@ describe("AccessTokenService", () => {
 
     const payload = { userId: 1, email: "johndoe@gmail.com" };
 
-    const token = service.create(payload);
+    const result = service.create(payload);
 
-    const verifiedPayload = service.verify(token);
+    if (result.isErr()) {
+      throw result.error;
+    }
 
-    expect(verifiedPayload).toEqual({
+    const verifyResult = service.verify(result.value);
+
+    if (verifyResult.isErr()) {
+      throw verifyResult.error;
+    }
+
+    expect(verifyResult.value).toEqual({
       ...payload,
       iat: expect.any(Number),
       exp: expect.any(Number),
@@ -29,16 +37,20 @@ describe("AccessTokenService", () => {
   test("verify() - given an invalid token, it should throw an error", () => {
     let thrownError: any;
 
-    try {
-      const service = new AccessTokenService("secret");
+    const service = new AccessTokenService("secret");
 
-      const payload = { userId: 1, email: "johndoe@gmail.com" };
+    const payload = { userId: 1, email: "johndoe@gmail.com" };
 
-      const token = service.create(payload);
+    const createResult = service.create(payload);
 
-      service.verify(token + "invalid");
-    } catch (error) {
-      thrownError = error;
+    if (createResult.isErr()) {
+      throw createResult.error;
+    }
+
+    const verifyResult = service.verify(createResult.value + "invalid");
+
+    if (verifyResult.isErr()) {
+      thrownError = verifyResult.error;
     }
 
     expect(thrownError).toBeInstanceOf(InvalidTokenError);

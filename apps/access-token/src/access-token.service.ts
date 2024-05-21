@@ -1,3 +1,4 @@
+import { Err, Ok, Result } from "@ce/shared-core";
 import jwt from "jsonwebtoken";
 
 export class InvalidTokenError extends Error {
@@ -9,18 +10,20 @@ export class InvalidTokenError extends Error {
 export class AccessTokenService {
   constructor(private readonly secret: string) {}
 
-  create(payload: any): string {
-    return jwt.sign(payload, this.secret, {
-      expiresIn: "1h",
-    });
+  create(payload: any): Result<string, never> {
+    return Ok.of(
+      jwt.sign(payload, this.secret, {
+        expiresIn: "1h",
+      }),
+    );
   }
 
-  verify(token: string): any {
+  verify(token: string): Result<any, InvalidTokenError> {
     try {
       const payload = jwt.verify(token, this.secret);
-      return payload;
+      return Ok.of(payload);
     } catch (error) {
-      throw new InvalidTokenError();
+      return Err.of(new InvalidTokenError());
     }
   }
 }
