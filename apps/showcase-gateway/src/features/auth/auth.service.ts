@@ -1,7 +1,7 @@
 import { EventsService } from "@ce/events";
 import { CompanyUsersService } from "../company-users/company-users.service";
 import { BaseResponse, GatewayService } from "@ce/server-core";
-import { Err } from "@ce/shared-core";
+import { Err, Ok } from "@ce/shared-core";
 
 export class InvalidCredentialsError extends Error {
   constructor() {
@@ -37,9 +37,9 @@ export class AuthService extends GatewayService {
       return Err.of(new Error("Failed to generate token"));
     }
 
-    return {
+    return Ok.of({
       accessToken: tokenResult.value.data.token,
-    };
+    });
   }
 
   private async generateToken(payload: any) {
