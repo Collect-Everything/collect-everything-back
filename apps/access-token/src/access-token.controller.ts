@@ -22,7 +22,7 @@ export class AccessTokenController extends BaseController {
 
       return {
         success: true,
-        data: result.value,
+        data: { token: result.value },
       } satisfies BaseResponse;
     });
 
