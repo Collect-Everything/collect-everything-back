@@ -6,7 +6,6 @@
     "./index.js"
   ],
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "tsup": "^8.0.1"
   }
