@@ -22,7 +22,10 @@ export class AccessTokenController extends BaseController {
 
       return {
         success: true,
-        data: { token: result.value },
+        data: {
+          accessToken: result.value.accessToken,
+          refreshToken: result.value.refreshToken,
+        },
       } satisfies BaseResponse;
     });
 

@@ -1,13 +1,20 @@
 import { EventsService } from "@ce/events";
 import { CompanyUsersService } from "../company-users/company-users.service";
 import { BaseResponse, GatewayService } from "@ce/server-core";
-import { Err, Ok } from "@ce/shared-core";
+import { CompanyUserTokenPayloadSchema, Err, Ok } from "@ce/shared-core";
 
 export class InvalidCredentialsError extends Error {
   constructor() {
     super("Invalid credentials");
   }
 }
+
+export class InvalidTokenPayloadError extends Error {
+  constructor() {
+    super("Invalid token payload");
+  }
+}
+
 export class AuthService extends GatewayService {
   constructor(
     private readonly eventsService: EventsService,
@@ -15,7 +22,7 @@ export class AuthService extends GatewayService {
   ) {
     super("auth", {
       gatewayName: "SHOWCASE_GATEWAY",
-      serviceName: "ACCESS_TOKEN",
+      serviceName: "AUTH",
     });
   }
 
@@ -38,15 +45,59 @@ export class AuthService extends GatewayService {
     }
 
     return Ok.of({
-      accessToken: tokenResult.value.data.token,
+      accessToken: tokenResult.value.data.accessToken,
+      refreshToken: tokenResult.value.data.refreshToken,
     });
   }
 
-  private async generateToken(payload: any) {
-    const handler = this.fetcher.post<BaseResponse<{ token: string }>>(
-      "/create",
-      payload,
+  async loginWithRefreshToken(refreshToken: string) {
+    const payloadResult = await this.verifyToken(refreshToken);
+
+    if (payloadResult.isErr()) {
+      return payloadResult;
+    }
+
+    const userData = payloadResult.value;
+
+    const tokenResult = await this.generateToken(userData);
+
+    if (tokenResult.isErr()) {
+      return Err.of(new Error("Failed to generate token"));
+    }
+
+    return Ok.of({
+      accessToken: tokenResult.value.data.accessToken,
+      refreshToken: tokenResult.value.data.refreshToken,
+    });
+  }
+
+  private async verifyToken(token: string) {
+    const handler = this.fetcher.post<BaseResponse<{ payload: any }>>(
+      "/verify",
+      { token },
     );
+
+    const result = await this.executeRequest(handler);
+
+    if (result.isErr()) {
+      return result;
+    }
+
+    const payloadResult = CompanyUserTokenPayloadSchema.safeParse(
+      result.value.data.payload,
+    );
+
+    if (payloadResult.success) {
+      return Ok.of(payloadResult.data);
+    }
+
+    return Err.of(new InvalidTokenPayloadError());
+  }
+
+  private async generateToken(payload: any) {
+    const handler = this.fetcher.post<
+      BaseResponse<{ accessToken: string; refreshToken: string }>
+    >("/create", payload);
 
     return this.executeRequest(handler);
   }

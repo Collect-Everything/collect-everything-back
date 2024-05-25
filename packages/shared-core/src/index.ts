@@ -7,3 +7,4 @@ export * from "./result";
 export * from "./equatable";
 export * from "./errors";
 export * from "./utils";
+export * from "./company-user";

@@ -30,6 +30,30 @@ export class AuthController extends BaseController {
         success: true,
         data: {
           accessToken: res.value.accessToken,
+          refreshToken: res.value.refreshToken,
+        },
+      } satisfies BaseResponse;
+    });
+
+  loginWithRefreshToken: RequestHandler = async (req, res) =>
+    ctrlWrapper("loginWithRefreshToken", res, async () => {
+      const { refreshToken } = req.body;
+
+      if (!refreshToken) {
+        throw new HttpException(400, "Refresh token is required");
+      }
+
+      const res = await this.authService.loginWithRefreshToken(refreshToken);
+
+      if (res.isErr()) {
+        throw new HttpException(400, res.error.message);
+      }
+
+      return {
+        success: true,
+        data: {
+          accessToken: res.value.accessToken,
+          refreshToken: res.value.refreshToken,
         },
       } satisfies BaseResponse;
     });

@@ -1,7 +1,6 @@
-import { Err, Ok, Result } from "@ce/shared-core";
+import { CompanyUserTokenPayload, Err, Ok, Result } from "@ce/shared-core";
 import { CompanyUserRepository } from "../../ports/company-user.repository";
 import { ValidateCredentialsQuery } from "./validate-credentials.query";
-import { ValidateCredentialsResponse } from "./validate-credentials.response";
 import { PasswordHasher } from "../../ports/password-hasher";
 import { InvalidCredentialsError } from "./valide-credentials.errors";
 
@@ -13,7 +12,7 @@ export class ValidateCredentialsUseCase {
 
   async execute(
     query: ValidateCredentialsQuery,
-  ): Promise<Result<ValidateCredentialsResponse, InvalidCredentialsError>> {
+  ): Promise<Result<CompanyUserTokenPayload, InvalidCredentialsError>> {
     try {
       const companyUser = await this.companyUserRepository.findByEmail(
         query.email,
