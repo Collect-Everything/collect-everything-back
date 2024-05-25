@@ -4,6 +4,6 @@ import { createServiceApp } from "@ce/server-core";
 import { createApiRouter } from "./lib/router";
 import { apiConfig } from "./config/api.config";
 
-export const app = createServiceApp("ACCESS_TOKEN", createApiRouter, apiConfig);
+export const app = createServiceApp("AUTH", createApiRouter, apiConfig);
 
 app.start();

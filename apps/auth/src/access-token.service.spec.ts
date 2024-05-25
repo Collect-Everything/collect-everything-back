@@ -2,12 +2,17 @@ import { describe, test, expect } from "vitest";
 import { AccessTokenService, InvalidTokenError } from "./access-token.service";
 
 describe("AccessTokenService", () => {
-  test("create() - given any payload, it should return a token", () => {
+  test("create() - given any payload, it should return access and refresh tokens", () => {
     const service = new AccessTokenService("secret");
 
-    const token = service.create({ userId: 1, email: "johndoe@gmail.com" });
+    const res = service.create({ userId: 1, email: "johndoe@gmail.com" });
 
-    expect(token).not.toBeUndefined();
+    if (res.isErr()) {
+      throw res.error;
+    }
+
+    expect(res.value.accessToken).toBeDefined();
+    expect(res.value.refreshToken).toBeDefined();
   });
 
   test("verify() - given a valid token, it should return the payload", () => {
@@ -21,7 +26,7 @@ describe("AccessTokenService", () => {
       throw result.error;
     }
 
-    const verifyResult = service.verify(result.value);
+    const verifyResult = service.verify(result.value.refreshToken);
 
     if (verifyResult.isErr()) {
       throw verifyResult.error;

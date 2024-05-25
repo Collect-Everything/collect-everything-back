@@ -41,7 +41,9 @@ export class AccessTokenController extends BaseController {
       }
       return {
         success: true,
-        data: result.value,
+        data: {
+          payload: result.value,
+        },
       } satisfies BaseResponse;
     });
 }

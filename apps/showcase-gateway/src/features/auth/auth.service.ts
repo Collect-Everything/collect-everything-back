@@ -33,8 +33,6 @@ export class AuthService extends GatewayService {
 
     const tokenResult = await this.generateToken(userData);
 
-    console.log("tokenResult", tokenResult);
-
     if (tokenResult.isErr()) {
       return Err.of(new Error("Failed to generate token"));
     }

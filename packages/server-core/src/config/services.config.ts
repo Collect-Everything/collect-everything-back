@@ -16,7 +16,7 @@ const SERVICES = [
   "COMPANY_CUSTOMERS",
   "COMPANY_CUSTOMERS_INVOICES",
   "CART_AND_ORDERS",
-  "ACCESS_TOKEN",
+  "AUTH",
   "EMAIL_VALIDATION",
 ] as const;
 
@@ -63,8 +63,8 @@ export const SERVICES_CONFIG: Record<Service, ServiceConfig> = {
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
-  ACCESS_TOKEN: {
-    port: getPortFromEnv("ACCESS_TOKEN"),
+  AUTH: {
+    port: getPortFromEnv("AUTH"),
     basePath: "/api/v1",
     allowedGateways: ["ADMIN_GATEWAY", "SHOWCASE_GATEWAY", "STORE_GATEWAY"],
   },
