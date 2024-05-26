@@ -6,7 +6,7 @@
     "clean": "rm -rf dist",
     "dev": "tsx --watch ./src/index.ts",
     "start": "node ./dist/index.js",
-    "build": "tsup src/index.ts --minify --format cjs --out-dir dist",
+    "build": "tsup",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
     "test": "vitest",
     "clean:logs": "rm -rf logs"
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@ce/eslint-config": "*",
+    "@ce/tsup-config": "*",
     "@ce/typescript-config": "*",
     "@types/bcrypt": "^5.0.2",
     "@types/body-parser": "^1.19.5",
@@ -39,6 +40,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.10.6",
     "eslint": "^8.56.0",
+    "tsup": "^8.0.2",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3",
     "vitest": "^1.6.0"

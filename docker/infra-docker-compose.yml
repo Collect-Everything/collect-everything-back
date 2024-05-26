@@ -1,4 +1,4 @@
-version: "3"
+version: "4"
 
 services:
   mysql:
@@ -30,3 +30,4 @@ volumes:
 
 networks:
   ce_network:
+    name: ce_network
