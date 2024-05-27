@@ -13,6 +13,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "docs": "cd docs && yarn start",
+    "fix-deps": "manypkg fix",
     "clean": "turbo run clean",
     "clean:logs": "turbo run clean:logs",
     "dev:packages": "dotenv -- turbo run dev --filter='./packages/*'",
@@ -40,13 +42,11 @@
     "start:showcase-gateway": "dotenv -- turbo run start --filter=showcase-gateway...",
     "db:push": "dotenv -- turbo run db:push",
     "db:generate": "dotenv -- turbo run db:generate",
-    "db:studio": "dotenv -- turbo run db:studio",
-    "docs": "cd docs && yarn start",
-    "fix-deps": "manypkg fix"
+    "db:studio": "dotenv -- turbo run db:studio"
   },
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "yarn@4.2.2",
   "engines": {
-    "node": ">=14.0.0",
+    "node": ">=18.0.0",
     "npm": ">=7.0.0"
   },
   "dependencies": {

@@ -11,6 +11,16 @@ services:
     restart: always
     networks:
       - ce_network
+  companies:
+    container_name: companies
+    build:
+      context: ../
+      dockerfile: ./apps/companies/Dockerfile
+    ports:
+      - ${COMPANIES_PORT}:${COMPANIES_PORT}
+    restart: always
+    networks:
+      - ce_network
 
 networks:
   ce_network:
