@@ -11,6 +11,8 @@ const EnvSchema = z.object({
   dbPassword: z.string().default("password"),
   dbName: z.string().default("ce_users"),
   jwtSecret: z.string().default("secret"),
+  redisPass: z.string(),
+  redisPort: z.coerce.number().default(6379),
 });
 
 const ENV_MAP = {
@@ -22,6 +24,8 @@ const ENV_MAP = {
   dbPassword: process.env.DB_PASSWORD,
   dbName: process.env.DB_NAME,
   jwtSecret: process.env.JWT_SECRET,
+  redisPass: process.env.REDIS_PASS,
+  redisPort: process.env.REDIS_PORT,
 };
 
 export const env = EnvSchema.parse(ENV_MAP);

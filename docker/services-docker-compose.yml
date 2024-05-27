@@ -21,6 +21,19 @@ services:
     restart: always
     networks:
       - ce_network
+  email-validation:
+    container_name: email-validation
+    build:
+      context: ../
+      dockerfile: ./apps/email-validation/Dockerfile
+    ports:
+      - ${EMAIL_VALIDATION_PORT}:${EMAIL_VALIDATION_PORT}
+    restart: always
+    environment:
+      REDIS_PASS: ${REDIS_PASS}
+      REDIS_PORT: ${REDIS_PORT}
+    networks:
+      - ce_network
 
 networks:
   ce_network:
