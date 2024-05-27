@@ -1996,6 +1996,7 @@ __metadata:
   dependencies:
     "@ce/logger": "npm:*"
     "@ce/typescript-config": "npm:*"
+    tsup: "npm:^8.0.2"
     typescript: "npm:^5.3.3"
     vitest: "npm:^1.6.0"
   languageName: unknown

@@ -1,13 +1,19 @@
 {
   "name": "@ce/events",
   "version": "1.0.0",
-  "main": "./index.ts",
-  "types": "./index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
     "test": "vitest"
   },
   "devDependencies": {
     "@ce/typescript-config": "*",
+    "tsup": "^8.0.2",
     "typescript": "^5.3.3",
     "vitest": "^1.6.0"
   },
