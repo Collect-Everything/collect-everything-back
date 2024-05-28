@@ -1,12 +1,12 @@
 {
-  "name": "access-token",
+  "name": "auth",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "clean": "rm -rf dist",
     "dev": "tsx --watch ./src/index.ts",
     "start": "node ./dist/index.js",
-    "build": "tsup src/index.ts --minify --format cjs --out-dir dist",
+    "build": "tsup",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
     "test": "vitest",
     "clean:logs": "rm -rf logs"
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@ce/eslint-config": "*",
+    "@ce/tsup-config": "*",
     "@ce/typescript-config": "*",
     "@types/body-parser": "^1.19.5",
     "@types/express": "^4.17.21",
@@ -32,6 +33,7 @@
     "@types/node": "^20.10.6",
     "@types/uuid": "^9.0.8",
     "eslint": "^8.56.0",
+    "tsup": "^8.0.2",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3",
     "vitest": "^1.6.0"

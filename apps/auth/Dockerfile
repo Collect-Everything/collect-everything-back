@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:21-alpine3.17 AS base
 
 # The web Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
 # Make sure you update this Dockerfile, the Dockerfile in the web workspace and copy that over to Dockerfile in the docs.
@@ -11,7 +11,7 @@ RUN apk update
 WORKDIR /app
 RUN yarn global add turbo
 COPY . .
-RUN turbo prune company-users --docker
+RUN turbo prune auth --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
@@ -37,7 +37,7 @@ COPY .env .env
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-RUN yarn turbo build --filter=company-users...
+RUN yarn turbo build --filter=auth...
 
 FROM base AS runner
 WORKDIR /app
@@ -55,4 +55,4 @@ USER expressjs
 COPY --from=installer /app .
 
 
-CMD node apps/company-users/dist/index.js
+CMD node apps/auth/dist/index.js
