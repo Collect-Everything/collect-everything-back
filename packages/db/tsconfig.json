@@ -1,12 +1,5 @@
 {
   "extends": "@ce/typescript-config/base.json",
-  "compilerOptions": {
-    "lib": ["ES2015"],
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext"
-  },
-  "include": ["src"],
+  "include": ["**/*.ts", "**/*.tsx", "tsup.config.ts"],
   "exclude": ["node_modules"]
 }
