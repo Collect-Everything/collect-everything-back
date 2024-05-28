@@ -1,4 +1,14 @@
 services:
+  showcase-gateway:
+    container_name: showcase-gateway
+    build:
+      context: ../
+      dockerfile: ./apps/showcase-gateway/Dockerfile
+    ports:
+      - ${SHOWCASE_GATEWAY_PORT}:${SHOWCASE_GATEWAY_PORT}
+    restart: always
+    networks:
+      - ce_network
   company-users:
     container_name: company-users
     build:
