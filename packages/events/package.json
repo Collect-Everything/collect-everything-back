@@ -8,8 +8,7 @@
   ],
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup",
-    "test": "vitest"
+    "build": "tsup"
   },
   "devDependencies": {
     "@ce/typescript-config": "*",

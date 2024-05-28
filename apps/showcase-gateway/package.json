@@ -8,7 +8,6 @@
     "start": "node -r esbuild-register ./dist/index.js",
     "build": "tsup",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
-    "test": "vitest",
     "clean:logs": "rm -rf logs"
   },
   "dependencies": {
@@ -33,6 +32,7 @@
     "swagger-ui-express": "^5.0.0",
     "tsup": "^8.0.2",
     "tsx": "^4.7.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.6.0"
   }
 }
