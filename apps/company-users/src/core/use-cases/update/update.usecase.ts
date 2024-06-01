@@ -1,6 +1,7 @@
 import { Err, Ok } from "@ce/shared-core";
 import { CompanyUserRepository } from "../../ports/company-user.repository";
 import { UpdateCommand } from "./update.command";
+import { CompanyUserNotFoundError } from "./update.errors";
 
 export class UpdateUseCase {
   constructor(private readonly repository: CompanyUserRepository) {}
@@ -9,7 +10,7 @@ export class UpdateUseCase {
     const companyUser = await this.repository.findById(command.id);
 
     if (!companyUser) {
-      return Err.of(undefined);
+      return Err.of(new CompanyUserNotFoundError());
     }
 
     companyUser.update({
