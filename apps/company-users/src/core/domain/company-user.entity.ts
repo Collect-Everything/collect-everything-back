@@ -74,6 +74,28 @@ export class CompanyUser extends Entity<CompanyUserProps, string> {
     return this._props.emailVerified || false;
   }
 
+  update(data: {
+    email?: string;
+    firstname?: string;
+    lastname?: string;
+    role?: CompanyUserRole;
+  }) {
+    if (data.email) {
+      this._props.email = data.email;
+      this._props.emailVerified = false;
+    }
+    if (data.firstname) {
+      this._props.firstname = data.firstname;
+    }
+    if (data.lastname) {
+      this._props.lastname = data.lastname;
+    }
+    if (data.role) {
+      this._props.role = data.role;
+    }
+    this.validate();
+  }
+
   validateEmail() {
     this._props.emailVerified = true;
   }

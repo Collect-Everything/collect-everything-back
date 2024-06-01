@@ -26,7 +26,7 @@ describe("Create company user", () => {
       role: "ADMIN",
     });
 
-    await fixture.thenCompanyUserShouldBeRegistered(
+    await fixture.thenCompanyUserShouldBe(
       CompanyUser.fromData({
         id: "id-1",
         email: "johndoe@gmail.com",

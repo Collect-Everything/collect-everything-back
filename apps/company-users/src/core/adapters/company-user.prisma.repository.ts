@@ -43,4 +43,11 @@ export class PrismaCompanyUserRepository implements CompanyUserRepository {
 
     return raw ? CompanyUserMapper.toDomain(raw) : null;
   }
+
+  async findById(id: string): Promise<CompanyUser | null> {
+    const raw = await this.prisma.companyUser.findUnique({
+      where: { id },
+    });
+    return raw ? CompanyUserMapper.toDomain(raw) : null;
+  }
 }

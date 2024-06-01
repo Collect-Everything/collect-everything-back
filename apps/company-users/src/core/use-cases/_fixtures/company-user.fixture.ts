@@ -9,6 +9,8 @@ import { ValidateEmailUseCase } from "../validate-email/validate-email.usecase";
 import { ValidateCredentialsQuery } from "../validate-credentials/validate-credentials.query";
 import { ValidateCredentialsUseCase } from "../validate-credentials/validate-credentials.usecase";
 import { ValidateCredentialsResponse } from "../validate-credentials/validate-credentials.response";
+import { UpdateUseCase } from "../update/update.usecase";
+import { UpdateCommand } from "../update/update.command";
 
 export const createCompanyUserFixture = () => {
   const idProvider = new StubIdProvider();
@@ -24,6 +26,7 @@ export const createCompanyUserFixture = () => {
     repository,
     passwordHasher,
   );
+  const updateUseCase = new UpdateUseCase(repository);
 
   let thrownError: any;
 
@@ -57,8 +60,14 @@ export const createCompanyUserFixture = () => {
         returnedUser = result.value;
       }
     },
+    whenUpdatingCompanyUser: async (command: UpdateCommand) => {
+      const result = await updateUseCase.execute(command);
+      if (result.isErr()) {
+        thrownError = result.error;
+      }
+    },
 
-    thenCompanyUserShouldBeRegistered: async (expected: CompanyUser) => {
+    thenCompanyUserShouldBe: async (expected: CompanyUser) => {
       const companyUser = await repository.findById(expected.id);
 
       expect(companyUser).toEqual(expected);
