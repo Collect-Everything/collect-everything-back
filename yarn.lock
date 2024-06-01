@@ -17296,6 +17296,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"store-gateway@workspace:apps/store-gateway":
+  version: 0.0.0-use.local
+  resolution: "store-gateway@workspace:apps/store-gateway"
+  dependencies:
+    "@ce/db": "npm:*"
+    "@ce/eslint-config": "npm:*"
+    "@ce/events": "npm:*"
+    "@ce/logger": "npm:*"
+    "@ce/server-core": "npm:*"
+    "@ce/shared-core": "npm:*"
+    "@ce/tsup-config": "npm:*"
+    "@ce/typescript-config": "npm:*"
+    "@types/body-parser": "npm:^1.19.5"
+    "@types/express": "npm:^4.17.21"
+    "@types/node": "npm:^20.10.6"
+    body-parser: "npm:^1.20.2"
+    eslint: "npm:^8.56.0"
+    express: "npm:^4.18.2"
+    swagger-jsdoc: "npm:^6.2.8"
+    swagger-ui-express: "npm:^5.0.0"
+    tsup: "npm:^8.0.2"
+    tsx: "npm:^4.7.1"
+    typescript: "npm:^5.3.3"
+    vitest: "npm:^1.6.0"
+    zod: "npm:^3.23.8"
+  languageName: unknown
+  linkType: soft
+
 "streamsearch@npm:^1.1.0":
   version: 1.1.0
   resolution: "streamsearch@npm:1.1.0"

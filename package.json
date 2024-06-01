@@ -43,6 +43,9 @@
     "dev:showcase-gateway": "dotenv -- turbo run dev --filter=showcase-gateway",
     "build:showcase-gateway": "turbo run build --filter=showcase-gateway...",
     "start:showcase-gateway": "dotenv -- turbo run start --filter=showcase-gateway...",
+    "dev:store-gateway": "dotenv -- turbo run dev --filter=store-gateway",
+    "build:store-gateway": "turbo run build --filter=store-gateway...",
+    "start:store-gateway": "dotenv -- turbo run start --filter=store-gateway...",
     "db:push": "dotenv -- turbo run db:push",
     "db:generate": "dotenv -- turbo run db:generate",
     "db:studio": "dotenv -- turbo run db:studio"
