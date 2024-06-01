@@ -56,4 +56,10 @@ export class PrismaCompanyUserRepository implements CompanyUserRepository {
       where: { id },
     });
   }
+
+  async countAdminsForCompany(companyId: string): Promise<number> {
+    return this.prisma.companyUser.count({
+      where: { companyId, role: "ADMIN" },
+    });
+  }
 }

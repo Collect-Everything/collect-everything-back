@@ -26,4 +26,10 @@ export class InMemoryCompanyUserRepository implements CompanyUserRepository {
   async delete(id: string): Promise<void> {
     this.companyUsers = this.companyUsers.filter((c) => c.id !== id);
   }
+
+  async countAdminsForCompany(companyId: string): Promise<number> {
+    return this.companyUsers.filter(
+      (c) => c.companyId === companyId && c.role === "ADMIN",
+    ).length;
+  }
 }

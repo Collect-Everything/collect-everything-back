@@ -13,13 +13,11 @@ import { UpdateCommand } from "../update/update.command";
 import { CompanyUserTokenPayload } from "@ce/shared-core";
 import { DeleteCommand } from "../delete/delete.command";
 import { DeleteUseCase } from "../delete/delete.usecase";
-import { InMemoryCompanyRepository } from "../../adapters/company.inmemory.repository";
 
 export const createCompanyUserFixture = () => {
   const idProvider = new StubIdProvider();
   const passwordHasher = new StubPasswordHasher();
   const companyUserRepository = new InMemoryCompanyUserRepository();
-  const companyRepository = new InMemoryCompanyRepository();
   const registerUseCase = new RegisterUseCase(
     companyUserRepository,
     idProvider,
@@ -31,10 +29,7 @@ export const createCompanyUserFixture = () => {
     passwordHasher,
   );
   const updateUseCase = new UpdateUseCase(companyUserRepository);
-  const deleteUseCase = new DeleteUseCase(
-    companyUserRepository,
-    companyRepository,
-  );
+  const deleteUseCase = new DeleteUseCase(companyUserRepository);
 
   let thrownError: any;
 

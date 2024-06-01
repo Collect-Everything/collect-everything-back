@@ -5,4 +5,5 @@ export interface CompanyUserRepository {
   findByEmail(email: string): Promise<CompanyUser | null>;
   findById(id: string): Promise<CompanyUser | null>;
   delete: (id: string) => Promise<void>;
+  countAdminsForCompany: (companyId: string) => Promise<number>;
 }

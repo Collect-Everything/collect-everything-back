@@ -2,14 +2,10 @@ import { Err, Ok } from "@ce/shared-core";
 import { CompanyUserRepository } from "../../ports/company-user.repository";
 import { DeleteCommand } from "./delete.command";
 import { CompanyUserNotFoundError } from "../../errors/company-user-not-found";
-import { CompanyRepository } from "../../ports/company.repository";
 import { LastAdminError } from "./delete.errors";
 
 export class DeleteUseCase {
-  constructor(
-    private readonly companyUserRepository: CompanyUserRepository,
-    private readonly companyRepository: CompanyRepository,
-  ) {}
+  constructor(private readonly companyUserRepository: CompanyUserRepository) {}
 
   async execute(command: DeleteCommand) {
     const companyUser = await this.companyUserRepository.findById(command.id);
@@ -19,7 +15,7 @@ export class DeleteUseCase {
     }
 
     if (companyUser.role === "ADMIN") {
-      const adminCount = await this.companyRepository.countAdmins(
+      const adminCount = await this.companyUserRepository.countAdminsForCompany(
         companyUser.companyId,
       );
 
