@@ -22,4 +22,8 @@ export class InMemoryCompanyUserRepository implements CompanyUserRepository {
   async findByEmail(email: string): Promise<CompanyUser | null> {
     return this.companyUsers.find((c) => c.email === email) || null;
   }
+
+  async delete(id: string): Promise<void> {
+    this.companyUsers = this.companyUsers.filter((c) => c.id !== id);
+  }
 }

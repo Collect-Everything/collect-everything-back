@@ -50,4 +50,10 @@ export class PrismaCompanyUserRepository implements CompanyUserRepository {
     });
     return raw ? CompanyUserMapper.toDomain(raw) : null;
   }
+
+  async delete(id: string): Promise<void> {
+    await this.prisma.companyUser.delete({
+      where: { id },
+    });
+  }
 }

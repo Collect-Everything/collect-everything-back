@@ -11,22 +11,30 @@ import { ValidateCredentialsUseCase } from "../validate-credentials/validate-cre
 import { UpdateUseCase } from "../update/update.usecase";
 import { UpdateCommand } from "../update/update.command";
 import { CompanyUserTokenPayload } from "@ce/shared-core";
+import { DeleteCommand } from "../delete/delete.command";
+import { DeleteUseCase } from "../delete/delete.usecase";
+import { InMemoryCompanyRepository } from "../../adapters/company.inmemory.repository";
 
 export const createCompanyUserFixture = () => {
   const idProvider = new StubIdProvider();
   const passwordHasher = new StubPasswordHasher();
-  const repository = new InMemoryCompanyUserRepository();
+  const companyUserRepository = new InMemoryCompanyUserRepository();
+  const companyRepository = new InMemoryCompanyRepository();
   const registerUseCase = new RegisterUseCase(
-    repository,
+    companyUserRepository,
     idProvider,
     passwordHasher,
   );
-  const validateEmailUseCase = new ValidateEmailUseCase(repository);
+  const validateEmailUseCase = new ValidateEmailUseCase(companyUserRepository);
   const validateCredentialsUseCase = new ValidateCredentialsUseCase(
-    repository,
+    companyUserRepository,
     passwordHasher,
   );
-  const updateUseCase = new UpdateUseCase(repository);
+  const updateUseCase = new UpdateUseCase(companyUserRepository);
+  const deleteUseCase = new DeleteUseCase(
+    companyUserRepository,
+    companyRepository,
+  );
 
   let thrownError: any;
 
@@ -36,7 +44,7 @@ export const createCompanyUserFixture = () => {
       idProvider.id = id;
     },
     givenSomeCompanyUsers: (companyUsers: CompanyUser[]) => {
-      repository.companyUsers = companyUsers;
+      companyUserRepository.companyUsers = companyUsers;
     },
     whenRegisteringCompanyUser: async (command: RegisterCommand) => {
       const result = await registerUseCase.execute(command);
@@ -66,19 +74,30 @@ export const createCompanyUserFixture = () => {
         thrownError = result.error;
       }
     },
+    whenDeletingCompanyUser: async (command: DeleteCommand) => {
+      const result = await deleteUseCase.execute(command);
+      if (result.isErr()) {
+        thrownError = result.error;
+      }
+    },
 
     thenCompanyUserShouldBe: async (expected: CompanyUser) => {
-      const companyUser = await repository.findById(expected.id);
+      const companyUser = await companyUserRepository.findById(expected.id);
 
       expect(companyUser).toEqual(expected);
     },
     thenCompanyUserShouldBeValidated: async (id: string) => {
-      const companyUser = await repository.findById(id);
+      const companyUser = await companyUserRepository.findById(id);
 
       expect(companyUser?.isVerified).toBe(true);
     },
     thenShouldReturnUser: (expected: CompanyUserTokenPayload) => {
       expect(returnedUser).toEqual(expected);
+    },
+    thenCompanyUserShouldBeDeleted: async (id: string) => {
+      const companyUser = await companyUserRepository.findById(id);
+
+      expect(companyUser).toBeNull();
     },
 
     thenErrorShouldBe: (error: new (...args: any[]) => Error) => {
