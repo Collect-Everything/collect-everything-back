@@ -3,6 +3,7 @@ import { CompanyUserRouter } from "./company-user.router";
 import { PrismaCompanyUserRepository } from "./core/adapters/company-user.prisma.repository";
 import { RealIDProvider } from "./core/adapters/real-id-provider";
 import { RealPasswordHasher } from "./core/adapters/real-password-hasher";
+import { DeleteUseCase } from "./core/use-cases/delete/delete.usecase";
 import { RegisterUseCase } from "./core/use-cases/register/register.usecase";
 import { UpdateUseCase } from "./core/use-cases/update/update.usecase";
 import { ValidateCredentialsUseCase } from "./core/use-cases/validate-credentials/validate-credentials.usecase";
@@ -28,12 +29,14 @@ const validateCredentialsUseCase = new ValidateCredentialsUseCase(
 );
 
 const updateUseCase = new UpdateUseCase(companyUserRepository);
+const deleteUseCase = new DeleteUseCase(companyUserRepository);
 
 const companyUserController = new CompanyUserController(
   registerUseCase,
   validateEmailUseCase,
   validateCredentialsUseCase,
   updateUseCase,
+  deleteUseCase,
 );
 
 const companyUserRouter = new CompanyUserRouter(companyUserController).router;

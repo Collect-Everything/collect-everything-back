@@ -13,6 +13,7 @@ import { EmailAlreadyVerifiedError } from "./core/use-cases/validate-email/valid
 import { ValidateCredentialsUseCase } from "./core/use-cases/validate-credentials/validate-credentials.usecase";
 import { UpdateUseCase } from "./core/use-cases/update/update.usecase";
 import { CompanyUserNotFoundError } from "./core/errors/company-user-not-found";
+import { DeleteUseCase } from "./core/use-cases/delete/delete.usecase";
 
 export class CompanyUserController extends BaseController {
   constructor(
@@ -20,6 +21,7 @@ export class CompanyUserController extends BaseController {
     private readonly validateEmailUseCase: ValidateEmailUseCase,
     private readonly validateCredentialsUseCase: ValidateCredentialsUseCase,
     private readonly updateUseCase: UpdateUseCase,
+    private readonly deleteUseCase: DeleteUseCase,
   ) {
     super("CompanyUser");
   }
@@ -103,6 +105,26 @@ export class CompanyUserController extends BaseController {
         throw new HttpException(400, "Id is required");
       }
       const result = await this.updateUseCase.execute({ id, ...body });
+      if (result.isErr()) {
+        if (result.error instanceof CompanyUserNotFoundError) {
+          throw new HttpException(404, "Company user not found");
+        }
+        throw new HttpException(500, "Internal server error", [result.error]);
+      }
+      return {
+        status: 200,
+        success: true,
+        data: {},
+      } satisfies BaseResponse;
+    });
+
+  delete: RequestHandler = async (req, res) =>
+    ctrlWrapper("delete", res, async () => {
+      const id = req.params.id;
+      if (!id) {
+        throw new HttpException(400, "Id is required");
+      }
+      const result = await this.deleteUseCase.execute({ id });
       if (result.isErr()) {
         if (result.error instanceof CompanyUserNotFoundError) {
           throw new HttpException(404, "Company user not found");

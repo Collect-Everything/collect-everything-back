@@ -17,5 +17,8 @@ export class CompanyUserRouter extends BaseRouter {
       "/validate-credentials",
       this.controller.validateCredentials,
     );
+
+    this.router.patch("/:id", this.controller.update);
+    this.router.delete("/:id", this.controller.delete);
   }
 }
