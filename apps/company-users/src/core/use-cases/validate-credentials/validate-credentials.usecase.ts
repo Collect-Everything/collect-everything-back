@@ -4,6 +4,11 @@ import { ValidateCredentialsQuery } from "./validate-credentials.query";
 import { PasswordHasher } from "../../ports/password-hasher";
 import { InvalidCredentialsError } from "./valide-credentials.errors";
 
+export type ValidateCredentialsResponse = Result<
+  CompanyUserTokenPayload,
+  InvalidCredentialsError
+>;
+
 export class ValidateCredentialsUseCase {
   constructor(
     private companyUserRepository: CompanyUserRepository,
@@ -12,7 +17,7 @@ export class ValidateCredentialsUseCase {
 
   async execute(
     query: ValidateCredentialsQuery,
-  ): Promise<Result<CompanyUserTokenPayload, InvalidCredentialsError>> {
+  ): Promise<ValidateCredentialsResponse> {
     try {
       const companyUser = await this.companyUserRepository.findByEmail(
         query.email,

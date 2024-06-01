@@ -8,9 +8,9 @@ import { StubPasswordHasher } from "../../adapters/stub-password-hasher";
 import { ValidateEmailUseCase } from "../validate-email/validate-email.usecase";
 import { ValidateCredentialsQuery } from "../validate-credentials/validate-credentials.query";
 import { ValidateCredentialsUseCase } from "../validate-credentials/validate-credentials.usecase";
-import { ValidateCredentialsResponse } from "../validate-credentials/validate-credentials.response";
 import { UpdateUseCase } from "../update/update.usecase";
 import { UpdateCommand } from "../update/update.command";
+import { CompanyUserTokenPayload } from "@ce/shared-core";
 
 export const createCompanyUserFixture = () => {
   const idProvider = new StubIdProvider();
@@ -30,7 +30,7 @@ export const createCompanyUserFixture = () => {
 
   let thrownError: any;
 
-  let returnedUser: ValidateCredentialsResponse | null = null;
+  let returnedUser: CompanyUserTokenPayload | null = null;
   return {
     givenPredefinedId: (id: string) => {
       idProvider.id = id;
@@ -77,7 +77,7 @@ export const createCompanyUserFixture = () => {
 
       expect(companyUser?.isVerified).toBe(true);
     },
-    thenShouldReturnUser: (expected: ValidateCredentialsResponse) => {
+    thenShouldReturnUser: (expected: CompanyUserTokenPayload) => {
       expect(returnedUser).toEqual(expected);
     },
 
