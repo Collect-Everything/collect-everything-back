@@ -9,17 +9,17 @@ import { RequestHandler } from "express";
 import { RegisterCommand } from "./core/use-cases/register/register.command";
 import { EmailAlreadyTakenError } from "./core/use-cases/register/register.errors";
 import { ValidateEmailUseCase } from "./core/use-cases/validate-email/validate-email.usecase";
-import {
-  CompanyUserNotFoundError,
-  EmailAlreadyVerifiedError,
-} from "./core/use-cases/validate-email/validate-email.errors";
+import { EmailAlreadyVerifiedError } from "./core/use-cases/validate-email/validate-email.errors";
 import { ValidateCredentialsUseCase } from "./core/use-cases/validate-credentials/validate-credentials.usecase";
+import { UpdateUseCase } from "./core/use-cases/update/update.usecase";
+import { CompanyUserNotFoundError } from "./core/errors/company-user-not-found";
 
 export class CompanyUserController extends BaseController {
   constructor(
     private readonly registerUseCase: RegisterUseCase,
     private readonly validateEmailUseCase: ValidateEmailUseCase,
     private readonly validateCredentialsUseCase: ValidateCredentialsUseCase,
+    private readonly updateUseCase: UpdateUseCase,
   ) {
     super("CompanyUser");
   }
@@ -92,6 +92,27 @@ export class CompanyUserController extends BaseController {
         status: 200,
         success: true,
         data: result.value,
+      } satisfies BaseResponse;
+    });
+
+  update: RequestHandler = async (req, res) =>
+    ctrlWrapper("update", res, async () => {
+      const id = req.params.id;
+      const body = req.body;
+      if (!id) {
+        throw new HttpException(400, "Id is required");
+      }
+      const result = await this.updateUseCase.execute({ id, ...body });
+      if (result.isErr()) {
+        if (result.error instanceof CompanyUserNotFoundError) {
+          throw new HttpException(404, "Company user not found");
+        }
+        throw new HttpException(500, "Internal server error", [result.error]);
+      }
+      return {
+        status: 200,
+        success: true,
+        data: {},
       } satisfies BaseResponse;
     });
 }

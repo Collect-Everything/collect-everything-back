@@ -1,10 +1,8 @@
 import { Err, Ok, Result } from "@ce/shared-core";
 import { CompanyUserRepository } from "../../ports/company-user.repository";
 import { ValidateEmailCommand } from "./validate-email.command";
-import {
-  CompanyUserNotFoundError,
-  EmailAlreadyVerifiedError,
-} from "./validate-email.errors";
+import { EmailAlreadyVerifiedError } from "./validate-email.errors";
+import { CompanyUserNotFoundError } from "../../errors/company-user-not-found";
 
 export class ValidateEmailUseCase {
   constructor(private companyUserRepository: CompanyUserRepository) {}
@@ -15,7 +13,7 @@ export class ValidateEmailUseCase {
       );
 
       if (!companyUser) {
-        return Err.of(new CompanyUserNotFoundError(command.email));
+        return Err.of(new CompanyUserNotFoundError());
       }
 
       if (companyUser.isVerified) {

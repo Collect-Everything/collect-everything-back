@@ -4,7 +4,7 @@ import {
   createCompanyUserFixture,
 } from "../_fixtures/company-user.fixture";
 import { CompanyUser } from "../../domain/company-user.entity";
-import { CompanyUserNotFoundError } from "./update.errors";
+import { CompanyUserNotFoundError } from "../../errors/company-user-not-found";
 
 describe("Update company user", () => {
   let fixture: CompanyUserFixture;

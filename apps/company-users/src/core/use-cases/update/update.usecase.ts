@@ -1,7 +1,7 @@
 import { Err, Ok } from "@ce/shared-core";
 import { CompanyUserRepository } from "../../ports/company-user.repository";
 import { UpdateCommand } from "./update.command";
-import { CompanyUserNotFoundError } from "./update.errors";
+import { CompanyUserNotFoundError } from "../../errors/company-user-not-found";
 
 export class UpdateUseCase {
   constructor(private readonly repository: CompanyUserRepository) {}
