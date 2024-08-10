@@ -3,7 +3,7 @@ import {
   CompaniesFixture,
   createCompaniesFixture,
 } from "../_fixtures/companies-fixture";
-import { Company } from "../../domain/company.entity";
+import { Company, CompanyData } from "../../domain/company.entity";
 import {
   DEFAULT_STORE_COLOR,
   DEFAULT_STORE_LOGO,
@@ -14,7 +14,7 @@ import {
   StoreNameAlreadyExistsError,
 } from "./configure-store.errors";
 
-const testCompanyData = {
+const testCompanyData: CompanyData = {
   id: "1",
   name: "Company 1",
   phone: "123456789",
@@ -25,6 +25,8 @@ const testCompanyData = {
   postalCode: "12345",
   city: "City",
   country: "Country",
+  subscriptionStatus: "FREE_TRIAL",
+  subscriptionUpdatedAt: new Date("2024-08-10"),
 };
 
 describe("Configure Store", () => {
@@ -37,6 +39,7 @@ describe("Configure Store", () => {
   });
 
   test("All informations are correct, it should save the configuration", async () => {
+    fixture.givenNowIs(new Date("2024-08-10"));
     fixture.givenSomeCompanies([
       Company.fromData({
         id: "id-1",
@@ -49,6 +52,8 @@ describe("Configure Store", () => {
         postalCode: "12345",
         city: "City",
         country: "Country",
+        subscriptionStatus: "FREE_TRIAL",
+        subscriptionUpdatedAt: new Date("2024-08-10"),
       }),
     ]);
 
@@ -82,6 +87,8 @@ describe("Configure Store", () => {
         postalCode: "12345",
         city: "City",
         country: "Country",
+        subscriptionStatus: "FREE_TRIAL",
+        subscriptionUpdatedAt: new Date("2024-08-10"),
       }),
     ]);
 
@@ -114,6 +121,8 @@ describe("Configure Store", () => {
         postalCode: "12345",
         city: "City",
         country: "Country",
+        subscriptionStatus: "FREE_TRIAL",
+        subscriptionUpdatedAt: new Date("2024-08-10"),
       }),
     ]);
 
@@ -150,6 +159,8 @@ describe("Configure Store", () => {
           color: "#FFFFFF",
           logo: "/logo.png",
         },
+        subscriptionStatus: "FREE_TRIAL",
+        subscriptionUpdatedAt: new Date("2024-08-10"),
       }),
     ]);
 

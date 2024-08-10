@@ -50,6 +50,8 @@ export interface CompanyData {
 
 export type CompanyProps = z.infer<typeof CompanyPropsSchema>;
 
+const DAYS_OF_FREE_TRIAL = 14;
+
 export class Company extends Entity<CompanyProps, string> {
   constructor(props: CompanyProps) {
     super(props);
@@ -65,6 +67,17 @@ export class Company extends Entity<CompanyProps, string> {
     return this._props.email;
   }
 
+  get subscriptionStatus(): SubscriptionStatus {
+    if (
+      this._props.subscriptionStatus === "FREE_TRIAL" &&
+      this.isFreeTrialExpired()
+    ) {
+      return "EXPIRED";
+    }
+
+    return this._props.subscriptionStatus;
+  }
+
   get data(): CompanyData {
     return {
       ...this._props,
@@ -75,6 +88,13 @@ export class Company extends Entity<CompanyProps, string> {
 
   get storeConfiguration(): StoreConfiguration | undefined {
     return this._props.storeConfiguration ?? undefined;
+  }
+
+  isFreeTrialExpired(now = new Date()) {
+    const subscriptionUpdatedAt = this._props.subscriptionUpdatedAt;
+    const diff = now.getTime() - subscriptionUpdatedAt.getTime();
+    const diffInDays = diff / (1000 * 3600 * 24);
+    return diffInDays > DAYS_OF_FREE_TRIAL;
   }
 
   configureStore(data: StoreConfigurationData) {
