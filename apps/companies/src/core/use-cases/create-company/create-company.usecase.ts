@@ -24,6 +24,7 @@ export class CreateCompanyUseCase {
       const company = Company.fromData({
         id: this.idProvider.generate(),
         ...command,
+        subscriptionStatus: "FREE_TRIAL",
       });
 
       await this.companyRepository.save(company);

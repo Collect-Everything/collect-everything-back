@@ -38,6 +38,7 @@ describe("Create Company", () => {
         postalCode: "12345",
         city: "City",
         country: "Country",
+        subscriptionStatus: "FREE_TRIAL",
       }),
     );
   });
@@ -55,6 +56,7 @@ describe("Create Company", () => {
         postalCode: "12345",
         city: "City",
         country: "Country",
+        subscriptionStatus: "FREE_TRIAL",
       }),
     ]);
 

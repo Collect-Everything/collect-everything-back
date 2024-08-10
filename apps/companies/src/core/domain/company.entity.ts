@@ -5,6 +5,15 @@ import {
   StoreConfigurationData,
 } from "./store-configuration.vo";
 
+const SUBSCRIPTION_STATUS = [
+  "FREE_TRIAL",
+  "ACTIVE",
+  "CANCELED",
+  "EXPIRED",
+] as const;
+export type SubscriptionStatus = (typeof SUBSCRIPTION_STATUS)[number];
+export const SubscriptionStatus = z.enum(SUBSCRIPTION_STATUS);
+
 const CompanyPropsSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -18,6 +27,7 @@ const CompanyPropsSchema = z.object({
   country: z.string(),
   siret: z.string().nullish(),
   storeConfiguration: z.instanceof(StoreConfiguration).nullish(),
+  subscriptionStatus: SubscriptionStatus.default("FREE_TRIAL"),
 });
 
 export interface CompanyData {
@@ -31,6 +41,7 @@ export interface CompanyData {
   postalCode: string;
   city: string;
   country: string;
+  subscriptionStatus: SubscriptionStatus;
   siret?: string;
   storeConfiguration?: StoreConfigurationData;
 }
