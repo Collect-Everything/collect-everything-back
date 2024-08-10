@@ -4,6 +4,7 @@ import {
   createProductsFixture,
 } from "../_fixtures/products-fixture";
 import { Category } from "../../domain/category.entity";
+import { CategoryAlreadyExistsError } from "./create-category.errors";
 
 describe("Feature: Create Category", () => {
   let fixture: ProductsFixture;
@@ -24,5 +25,21 @@ describe("Feature: Create Category", () => {
         name: "Vegetables",
       }),
     );
+  });
+
+  test("A category with the same name cannot be created", async () => {
+    fixture.givenSomeCategories([
+      Category.fromData({
+        id: "id-1",
+        name: "Vegetables",
+      }),
+    ]);
+    fixture.givenPredefinedId("id-1");
+
+    await fixture.whenCompanyCreatesCategory({
+      name: "Vegetables",
+    });
+
+    fixture.thenErrorShouldBe(CategoryAlreadyExistsError);
   });
 });

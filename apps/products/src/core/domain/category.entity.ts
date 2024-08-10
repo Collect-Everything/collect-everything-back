@@ -15,6 +15,10 @@ export class Category extends Entity<CategoryProps, string> {
     this.validate();
   }
 
+  get name() {
+    return this._props.name;
+  }
+
   static fromData(data: CategoryProps) {
     return new Category(data);
   }

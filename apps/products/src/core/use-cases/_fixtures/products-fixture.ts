@@ -18,6 +18,9 @@ export const createProductsFixture = () => {
     givenPredefinedId: (id: string) => {
       idProvider.id = id;
     },
+    givenSomeCategories: (categories: Category[]) => {
+      categoryRepository.categories = categories;
+    },
     whenCompanyCreatesCategory: async (command: CreateCategoryCommand) => {
       const result = await createCategoryUseCase.execute(command);
 
@@ -31,7 +34,7 @@ export const createProductsFixture = () => {
       );
       expect(category).toEqual(expectedCategory);
     },
-    thenErrorShouldBe: (expectedError: new () => Error) => {
+    thenErrorShouldBe: (expectedError: new (...args: any[]) => Error) => {
       expect(thrownError).toBeInstanceOf(expectedError);
     },
   };

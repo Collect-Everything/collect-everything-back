@@ -1,7 +1,8 @@
-import { IdProvider, Ok, Result } from "@ce/shared-core";
+import { Err, IdProvider, Ok, Result } from "@ce/shared-core";
 import { CreateCategoryCommand } from "./create-category.command";
 import { CategoryRepository } from "../../ports/category.repository";
 import { Category } from "../../domain/category.entity";
+import { CategoryAlreadyExistsError } from "./create-category.errors";
 
 export class CreateCategoryUseCase {
   constructor(
@@ -10,6 +11,14 @@ export class CreateCategoryUseCase {
   ) {}
 
   async execute(command: CreateCategoryCommand): Promise<Result<void, Error>> {
+    const categoryExists = await this.categoryRepository.findByName(
+      command.name,
+    );
+
+    if (categoryExists) {
+      return Err.of(new CategoryAlreadyExistsError(command.name));
+    }
+
     const category = Category.fromData({
       id: this.idProvider.generate(),
       name: command.name,
