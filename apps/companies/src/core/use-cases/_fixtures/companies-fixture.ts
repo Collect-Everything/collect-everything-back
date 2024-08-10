@@ -1,16 +1,15 @@
 import { expect } from "vitest";
 import { InMemoryCompanyRepository } from "../../adapters/company.in-memory.repository";
-import { StubIDProvider } from "../../adapters/stub-id-provider";
 import { Company } from "../../domain/company.entity";
 import { CreateCompanyCommand } from "../create-company/create-company.command";
 import { CreateCompanyUseCase } from "../create-company/create-company.usecase";
 import { ConfigureStoreUseCase } from "../configure-store/configure-store.usecase";
 import { ConfigureStoreCommand } from "../configure-store/configure-store.command";
 import { StoreConfiguration } from "../../domain/store-configuration.vo";
-import { StubDateProvider } from "../../adapters/stub-date-provider";
+import { StubDateProvider, StubIdProvider } from "@ce/shared-core";
 
 export const createCompaniesFixture = () => {
-  const idProvider = new StubIDProvider();
+  const idProvider = new StubIdProvider();
   const dateProvider = new StubDateProvider();
   const repository = new InMemoryCompanyRepository();
 
