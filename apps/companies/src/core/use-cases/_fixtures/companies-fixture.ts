@@ -7,18 +7,27 @@ import { CreateCompanyUseCase } from "../create-company/create-company.usecase";
 import { ConfigureStoreUseCase } from "../configure-store/configure-store.usecase";
 import { ConfigureStoreCommand } from "../configure-store/configure-store.command";
 import { StoreConfiguration } from "../../domain/store-configuration.vo";
+import { StubDateProvider } from "../../adapters/stub-date-provider";
 
 export const createCompaniesFixture = () => {
   const idProvider = new StubIDProvider();
+  const dateProvider = new StubDateProvider();
   const repository = new InMemoryCompanyRepository();
 
-  const createCompanyUseCase = new CreateCompanyUseCase(repository, idProvider);
+  const createCompanyUseCase = new CreateCompanyUseCase(
+    repository,
+    idProvider,
+    dateProvider,
+  );
   const configureStoreUseCase = new ConfigureStoreUseCase(repository);
 
   let thrownError: any;
   return {
     givenPredefinedID: (id: string) => {
       idProvider.id = id;
+    },
+    givenNowIs: (date: Date) => {
+      dateProvider.date = date;
     },
     givenSomeCompanies: async (companies: Company[]) => {
       repository.companies = companies;

@@ -13,6 +13,7 @@ describe("Create Company", () => {
   });
   test("informations are correct, it should create a company", async () => {
     fixture.givenPredefinedID("id-1");
+    fixture.givenNowIs(new Date("2024-08-10"));
 
     await fixture.whenUserCreatesCompany({
       name: "Company 1",
@@ -39,6 +40,7 @@ describe("Create Company", () => {
         city: "City",
         country: "Country",
         subscriptionStatus: "FREE_TRIAL",
+        subscriptionUpdatedAt: new Date("2024-08-10"),
       }),
     );
   });
@@ -57,6 +59,7 @@ describe("Create Company", () => {
         city: "City",
         country: "Country",
         subscriptionStatus: "FREE_TRIAL",
+        subscriptionUpdatedAt: new Date("2024-08-10"),
       }),
     ]);
 

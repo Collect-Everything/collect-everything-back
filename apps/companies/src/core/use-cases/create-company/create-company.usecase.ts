@@ -4,11 +4,13 @@ import { CompanyRepository } from "../../ports/company.repository";
 import { IDProvider } from "../../ports/id-provider";
 import { CreateCompanyCommand } from "./create-company.command";
 import { CompanyAlreadyExistsError } from "./create-company.errors";
+import { DateProvider } from "../../ports/date-provider";
 
 export class CreateCompanyUseCase {
   constructor(
     private readonly companyRepository: CompanyRepository,
     private readonly idProvider: IDProvider,
+    private readonly dateProvider: DateProvider,
   ) {}
 
   async execute(command: CreateCompanyCommand) {
@@ -25,6 +27,7 @@ export class CreateCompanyUseCase {
         id: this.idProvider.generate(),
         ...command,
         subscriptionStatus: "FREE_TRIAL",
+        subscriptionUpdatedAt: this.dateProvider.now(),
       });
 
       await this.companyRepository.save(company);

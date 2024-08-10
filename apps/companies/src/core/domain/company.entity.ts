@@ -28,6 +28,7 @@ const CompanyPropsSchema = z.object({
   siret: z.string().nullish(),
   storeConfiguration: z.instanceof(StoreConfiguration).nullish(),
   subscriptionStatus: SubscriptionStatus.default("FREE_TRIAL"),
+  subscriptionUpdatedAt: z.date(),
 });
 
 export interface CompanyData {
@@ -42,6 +43,7 @@ export interface CompanyData {
   city: string;
   country: string;
   subscriptionStatus: SubscriptionStatus;
+  subscriptionUpdatedAt: Date;
   siret?: string;
   storeConfiguration?: StoreConfigurationData;
 }
