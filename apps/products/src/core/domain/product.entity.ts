@@ -1,10 +1,31 @@
 import { Entity, EntityValidationError } from "@ce/shared-core";
 import { z } from "zod";
+import { Category } from "./category.entity";
+
+const PRODUCT_CONDITIONING = ["unit"] as const;
+export type ProductConditioning = (typeof PRODUCT_CONDITIONING)[number];
+export const ProductConditioningSchema = z.enum(PRODUCT_CONDITIONING);
+
+const PRODUCT_UNITIES = ["unit", "kg", "g", "L", "ml"] as const;
+export type ProductUnity = (typeof PRODUCT_UNITIES)[number];
+export const ProductUnitySchema = z.enum(PRODUCT_UNITIES);
+
+const PRODUCT_SIZE = ["small", "medium", "large", "extra-large"] as const;
+export type ProductSize = (typeof PRODUCT_SIZE)[number];
+export const ProductSizeSchema = z.enum(PRODUCT_SIZE);
 
 const ProductPropsSchema = z.object({
   id: z.string(),
+  companyId: z.string(),
+  category: z.instanceof(Category),
   name: z.string(),
   price: z.number().min(0),
+  description: z.string().optional(),
+  image: z.string().optional(),
+  stock: z.number().min(0),
+  conditioning: ProductConditioningSchema,
+  unity: ProductUnitySchema,
+  size: ProductSizeSchema.optional(),
 });
 
 export type ProductProps = z.infer<typeof ProductPropsSchema>;
@@ -14,6 +35,18 @@ export class Product extends Entity<ProductProps, string> {
     super(props);
 
     this.validate();
+  }
+
+  get companyId() {
+    return this._props.companyId;
+  }
+
+  get category() {
+    return this._props.category;
+  }
+
+  get name() {
+    return this._props.name;
   }
 
   static fromData(data: ProductProps): Product {

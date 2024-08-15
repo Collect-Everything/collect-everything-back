@@ -8,6 +8,8 @@ import { InMemoryProductRepository } from "../../adapters/product.inmemory.repos
 import { CreateProductUseCase } from "../create-product/create-product.usecase";
 import { Product } from "../../domain/product.entity";
 import { CreateProductCommand } from "../create-product/create-product.command";
+import { ListProductsUseCase } from "../list-products/list-products.usecase";
+import { ListProductsQuery } from "../list-products/list-products.query";
 
 export const createProductsFixture = () => {
   const idProvider = new StubIdProvider();
@@ -19,10 +21,13 @@ export const createProductsFixture = () => {
   );
   const createProductUseCase = new CreateProductUseCase(
     productRepository,
+    categoryRepository,
     idProvider,
   );
+  const listProductsUseCase = new ListProductsUseCase(productRepository);
 
   let thrownError: any;
+  let listedProducts: Product[] = [];
   return {
     givenPredefinedId: (id: string) => {
       idProvider.id = id;
@@ -47,6 +52,15 @@ export const createProductsFixture = () => {
         thrownError = result.error;
       }
     },
+    whenListingsProducts: async (query: ListProductsQuery) => {
+      const result = await listProductsUseCase.execute(query);
+
+      if (result.isErr()) {
+        thrownError = result.error;
+      }
+
+      listedProducts = result.value;
+    },
     thenCategoryShouldBe: (expectedCategory: Category) => {
       const category = categoryRepository.categories.find(
         (c) => c.id === expectedCategory.id,
@@ -58,6 +72,9 @@ export const createProductsFixture = () => {
         (p) => p.id === expectedProduct.id,
       );
       expect(product).toEqual(expectedProduct);
+    },
+    thenListedProductsAre: (expectedProducts: Product[]) => {
+      expect(listedProducts).toEqual(expectedProducts);
     },
     thenErrorShouldBe: (expectedError: new (...args: any[]) => Error) => {
       expect(thrownError).toBeInstanceOf(expectedError);
