@@ -1,6 +1,5 @@
 import { Handler } from "@ce/events";
 import { companyUsersService } from "../../dependency-injection";
-import { logger } from "@ce/logger";
 
 export const EMAIL_VERIFIED_EVENT = "email/verified";
 
@@ -13,7 +12,7 @@ export const registerEmailValidationEvents: Handler = (service) => {
     const result = await companyUsersService.validateEmail(payload.email);
 
     if (result.isErr()) {
-      logger.error(
+      console.error(
         `Failed to validate email: ${payload.email} - ${result.error.message}`,
       );
       return;

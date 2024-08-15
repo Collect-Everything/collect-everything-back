@@ -1,4 +1,3 @@
-import { logger } from "@ce/logger";
 import { Handler, ServerEvent } from "@ce/events";
 import { emailValidationService } from "../../dependency-injection";
 
@@ -24,7 +23,7 @@ export const registerCompanyUsersEvents: Handler = (service) => {
       );
 
       if (result.isErr()) {
-        logger.error("Failed to send validation email : " + result.error);
+        console.error("Failed to send validation email : " + result.error);
 
         service.send(
           ServerEvent.create({
@@ -34,7 +33,7 @@ export const registerCompanyUsersEvents: Handler = (service) => {
         );
       }
 
-      logger.info(`Validation email sent to ${payload.email}`);
+      console.info(`Validation email sent to ${payload.email}`);
     },
   );
 };

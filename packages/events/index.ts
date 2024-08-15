@@ -1,5 +1,3 @@
-import { logger } from "@ce/logger";
-
 export class ServerEvent<T = undefined> {
   type: string;
   payload: T;
@@ -31,7 +29,7 @@ export class EventsService {
   }
 
   send<T>(event: ServerEvent<T>) {
-    logger.info(`[EVENTS SERVICE] - ${event.type}`);
+    console.info(`[EVENTS SERVICE] - ${event.type}`);
     const listeners = [
       ...this.allListeners,
       ...(this.listeners[event.type] ?? []),
@@ -42,7 +40,7 @@ export class EventsService {
           try {
             listeners[i](event.payload);
           } catch (error) {
-            logger.error("[EVENTS SERVICE]" + error);
+            console.error("[EVENTS SERVICE]" + error);
           }
         }
       });

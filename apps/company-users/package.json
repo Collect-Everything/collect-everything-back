@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@ce/db": "*",
-    "@ce/logger": "*",
     "@ce/server-core": "*",
     "@ce/shared-core": "*",
     "bcrypt": "^5.1.1",

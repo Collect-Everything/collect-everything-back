@@ -2,16 +2,15 @@
   "name": "@ce/logger",
   "version": "0.0.0",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "./dist/**"
+    "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "clean": "rm -rf dist",
-    "dev": "tsc --watch",
-    "lint": "eslint \"src/**/*.ts*\" --max-warnings 0"
+    "dev": "tsup --watch",
+    "build": "tsup --external pino --external pino-http --external pino-pretty",
+    "test": "vitest"
   },
   "devDependencies": {
     "@ce/eslint-config": "*",

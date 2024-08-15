@@ -1,5 +1,4 @@
 import { Handler } from "@ce/events";
-import { logger } from "@ce/logger";
 
 export const EMAIL_VERIFIED_EVENT = "email/verified";
 
