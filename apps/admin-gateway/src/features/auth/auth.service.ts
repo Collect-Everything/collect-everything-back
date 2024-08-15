@@ -1,7 +1,7 @@
 import { EventsService } from "@ce/events";
-import { CompanyUsersService } from "../company-users/company-users.service";
 import { BaseResponse, GatewayService } from "@ce/server-core";
 import { CompanyUserTokenPayloadSchema, Err, Ok } from "@ce/shared-core";
+import { AdminUsersService } from "../admin-users/admin-users.service";
 
 export class InvalidCredentialsError extends Error {
   constructor() {
@@ -18,7 +18,7 @@ export class InvalidTokenPayloadError extends Error {
 export class AuthService extends GatewayService {
   constructor(
     private readonly eventsService: EventsService,
-    private readonly companyUsersService: CompanyUsersService,
+    private readonly adminUsersService: AdminUsersService,
   ) {
     super("auth", {
       gatewayName: "ADMIN_GATEWAY",
@@ -27,7 +27,7 @@ export class AuthService extends GatewayService {
   }
 
   async login(email: string, password: string) {
-    const validateResult = await this.companyUsersService.validateCredentials(
+    const validateResult = await this.adminUsersService.validateCredentials(
       email,
       password,
     );
