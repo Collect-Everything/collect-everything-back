@@ -11,7 +11,9 @@ export class CreateProductUseCase {
     private readonly categoryRepository: CategoryRepository,
     private readonly idProvider: IdProvider,
   ) {}
-  async execute(command: CreateProductCommand): Promise<Result<void, Error>> {
+  async execute(
+    command: CreateProductCommand,
+  ): Promise<Result<{ productId: string }, Error>> {
     const category = await this.categoryRepository.findById(command.categoryId);
 
     if (!category) {
@@ -34,6 +36,6 @@ export class CreateProductUseCase {
 
     await this.productRepository.save(product);
 
-    return Ok.of(undefined);
+    return Ok.of({ productId: product.id });
   }
 }

@@ -10,7 +10,9 @@ export class CreateCategoryUseCase {
     private readonly idProvider: IdProvider,
   ) {}
 
-  async execute(command: CreateCategoryCommand): Promise<Result<void, Error>> {
+  async execute(
+    command: CreateCategoryCommand,
+  ): Promise<Result<{ categoryId: string }, Error>> {
     const categoryExists = await this.categoryRepository.findByName(
       command.name,
     );
@@ -26,6 +28,6 @@ export class CreateCategoryUseCase {
 
     await this.categoryRepository.save(category);
 
-    return Ok.of(undefined);
+    return Ok.of({ categoryId: category.id });
   }
 }
