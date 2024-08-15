@@ -11,6 +11,7 @@ RUN apk update
 WORKDIR /app
 RUN yarn global add turbo
 COPY . .
+
 RUN turbo prune admin-gateway --docker
 
 # Add lockfile and package.json's of isolated subworkspace

@@ -1,7 +1,19 @@
 {
   "folders": [
-    { "name": "companies-service", "path": "./apps/companies" },
-    { "name": "shared-core", "path": "./packages/shared-core" },
-    { "name": "showcase-gateway", "path": "./apps/showcase-gateway" },
+    {
+      "name": "companies-service",
+      "path": "./apps/companies"
+    },
+    {
+      "name": "shared-core",
+      "path": "./packages/shared-core"
+    },
+    {
+      "name": "showcase-gateway",
+      "path": "./apps/showcase-gateway"
+    },
+    {
+      "path": "apps/admin-gateway"
+    }
   ],
 }

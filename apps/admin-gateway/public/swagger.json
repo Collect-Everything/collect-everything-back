@@ -10,7 +10,7 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "showcase-gateway",
+		"title": "admin-gateway",
 		"version": "0.0.0",
 		"contact": {}
 	},
