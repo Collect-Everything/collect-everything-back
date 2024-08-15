@@ -5,6 +5,7 @@ import { CreateCategoryUseCase } from "./core/use-cases/create-category/create-c
 import { CreateProductUseCase } from "./core/use-cases/create-product/create-product.usecase";
 import { DeleteProductUseCase } from "./core/use-cases/delete-product/delete-product.usecase";
 import { GetProductUseCase } from "./core/use-cases/get-product/get-product.usecase";
+import { ListCategoriesUseCase } from "./core/use-cases/list-categories/list-categories.usecase";
 import { ListProductsUseCase } from "./core/use-cases/list-products/list-products.usecase";
 import { UpdateProductUseCase } from "./core/use-cases/update-product/update-product.usecase";
 import { client } from "./lib/db";
@@ -20,6 +21,7 @@ const createCategoryUseCase = new CreateCategoryUseCase(
   categoryRepository,
   idProvider,
 );
+const listCategoriesUseCase = new ListCategoriesUseCase(categoryRepository);
 const createProductUseCase = new CreateProductUseCase(
   productRepository,
   categoryRepository,
@@ -36,6 +38,7 @@ export const productsController = new ProductsController(
   getProductUseCase,
   updateProductUseCase,
   deleteProductUseCase,
+  listCategoriesUseCase,
 );
 
 const productsRouter = new ProductsRouter(productsController).router;

@@ -17,29 +17,15 @@ describe("Feature: Create Category", () => {
 
     await fixture.whenCompanyCreatesCategory({
       name: "Vegetables",
+      companyId: "id-1",
     });
 
     fixture.thenCategoryShouldBe(
       Category.fromData({
         id: "id-1",
         name: "Vegetables",
+        companyId: "id-1",
       }),
     );
-  });
-
-  test("A category with the same name cannot be created", async () => {
-    fixture.givenSomeCategories([
-      Category.fromData({
-        id: "id-1",
-        name: "Vegetables",
-      }),
-    ]);
-    fixture.givenPredefinedId("id-1");
-
-    await fixture.whenCompanyCreatesCategory({
-      name: "Vegetables",
-    });
-
-    fixture.thenErrorShouldBe(CategoryAlreadyExistsError);
   });
 });

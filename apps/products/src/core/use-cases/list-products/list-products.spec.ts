@@ -16,6 +16,7 @@ describe("Feature: List Products", () => {
     const category = Category.fromData({
       id: "id-1",
       name: "Vegetables",
+      companyId: "id-1",
     });
     fixture.givenSomeCategories([category]);
     fixture.givenSomeProducts([
@@ -81,10 +82,12 @@ describe("Feature: List Products", () => {
     const category = Category.fromData({
       id: "id-1",
       name: "Vegetables",
+      companyId: "id-1",
     });
     const category2 = Category.fromData({
       id: "id-2",
       name: "Fruits",
+      companyId: "id-1",
     });
     fixture.givenSomeCategories([category, category2]);
     fixture.givenSomeProducts([

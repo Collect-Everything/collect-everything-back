@@ -16,6 +16,8 @@ import { UpdateProductUseCase } from "../update-product/update-product.usecase";
 import { UpdateProductCommand } from "../update-product/update-product.command";
 import { DeleteProductUseCase } from "../delete-product/delete-product.usecase";
 import { DeleteProductCommand } from "../delete-product/delete-product.command";
+import { ListCategoriesUseCase } from "../list-categories/list-categories.usecase";
+import { ListCategoriesQuery } from "../list-categories/list-categories.query";
 
 export const createProductsFixture = () => {
   const idProvider = new StubIdProvider();
@@ -25,6 +27,7 @@ export const createProductsFixture = () => {
     categoryRepository,
     idProvider,
   );
+  const listCategoriesUseCase = new ListCategoriesUseCase(categoryRepository);
   const createProductUseCase = new CreateProductUseCase(
     productRepository,
     categoryRepository,
@@ -37,6 +40,7 @@ export const createProductsFixture = () => {
 
   let thrownError: any;
   let listedProducts: Product[] = [];
+  let listedCategories: Category[] = [];
   let gottenProduct: Product;
   return {
     givenPredefinedId: (id: string) => {
@@ -96,6 +100,15 @@ export const createProductsFixture = () => {
         thrownError = result.error;
       }
     },
+    whenListingCategories: async (query: ListCategoriesQuery) => {
+      const result = await listCategoriesUseCase.execute(query);
+
+      if (result.isErr()) {
+        thrownError = result.error;
+      }
+
+      listedCategories = result.value;
+    },
     thenCategoryShouldBe: (expectedCategory: Category) => {
       const category = categoryRepository.categories.find(
         (c) => c.id === expectedCategory.id,
@@ -110,6 +123,9 @@ export const createProductsFixture = () => {
     },
     thenListedProductsAre: (expectedProducts: Product[]) => {
       expect(listedProducts).toEqual(expectedProducts);
+    },
+    thenListedCategoriesAre: (expectedCategories: Category[]) => {
+      expect(listedCategories).toEqual(expectedCategories);
     },
     thenGottenProductIs: (expectedProduct: Product) => {
       expect(gottenProduct).toEqual(expectedProduct);

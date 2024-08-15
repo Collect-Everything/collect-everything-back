@@ -13,17 +13,10 @@ export class CreateCategoryUseCase {
   async execute(
     command: CreateCategoryCommand,
   ): Promise<Result<{ categoryId: string }, Error>> {
-    const categoryExists = await this.categoryRepository.findByName(
-      command.name,
-    );
-
-    if (categoryExists) {
-      return Err.of(new CategoryAlreadyExistsError(command.name));
-    }
-
     const category = Category.fromData({
       id: this.idProvider.generate(),
       name: command.name,
+      companyId: command.companyId,
     });
 
     await this.categoryRepository.save(category);

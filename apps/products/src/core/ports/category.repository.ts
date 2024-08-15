@@ -1,7 +1,12 @@
 import { Category } from "../domain/category.entity";
 
+export interface CategoriesFilters {
+  companyId?: string;
+  categoryId?: string;
+}
+
 export interface CategoryRepository {
   save(category: Category): Promise<void>;
-  findByName(name: string): Promise<Category | null>;
   findById(id: string): Promise<Category | null>;
+  findAll(filters?: CategoriesFilters): Promise<Category[]>;
 }

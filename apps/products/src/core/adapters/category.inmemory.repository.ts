@@ -1,5 +1,8 @@
 import { Category } from "../domain/category.entity";
-import { CategoryRepository } from "../ports/category.repository";
+import {
+  CategoriesFilters,
+  CategoryRepository,
+} from "../ports/category.repository";
 
 export class InMemoryCategoryRepository implements CategoryRepository {
   categories: Category[] = [];
@@ -11,5 +14,13 @@ export class InMemoryCategoryRepository implements CategoryRepository {
   }
   async findById(id: string): Promise<Category | null> {
     return this.categories.find((c) => c.id === id) || null;
+  }
+
+  async findAll(filters?: CategoriesFilters) {
+    return this.categories.filter((c) => {
+      if (filters?.companyId && c.companyId !== filters.companyId) return false;
+      if (filters?.categoryId && c.id !== filters.categoryId) return false;
+      return true;
+    });
   }
 }

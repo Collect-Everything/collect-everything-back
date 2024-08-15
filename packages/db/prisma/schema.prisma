@@ -44,6 +44,7 @@ model Company {
   updatedAt        DateTime          @default(now())
 
   products Product[]
+  categories ProductCategory[]
 
   @@unique([email])
 }
@@ -92,6 +93,8 @@ model Order {
 
 model ProductCategory {
   id String @id
+  company Company @relation(fields: [companyId], references: [id])
+  companyId String
   name     String
   products Product[]
 }

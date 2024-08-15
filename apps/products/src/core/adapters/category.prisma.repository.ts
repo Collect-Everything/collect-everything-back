@@ -1,5 +1,8 @@
 import { PrismaClient } from "@ce/db";
-import { CategoryRepository } from "../ports/category.repository";
+import {
+  CategoriesFilters,
+  CategoryRepository,
+} from "../ports/category.repository";
 import { Category } from "../domain/category.entity";
 
 export class PrismaCategoryRepository implements CategoryRepository {
@@ -9,7 +12,13 @@ export class PrismaCategoryRepository implements CategoryRepository {
     await this.prisma.productCategory.upsert({
       where: { id: category.id },
       update: { name: category.name },
-      create: { id: category.id, name: category.name },
+      create: {
+        id: category.id,
+        name: category.name,
+        company: {
+          connect: { id: category.companyId },
+        },
+      },
     });
   }
 
@@ -18,14 +27,25 @@ export class PrismaCategoryRepository implements CategoryRepository {
       where: { id },
     });
     if (!category) return null;
-    return Category.fromData({ id: category.id, name: category.name });
+    return Category.fromData({
+      id: category.id,
+      name: category.name,
+      companyId: category.companyId,
+    });
   }
 
-  async findByName(name: string): Promise<Category | null> {
-    const category = await this.prisma.productCategory.findUnique({
-      where: { name },
+  async findAll(categoriesFilters?: CategoriesFilters) {
+    const categories = await this.prisma.productCategory.findMany({
+      where: {
+        companyId: categoriesFilters?.companyId,
+      },
     });
-    if (!category) return null;
-    return Category.fromData({ id: category.id, name: category.name });
+    return categories.map((category) =>
+      Category.fromData({
+        id: category.id,
+        name: category.name,
+        companyId: category.companyId,
+      }),
+    );
   }
 }

@@ -4,6 +4,7 @@ import { z } from "zod";
 export const CategoryPropsSchema = z.object({
   id: z.string(),
   name: z.string(),
+  companyId: z.string(),
 });
 
 export type CategoryProps = z.infer<typeof CategoryPropsSchema>;
@@ -13,6 +14,10 @@ export class Category extends Entity<CategoryProps, string> {
     super(props);
 
     this.validate();
+  }
+
+  get companyId() {
+    return this._props.companyId;
   }
 
   get name() {

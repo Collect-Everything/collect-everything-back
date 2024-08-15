@@ -17,6 +17,7 @@ describe("Feature: Create Category", () => {
       const category = new Category({
         id: "id-1",
         name: "Vegetables",
+        companyId: "id-1",
       });
 
       fixture.givenPredefinedId("id-1");
