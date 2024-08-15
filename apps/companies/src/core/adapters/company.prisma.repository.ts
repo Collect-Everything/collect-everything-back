@@ -2,6 +2,7 @@ import { PrismaClient } from "@ce/db";
 import { CompanyRepository } from "../ports/company.repository";
 import { Company } from "../domain/company.entity";
 import { CompanyMapper } from "../mappers/company.mapper";
+import { PaginatedParams } from "@ce/shared-core";
 
 export class PrismaCompanyRepository implements CompanyRepository {
   constructor(private readonly client: PrismaClient) {}
@@ -41,5 +42,21 @@ export class PrismaCompanyRepository implements CompanyRepository {
       where: { id },
     });
     return raw ? CompanyMapper.toDomain(raw) : undefined;
+  }
+
+  async findAllPaginated(params: PaginatedParams) {
+    const rawCompanies = await this.client.company.findMany({
+      skip: (params.page - 1) * params.limit,
+      take: params.limit,
+    });
+
+    const companies = rawCompanies.map((raw) => CompanyMapper.toDomain(raw));
+
+    return {
+      data: companies,
+      page: params.page,
+      limit: params.limit,
+      total: await this.client.company.count(),
+    };
   }
 }

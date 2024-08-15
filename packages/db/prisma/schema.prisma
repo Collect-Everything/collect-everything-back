@@ -17,6 +17,13 @@ model Admin {
   updatedAt DateTime @default(now())
 }
 
+enum SubscriptionStatus {
+    FREE_TRIAL
+    ACTIVE
+    CANCELED
+    EXPIRED
+  }
+
 model Company {
   id String @id
   name             String
@@ -40,6 +47,8 @@ model Company {
   externalUrl      String?
   companyCustomers CompanyCustomer[]
   companyUsers     CompanyUser[]
+  subscriptionStatus SubscriptionStatus
+  subscriptionUpdatedAt DateTime
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @default(now())
 
