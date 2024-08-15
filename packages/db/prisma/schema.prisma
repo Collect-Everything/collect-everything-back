@@ -43,6 +43,8 @@ model Company {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @default(now())
 
+  products Product[]
+
   @@unique([email])
 }
 
@@ -87,3 +89,27 @@ model Order {
   CompanyCustomer   CompanyCustomer? @relation(fields: [companyCustomerId], references: [id])
   companyCustomerId String?
 }
+
+model ProductCategory {
+  id String @id
+  name     String
+  products Product[]
+}
+
+model Product {
+    id String @id
+    name String
+    description String?
+    price Float
+    image String?
+    category ProductCategory @relation(fields: [categoryId], references: [id])
+    categoryId String
+    company Company @relation(fields: [companyId], references: [id])
+    companyId String
+    conditioning String
+    stock Int
+    size String?
+    unity String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+  }

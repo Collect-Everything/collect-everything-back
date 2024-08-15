@@ -19,6 +19,13 @@ export class Category extends Entity<CategoryProps, string> {
     return this._props.name;
   }
 
+  get data() {
+    return {
+      id: this.id,
+      name: this.name,
+    };
+  }
+
   static fromData(data: CategoryProps) {
     return new Category(data);
   }

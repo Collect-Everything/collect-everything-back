@@ -39,6 +39,20 @@ interface UpdateProductProps {
   size?: ProductSize;
 }
 
+interface ProductData {
+  id: string;
+  companyId: string;
+  category: Category;
+  name: string;
+  price: number;
+  description?: string;
+  image?: string;
+  stock: number;
+  conditioning: string;
+  unity: string;
+  size?: string;
+}
+
 export type ProductProps = z.infer<typeof ProductPropsSchema>;
 
 export class Product extends Entity<ProductProps, string> {
@@ -60,6 +74,22 @@ export class Product extends Entity<ProductProps, string> {
     return this._props.name;
   }
 
+  get data() {
+    return {
+      id: this.id,
+      companyId: this.companyId,
+      category: this.category.data,
+      name: this.name,
+      price: this._props.price,
+      description: this._props.description,
+      image: this._props.image,
+      stock: this._props.stock,
+      conditioning: this._props.conditioning,
+      unity: this._props.unity,
+      size: this._props.size,
+    };
+  }
+
   update(props: UpdateProductProps) {
     this._props = {
       ...this._props,
@@ -68,8 +98,25 @@ export class Product extends Entity<ProductProps, string> {
     this.validate();
   }
 
-  static fromData(data: ProductProps): Product {
-    return new Product(data);
+  static fromData(data: ProductData): Product {
+    const conditioningResult = ProductConditioningSchema.parse(
+      data.conditioning,
+    );
+    const unityResult = ProductUnitySchema.parse(data.unity);
+    const sizeResult = ProductSizeSchema.optional().parse(data.size);
+    return new Product({
+      id: data.id,
+      companyId: data.companyId,
+      category: data.category,
+      name: data.name,
+      price: data.price,
+      description: data.description,
+      image: data.image,
+      stock: data.stock,
+      conditioning: conditioningResult,
+      unity: unityResult,
+      size: sizeResult,
+    });
   }
 
   validate() {

@@ -9,6 +9,11 @@ export class ProductsRouter extends BaseRouter {
   }
 
   initRoutes(): void {
-    //this.router.post("/create", [], this.controller.create);
+    this.router.post("/category", [], this.controller.createCategory);
+    this.router.post("/product", [], this.controller.createProduct);
+    this.router.get("/products", [], this.controller.listProducts);
+    this.router.get("/product/:id", [], this.controller.getProduct);
+    this.router.put("/product/:id", [], this.controller.updateProduct);
+    this.router.delete("/product/:id", [], this.controller.deleteProduct);
   }
 }
