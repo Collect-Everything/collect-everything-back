@@ -9,10 +9,8 @@ import {
   DEFAULT_STORE_LOGO,
   StoreConfiguration,
 } from "../../domain/store-configuration.vo";
-import {
-  CompanyNotFoundError,
-  StoreNameAlreadyExistsError,
-} from "./configure-store.errors";
+import { StoreNameAlreadyExistsError } from "./configure-store.errors";
+import { CompanyNotFoundError } from "../../errors/company-not-found";
 
 const testCompanyData: CompanyData = {
   id: "1",

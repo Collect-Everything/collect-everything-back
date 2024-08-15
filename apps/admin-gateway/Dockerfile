@@ -11,7 +11,8 @@ RUN apk update
 WORKDIR /app
 RUN yarn global add turbo
 COPY . .
-RUN turbo prune showcase-gateway --docker
+
+RUN turbo prune admin-gateway --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
@@ -37,7 +38,7 @@ COPY .env .env
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-RUN yarn turbo build --filter=showcase-gateway...
+RUN yarn turbo build --filter=admin-gateway...
 
 FROM base AS runner
 WORKDIR /app

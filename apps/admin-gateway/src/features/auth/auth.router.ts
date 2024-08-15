@@ -7,7 +7,7 @@ export class AuthRouter extends BaseRouter {
 
     this.initRoutes();
   }
-
+  
   initRoutes() {
     this.router.post("/login", this.controller.login);
     this.router.post(
@@ -15,4 +15,5 @@ export class AuthRouter extends BaseRouter {
       this.controller.loginWithRefreshToken,
     );
   }
+  initRoutes() {}
 }

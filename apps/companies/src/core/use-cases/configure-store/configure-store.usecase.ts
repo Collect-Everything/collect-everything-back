@@ -1,10 +1,8 @@
 import { Err, Ok, Result } from "@ce/shared-core";
 import { CompanyRepository } from "../../ports/company.repository";
 import { ConfigureStoreCommand } from "./configure-store.command";
-import {
-  CompanyNotFoundError,
-  StoreNameAlreadyExistsError,
-} from "./configure-store.errors";
+import { StoreNameAlreadyExistsError } from "./configure-store.errors";
+import { CompanyNotFoundError } from "../../errors/company-not-found";
 
 export class ConfigureStoreUseCase {
   constructor(private readonly companyRepository: CompanyRepository) {}

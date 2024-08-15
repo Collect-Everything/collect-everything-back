@@ -27,4 +27,13 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       (c) => c.storeConfiguration?.props.storeName === storeName,
     );
   }
+
+  async findAllPaginated() {
+    return {
+      data: this.companies,
+      total: this.companies.length,
+      page: 0,
+      limit: this.companies.length,
+    };
+  }
 }

@@ -14,6 +14,8 @@ export class CompanyMapper {
       city: raw.city,
       country: raw.country,
       siret: raw.siret,
+      subscriptionStatus: raw.subscriptionStatus,
+      subscriptionUpdatedAt: raw.subscriptionUpdatedAt,
     };
 
     if (raw.storeName) {
@@ -53,6 +55,8 @@ export class CompanyMapper {
       emailContact: company.storeConfiguration?.props.emailContact,
       links: company.storeConfiguration?.props.links,
       externalUrl: company.storeConfiguration?.props.externalUrl,
+      subscriptionStatus: company.data.subscriptionStatus,
+      subscriptionUpdatedAt: company.data.subscriptionUpdatedAt,
     };
   }
 }

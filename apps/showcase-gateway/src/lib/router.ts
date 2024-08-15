@@ -5,6 +5,7 @@ import {
   companiesRouter,
   companyUsersRouter,
   emailValidationRouter,
+  productsRouter,
 } from "../dependency-injection";
 
 export const createApiRouter = (app: Express) => {
@@ -14,6 +15,7 @@ export const createApiRouter = (app: Express) => {
   baseApiRouter.use("/companies", [], companiesRouter);
   baseApiRouter.use("/company-users", [], companyUsersRouter);
   baseApiRouter.use("/email-validation", [], emailValidationRouter);
+  baseApiRouter.use("/products", [], productsRouter);
 
   app.use(apiConfig.apiPath, baseApiRouter);
 };

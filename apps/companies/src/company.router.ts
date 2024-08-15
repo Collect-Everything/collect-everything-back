@@ -15,5 +15,7 @@ export class CompanyRouter extends BaseRouter {
       [],
       this.controller.configureStore,
     );
+    this.router.get("/:companyId", [], this.controller.getCompany);
+    this.router.get("/", [], this.controller.listCompanies);
   }
 }
