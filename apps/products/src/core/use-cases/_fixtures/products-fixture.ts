@@ -10,6 +10,10 @@ import { Product } from "../../domain/product.entity";
 import { CreateProductCommand } from "../create-product/create-product.command";
 import { ListProductsUseCase } from "../list-products/list-products.usecase";
 import { ListProductsQuery } from "../list-products/list-products.query";
+import { GetProductUseCase } from "../get-product/get-product.usecase";
+import { GetProductQuery } from "../get-product/get-product.query";
+import { UpdateProductUseCase } from "../update-product/update-product.usecase";
+import { UpdateProductCommand } from "../update-product/update-product.command";
 
 export const createProductsFixture = () => {
   const idProvider = new StubIdProvider();
@@ -25,9 +29,12 @@ export const createProductsFixture = () => {
     idProvider,
   );
   const listProductsUseCase = new ListProductsUseCase(productRepository);
+  const getProductUseCase = new GetProductUseCase(productRepository);
+  const updateProductUseCase = new UpdateProductUseCase(productRepository);
 
   let thrownError: any;
   let listedProducts: Product[] = [];
+  let gottenProduct: Product;
   return {
     givenPredefinedId: (id: string) => {
       idProvider.id = id;
@@ -57,9 +64,27 @@ export const createProductsFixture = () => {
 
       if (result.isErr()) {
         thrownError = result.error;
+        return;
       }
 
       listedProducts = result.value;
+    },
+    whenGettingProduct: async (query: GetProductQuery) => {
+      const result = await getProductUseCase.execute(query);
+
+      if (result.isErr()) {
+        thrownError = result.error;
+        return;
+      }
+
+      gottenProduct = result.value;
+    },
+    whenUpdatingProduct: async (command: UpdateProductCommand) => {
+      const result = await updateProductUseCase.execute(command);
+
+      if (result.isErr()) {
+        thrownError = result.error;
+      }
     },
     thenCategoryShouldBe: (expectedCategory: Category) => {
       const category = categoryRepository.categories.find(
@@ -75,6 +100,9 @@ export const createProductsFixture = () => {
     },
     thenListedProductsAre: (expectedProducts: Product[]) => {
       expect(listedProducts).toEqual(expectedProducts);
+    },
+    thenGottenProductIs: (expectedProduct: Product) => {
+      expect(gottenProduct).toEqual(expectedProduct);
     },
     thenErrorShouldBe: (expectedError: new (...args: any[]) => Error) => {
       expect(thrownError).toBeInstanceOf(expectedError);

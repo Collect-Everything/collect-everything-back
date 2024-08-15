@@ -28,6 +28,17 @@ const ProductPropsSchema = z.object({
   size: ProductSizeSchema.optional(),
 });
 
+interface UpdateProductProps {
+  name?: string;
+  price?: number;
+  description?: string;
+  image?: string;
+  stock?: number;
+  conditioning?: ProductConditioning;
+  unity?: ProductUnity;
+  size?: ProductSize;
+}
+
 export type ProductProps = z.infer<typeof ProductPropsSchema>;
 
 export class Product extends Entity<ProductProps, string> {
@@ -47,6 +58,14 @@ export class Product extends Entity<ProductProps, string> {
 
   get name() {
     return this._props.name;
+  }
+
+  update(props: UpdateProductProps) {
+    this._props = {
+      ...this._props,
+      ...props,
+    };
+    this.validate();
   }
 
   static fromData(data: ProductProps): Product {
