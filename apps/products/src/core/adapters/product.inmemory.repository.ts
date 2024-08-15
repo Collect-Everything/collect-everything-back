@@ -1,7 +1,7 @@
 import { Product } from "../domain/product.entity";
-import { ProductFilters } from "../ports/product.repository";
+import { ProductFilters, ProductRepository } from "../ports/product.repository";
 
-export class InMemoryProductRepository {
+export class InMemoryProductRepository implements ProductRepository {
   products: Product[] = [];
   async save(product: Product) {
     this.products.push(product);
@@ -19,5 +19,9 @@ export class InMemoryProductRepository {
 
       return true;
     });
+  }
+
+  async findById(id: string) {
+    return this.products.find((product) => product.id === id) || null;
   }
 }

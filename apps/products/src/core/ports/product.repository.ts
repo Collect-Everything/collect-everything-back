@@ -8,4 +8,5 @@ export interface ProductFilters {
 export interface ProductRepository {
   save(product: Product): Promise<void>;
   findAll(filters?: ProductFilters): Promise<Product[]>;
+  findById(id: string): Promise<Product | null>;
 }

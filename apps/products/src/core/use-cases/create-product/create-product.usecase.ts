@@ -3,7 +3,7 @@ import { CreateProductCommand } from "./create-product.command";
 import { ProductRepository } from "../../ports/product.repository";
 import { Product } from "../../domain/product.entity";
 import { CategoryRepository } from "../../ports/category.repository";
-import { CategoryNotFoundError } from "./create-product.errors";
+import { CategoryNotFoundError } from "../../errors/category-not-found";
 
 export class CreateProductUseCase {
   constructor(
