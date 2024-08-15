@@ -5,7 +5,7 @@ export class AdminUsersService extends GatewayService {
   constructor(private readonly eventsService: EventsService) {
     super("adminUsers", {
       gatewayName: "ADMIN_GATEWAY",
-      serviceName: "ADMIN_USERS",
+      serviceName: "ADMINS",
     });
   }
 
