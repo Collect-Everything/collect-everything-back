@@ -14,6 +14,8 @@ import { GetProductUseCase } from "../get-product/get-product.usecase";
 import { GetProductQuery } from "../get-product/get-product.query";
 import { UpdateProductUseCase } from "../update-product/update-product.usecase";
 import { UpdateProductCommand } from "../update-product/update-product.command";
+import { DeleteProductUseCase } from "../delete-product/delete-product.usecase";
+import { DeleteProductCommand } from "../delete-product/delete-product.command";
 
 export const createProductsFixture = () => {
   const idProvider = new StubIdProvider();
@@ -31,6 +33,7 @@ export const createProductsFixture = () => {
   const listProductsUseCase = new ListProductsUseCase(productRepository);
   const getProductUseCase = new GetProductUseCase(productRepository);
   const updateProductUseCase = new UpdateProductUseCase(productRepository);
+  const deleteProductUseCase = new DeleteProductUseCase(productRepository);
 
   let thrownError: any;
   let listedProducts: Product[] = [];
@@ -86,6 +89,13 @@ export const createProductsFixture = () => {
         thrownError = result.error;
       }
     },
+    whenDeletingProduct: async (command: DeleteProductCommand) => {
+      const result = await deleteProductUseCase.execute(command);
+
+      if (result.isErr()) {
+        thrownError = result.error;
+      }
+    },
     thenCategoryShouldBe: (expectedCategory: Category) => {
       const category = categoryRepository.categories.find(
         (c) => c.id === expectedCategory.id,
@@ -103,6 +113,12 @@ export const createProductsFixture = () => {
     },
     thenGottenProductIs: (expectedProduct: Product) => {
       expect(gottenProduct).toEqual(expectedProduct);
+    },
+    thenProductShouldNotExist: (productId: string) => {
+      const product = productRepository.products.find(
+        (p) => p.id === productId,
+      );
+      expect(product).toBeUndefined();
     },
     thenErrorShouldBe: (expectedError: new (...args: any[]) => Error) => {
       expect(thrownError).toBeInstanceOf(expectedError);
