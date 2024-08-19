@@ -13,6 +13,8 @@ import { CompanyCustomersRouter } from "./features/company-customers/company-cus
 import { CompanyCustomersService } from "./features/company-customers/company-customers.service";
 
 import { AdminUsersService } from "./features/admin-users/admin-users.service";
+import { AdminUserRouter } from "./features/admin-users/admin-users.router";
+import { AdminUserController } from "./features/admin-users/admin-users.controller";
 
 const companiesService = new CompaniesService(eventsService);
 const companyUsersService = new CompanyUsersService(eventsService);
@@ -23,11 +25,13 @@ const authService = new AuthService(eventsService, adminUsersService);
 const companiesCtrl = new CompaniesController(companiesService);
 const companyUsersCtrl = new CompanyUsersController(companyUsersService);
 const companyCustomersCtrl = new CompanyCustomersController(companyCustomersService);
+const adminUsersCtrl = new AdminUserController(adminUsersService);
 const authCtrl = new AuthController(authService);
 
 const companiesRouter = new CompaniesRouter(companiesCtrl).router;
 const companyUsersRouter = new CompanyUsersRouter(companyUsersCtrl).router;
 const companyCustomersRouter = new CompanyCustomersRouter(companyCustomersCtrl).router;
 const authRouter = new AuthRouter(authCtrl).router;
+const adminUsersRouter = new AdminUserRouter(adminUsersCtrl).router;
 
-export { companiesService, companiesRouter, companyUsersRouter, companyCustomersRouter, authRouter };
+export { companiesService, companiesRouter, companyUsersRouter, companyCustomersRouter, authRouter, adminUsersRouter };

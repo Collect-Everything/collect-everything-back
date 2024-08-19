@@ -18,7 +18,7 @@ export class InvalidTokenPayloadError extends Error {
 export class AuthService extends GatewayService {
   constructor(
     private readonly eventsService: EventsService,
-    private readonly adminUsersService: AdminUsersService,
+    private readonly adminUsersService: AdminUsersService
   ) {
     super("auth", {
       gatewayName: "ADMIN_GATEWAY",
@@ -29,7 +29,7 @@ export class AuthService extends GatewayService {
   async login(email: string, password: string) {
     const validateResult = await this.adminUsersService.validateCredentials(
       email,
-      password,
+      password
     );
 
     if (validateResult.isErr()) {
@@ -74,7 +74,7 @@ export class AuthService extends GatewayService {
   private async verifyToken(token: string) {
     const handler = this.fetcher.post<BaseResponse<{ payload: any }>>(
       "/verify",
-      { token },
+      { token }
     );
 
     const result = await this.executeRequest(handler);
@@ -84,7 +84,7 @@ export class AuthService extends GatewayService {
     }
 
     const payloadResult = CompanyUserTokenPayloadSchema.safeParse(
-      result.value.data.payload,
+      result.value.data.payload
     );
 
     if (payloadResult.success) {

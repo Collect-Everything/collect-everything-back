@@ -3,9 +3,11 @@ import {
   BaseResponse,
   HttpException,
   ctrlWrapper,
+  parseBody,
 } from "@ce/server-core";
 import { AuthService } from "./auth.service";
 import { RequestHandler } from "express";
+import { ApiResponse, CreateAdminDto } from "@ce/shared-core";
 
 export class AuthController extends BaseController {
   constructor(private readonly authService: AuthService) {
@@ -57,4 +59,12 @@ export class AuthController extends BaseController {
         },
       } satisfies BaseResponse;
     });
+
+    registerAdmin: RequestHandler = (req, res) =>
+      ctrlWrapper(this.getIdentifier("register"), res, async () => {
+        const body = parseBody(req, CreateAdminDto);
+        await this.authService.register(body);
+  
+        return { success: true, data: {} } satisfies ApiResponse;
+      });
 }

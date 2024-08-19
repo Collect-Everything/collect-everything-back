@@ -13,5 +13,9 @@ export class AdminRouter extends BaseRouter {
       "/validate-credentials",
       this.controller.validateCredentials,
     );
+    this.router.post(
+      "/register",
+      this.controller.register,
+    );
   }
 }

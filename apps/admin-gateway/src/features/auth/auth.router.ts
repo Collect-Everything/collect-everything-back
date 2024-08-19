@@ -14,5 +14,10 @@ export class AuthRouter extends BaseRouter {
       "/login-with-refresh-token",
       this.controller.loginWithRefreshToken,
     );
+    this.router.post(
+      "/register",
+      [],
+      this.controller.registerAdmin,
+    );
   }
 }
