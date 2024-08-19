@@ -22,7 +22,7 @@ export class CreateProductUseCase {
 
     const product = Product.fromData({
       id: this.idProvider.generate(),
-      companyId: command.companyId,
+      companyId: category.companyId,
       category,
       name: command.name,
       price: command.price,

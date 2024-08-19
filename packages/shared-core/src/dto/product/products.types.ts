@@ -1,23 +1,18 @@
-import z from "zod";
+import z from 'zod';
 
-export const ProductBaseSchema = z.object({
-  name: z.string(),
-  price: z.number(),
-  description: z.string(),
-  photo: z.string(),
-  conditioning: z.string(),
-  size: z.string(),
-  stock: z.number(),
-  unity: z.string(),
-  category_id: z.number(),
-  parent_id: z.number(),
-});
-export const ProductSchema = ProductBaseSchema.extend({
-  id: z.number(),
-  created_at: z.string(),
-  updated_at: z.string(),
-  deleted_at: z.date(),
-});
+export const PRODUCT_CONDITIONING = ['unit'] as const;
+export type ProductConditioning = (typeof PRODUCT_CONDITIONING)[number];
+export const ProductConditioningSchema = z.enum(PRODUCT_CONDITIONING);
 
-export type TProductBase = z.infer<typeof ProductBaseSchema>;
-export type TProduct = z.infer<typeof ProductSchema>;
+export const PRODUCT_UNITIES = ['unit', 'kg', 'g', 'L', 'ml'] as const;
+export type ProductUnity = (typeof PRODUCT_UNITIES)[number];
+export const ProductUnitySchema = z.enum(PRODUCT_UNITIES);
+
+export const PRODUCT_SIZE = [
+  'small',
+  'medium',
+  'large',
+  'extra-large'
+] as const;
+export type ProductSize = (typeof PRODUCT_SIZE)[number];
+export const ProductSizeSchema = z.enum(PRODUCT_SIZE);

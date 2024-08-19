@@ -25,7 +25,6 @@ describe("Feature: Create Category", () => {
 
       await fixture.whenCompanyCreatesProduct({
         categoryId: "id-1",
-        companyId: "id-1",
         name: "Tomato",
         price: 250,
         description: "A red tomato",

@@ -48,6 +48,8 @@ describe("Feature: List Products", () => {
 
     await fixture.whenListingsProducts({
       companyId: "id-1",
+      page: 1,
+      limit: 10
     });
 
     fixture.thenListedProductsAre([
@@ -132,6 +134,8 @@ describe("Feature: List Products", () => {
     await fixture.whenListingsProducts({
       companyId: "id-1",
       categoryId: "id-1",
+      limit: 10,
+      page: 1
     });
 
     fixture.thenListedProductsAre([

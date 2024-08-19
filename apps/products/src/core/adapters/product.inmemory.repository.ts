@@ -21,6 +21,15 @@ export class InMemoryProductRepository implements ProductRepository {
     });
   }
 
+  async findAllPaginated() {
+    return {
+      data: this.products,
+      total: this.products.length,
+      limit: 10,
+      page: 1,
+    };
+  }
+
   async findById(id: string) {
     return this.products.find((product) => product.id === id) || null;
   }

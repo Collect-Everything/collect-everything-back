@@ -2,6 +2,7 @@ import { PrismaClient } from "@ce/db";
 import { ProductFilters, ProductRepository } from "../ports/product.repository";
 import { Product } from "../domain/product.entity";
 import { Category } from "../domain/category.entity";
+import { PaginatedParams } from "@ce/shared-core";
 
 export class PrismaProductRepository implements ProductRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -60,6 +61,7 @@ export class PrismaProductRepository implements ProductRepository {
       category: Category.fromData({
         id: product.category.id,
         name: product.category.name,
+        companyId: product.companyId,
       }),
       name: product.name,
       price: product.price,
@@ -89,6 +91,7 @@ export class PrismaProductRepository implements ProductRepository {
         category: Category.fromData({
           id: product.category.id,
           name: product.category.name,
+        companyId: product.companyId,
         }),
         name: product.name,
         price: product.price,
@@ -100,6 +103,51 @@ export class PrismaProductRepository implements ProductRepository {
         size: product.size ?? undefined,
       }),
     );
+  }
+
+  async findAllPaginated(params: PaginatedParams & ProductFilters) {
+    const { page, limit, ...filters } = params;
+    const products = await this.prisma.product.findMany({
+      where: {
+      companyId: filters.companyId,
+      categoryId: filters.categoryId,
+      },
+      include: {
+      category: true,
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    const total = await this.prisma.product.count({
+      where: {
+      companyId: filters.companyId,
+      categoryId: filters.categoryId,
+      },
+    });
+    return {
+      data: products.map((product) =>
+      Product.fromData({
+        id: product.id,
+        companyId: product.companyId,
+        category: Category.fromData({
+          id: product.category.id,
+          name: product.category.name,
+          companyId: product.companyId,
+        }),
+        name: product.name,
+        price: product.price,
+        description: product.description ?? "",
+        image: product.image ?? undefined,
+        stock: product.stock,
+        conditioning: product.conditioning,
+        unity: product.unity,
+        size: product.size ?? undefined,
+      }),
+      ),
+      total,
+      page,
+      limit 
+    };
   }
 
   async delete(productId: string) {

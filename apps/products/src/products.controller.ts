@@ -10,6 +10,7 @@ import { ApiResponse } from "@ce/shared-core";
 import { RequestHandler } from "express";
 import { CategoryNotFoundError } from "./core/errors/category-not-found";
 import { ListCategoriesUseCase } from "./core/use-cases/list-categories/list-categories.usecase";
+import { ListProductsQuery } from "./core/use-cases/list-products/list-products.query";
 
 export class ProductsController extends BaseController {
   constructor(
@@ -67,7 +68,12 @@ export class ProductsController extends BaseController {
   listProducts: RequestHandler = async (req, res) =>
     ctrlWrapper(this.getIdentifier("listProducts"), res, async () => {
       const query = req.query;
-      const result = await this.listProductsUseCase.execute(query);
+      console.log(" QUERY -> ", query)
+      const result = await this.listProductsUseCase.execute({
+        ...query,
+        limit: parseInt(query.limit as string),
+        page: parseInt(query.page as string),
+      });
       return {
         success: true,
         data: result,

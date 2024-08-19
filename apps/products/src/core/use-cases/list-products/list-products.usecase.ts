@@ -6,11 +6,16 @@ export class ListProductsUseCase {
   constructor(private readonly productRepository: ProductRepository) {}
 
   async execute(query: ListProductsQuery) {
-    const products = await this.productRepository.findAll({
+    const paginated = await this.productRepository.findAllPaginated({
       companyId: query.companyId,
       categoryId: query.categoryId,
+      limit: query.limit,
+      page: query.page,
     });
 
-    return Ok.of(products);
+    return Ok.of({
+      ...paginated,
+      data: paginated.data.map((product) => product.data)
+    });
   }
 }

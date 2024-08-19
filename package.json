@@ -59,7 +59,7 @@
     "@ce/eslint-config": "*",
     "@manypkg/cli": "^0.21.4",
     "dotenv-cli": "latest",
-    "prettier": "^3.1.1",
+    "prettier": "^3.3.3",
     "sequelize-cli": "^6.6.2",
     "turbo": "latest"
   }
