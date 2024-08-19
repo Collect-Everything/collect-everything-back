@@ -6,7 +6,6 @@ import {
 } from "@ce/server-core";
 import { AuthService } from "./auth.service";
 import { RequestHandler } from "express";
-import { BaseController } from "@ce/server-core";
 
 export class AuthController extends BaseController {
   constructor(private readonly authService: AuthService) {

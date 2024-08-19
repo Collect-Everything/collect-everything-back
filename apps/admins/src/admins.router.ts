@@ -1,10 +1,17 @@
 import { BaseRouter } from "@ce/server-core";
-import { AdminService } from "./core/application/admin.service";
+import { AdminController } from "./admins.controller";
 
-export class AdminsRouter extends BaseRouter {
-  constructor(private readonly adminService: AdminService) {
+export class AdminRouter extends BaseRouter {
+  constructor(private readonly controller: AdminController) {
     super();
+
+    this.initRoutes();
   }
 
-  initRoutes() {}
+  initRoutes() {
+    this.router.post(
+      "/validate-credentials",
+      this.controller.validateCredentials,
+    );
+  }
 }

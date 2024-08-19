@@ -6,7 +6,6 @@ import {
   companyUsersRouter,
   companyCustomersRouter,
 } from "../dependency-injection";
-import { authRouter, companiesRouter, companyUsersRouter, companyCustomersRouter } from "../dependency-injection";
 
 export const createApiRouter = (app: Express) => {
   const baseApiRouter = express.Router();
