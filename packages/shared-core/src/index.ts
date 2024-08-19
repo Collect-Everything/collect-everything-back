@@ -12,3 +12,4 @@ export * from "./id-provider";
 export * from "./date-provider";
 export * from "./adapters";
 export * from "./paginated";
+export * from "./admin";

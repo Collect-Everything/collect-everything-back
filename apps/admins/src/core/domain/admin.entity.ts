@@ -43,4 +43,16 @@ export class Admin extends Entity<AdminProps, string> {
       password: data.password,
     });
   }
+
+  get email() {
+    return this._props.email;
+  }
+
+  get firstname() {
+    return this._props.firstname;
+  }
+
+  get lastname() {
+    return this._props.lastname;
+  }
 }
