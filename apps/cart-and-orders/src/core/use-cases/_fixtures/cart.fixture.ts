@@ -6,6 +6,8 @@ import { InMemoryProductRepository } from '../../adapters/product.inmemory.repos
 import { InMemoryCartRepository } from '../../adapters/cart.inmemory.repository';
 import { StubIdProvider } from '@ce/shared-core';
 import { Product } from '../../domain/product.entity';
+import { RemoveFromCartUseCase } from '../remove-from-cart/remove-from-cart.usecase';
+import { RemoveFromCartCommand } from '../remove-from-cart/remove-from-cart.command';
 
 export const createCartFixture = () => {
   const cartRepository = new InMemoryCartRepository();
@@ -18,6 +20,11 @@ export const createCartFixture = () => {
     idProvider
   );
 
+  const removeFromCartUseCase = new RemoveFromCartUseCase(
+    cartRepository,
+    productRepository
+  );
+
   let thrownError: any;
   return {
     givenPredefinedId: (id: string) => {
@@ -26,8 +33,18 @@ export const createCartFixture = () => {
     givenSomeProductExists: (products: Product[]) => {
       productRepository.products = products;
     },
+    givenSomeCartExists: (carts: Cart[]) => {
+      cartRepository.carts = carts;
+    },
     whenUserAddsProductToCart: async (command: AddToCartCommand) => {
       const result = await addToCartUseCase.execute(command);
+
+      if (result.isErr()) {
+        thrownError = result.error;
+      }
+    },
+    whenUserRemovesProductFromCart: async (command: RemoveFromCartCommand) => {
+      const result = await removeFromCartUseCase.execute(command);
 
       if (result.isErr()) {
         thrownError = result.error;

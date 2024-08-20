@@ -32,6 +32,10 @@ export class Cart extends Entity<CartProps, string> {
     return new Cart({ id: data.id, userId: data.userId, products });
   }
 
+  hasProduct(productId: string) {
+    return this._props.products.some((product) => product.id === productId);
+  }
+
   addProduct(product: Product) {
     this._props.products.push(product);
   }
