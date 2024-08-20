@@ -13,6 +13,9 @@ export class ProductsRouter extends BaseRouter {
     this.router.get('/categories', this.productsCtrl.listCategories);
 
     this.router.post('/', this.productsCtrl.createProduct);
-    this.router.get('/:companyId', this.productsCtrl.listProducts);
+    this.router.get('/', this.productsCtrl.listProducts);
+    this.router.get('/:productId', this.productsCtrl.getProduct);
+    this.router.patch('/:productId', this.productsCtrl.updateProduct);
+    this.router.delete('/:productId', this.productsCtrl.deleteProduct);
   }
 }

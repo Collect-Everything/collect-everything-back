@@ -1,2 +1,2 @@
-export * from "./company-customers.types";
-export * from "./dto";
+export * from './dto';
+export * from './token-payload';

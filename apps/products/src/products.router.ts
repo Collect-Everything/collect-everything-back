@@ -14,8 +14,8 @@ export class ProductsRouter extends BaseRouter {
 
     this.router.post("/products", [], this.controller.createProduct);
     this.router.get("/products", [], this.controller.listProducts);
-    this.router.get("/products/:id", [], this.controller.getProduct);
-    this.router.put("/products/:id", [], this.controller.updateProduct);
-    this.router.delete("/products/:id", [], this.controller.deleteProduct);
+    this.router.get("/products/:productId", [], this.controller.getProduct);
+    this.router.patch("/products/:productId", [], this.controller.updateProduct);
+    this.router.delete("/products/:productId", [], this.controller.deleteProduct);
   }
 }

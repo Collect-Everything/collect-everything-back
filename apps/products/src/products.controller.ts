@@ -68,15 +68,17 @@ export class ProductsController extends BaseController {
   listProducts: RequestHandler = async (req, res) =>
     ctrlWrapper(this.getIdentifier("listProducts"), res, async () => {
       const query = req.query;
-      console.log(" QUERY -> ", query)
+      console.log("query", query);
       const result = await this.listProductsUseCase.execute({
         ...query,
         limit: parseInt(query.limit as string),
         page: parseInt(query.page as string),
       });
+
+      console.log(result);
       return {
         success: true,
-        data: result,
+        data: result.value,
       } satisfies ApiResponse;
     });
 

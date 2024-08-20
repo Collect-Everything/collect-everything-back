@@ -1,8 +1,9 @@
-import { ValueObject, ValueObjectValidationError } from "@ce/shared-core";
-import { z } from "zod";
+import { ValueObject, ValueObjectValidationError } from '@ce/shared-core';
+import { z } from 'zod';
 
 export const StoreConfigurationPropsSchema = z.object({
   storeName: z.string(),
+  storeSlug: z.string(),
   color: z.string().optional(),
   logo: z.string().optional(),
   keyPhrases: z.record(z.string()).optional(),
@@ -10,11 +11,12 @@ export const StoreConfigurationPropsSchema = z.object({
   phoneContact: z.string().optional(),
   emailContact: z.string().optional(),
   links: z.record(z.string()).optional(),
-  externalUrl: z.string().optional(),
+  externalUrl: z.string().optional()
 });
 
 export interface StoreConfigurationData {
   storeName: string;
+  storeSlug: string;
   color?: string;
   logo?: string;
   keyPhrases?: Record<string, string>;
@@ -29,8 +31,8 @@ export type StoreConfigurationProps = z.infer<
   typeof StoreConfigurationPropsSchema
 >;
 
-export const DEFAULT_STORE_COLOR = "#000000";
-export const DEFAULT_STORE_LOGO = "";
+export const DEFAULT_STORE_COLOR = '#000000';
+export const DEFAULT_STORE_LOGO = '';
 
 export class StoreConfiguration extends ValueObject<StoreConfigurationProps> {
   constructor(props: StoreConfigurationProps) {
@@ -42,8 +44,23 @@ export class StoreConfiguration extends ValueObject<StoreConfigurationProps> {
     return new StoreConfiguration({
       ...data,
       color: data.color ?? DEFAULT_STORE_COLOR,
-      logo: data.logo ?? DEFAULT_STORE_LOGO,
+      logo: data.logo ?? DEFAULT_STORE_LOGO
     });
+  }
+
+  get data(): StoreConfigurationData {
+    return {
+      storeName: this.props.storeName,
+      storeSlug: this.props.storeSlug,
+      color: this.props.color,
+      logo: this.props.logo,
+      keyPhrases: this.props.keyPhrases,
+      productsType: this.props.productsType,
+      phoneContact: this.props.phoneContact,
+      emailContact: this.props.emailContact,
+      links: this.props.links,
+      externalUrl: this.props.externalUrl
+    };
   }
 
   private validate() {
@@ -53,7 +70,7 @@ export class StoreConfiguration extends ValueObject<StoreConfigurationProps> {
       throw new ValueObjectValidationError(
         this.constructor.name,
         result.error.errors,
-        result.error.message,
+        result.error.message
       );
     }
   }

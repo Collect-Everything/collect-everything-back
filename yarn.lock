@@ -7495,6 +7495,7 @@ __metadata:
     "@ce/shared-core": "npm:*"
     "@ce/tsup-config": "npm:*"
     "@ce/typescript-config": "npm:*"
+    "@ce/utils": "npm:*"
     "@types/body-parser": "npm:^1.19.5"
     "@types/express": "npm:^4.17.21"
     "@types/jsonwebtoken": "npm:^9.0.5"

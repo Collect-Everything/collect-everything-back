@@ -1,8 +1,8 @@
-import { PrismaClient } from "@ce/db";
-import { CompanyRepository } from "../ports/company.repository";
-import { Company } from "../domain/company.entity";
-import { CompanyMapper } from "../mappers/company.mapper";
-import { PaginatedParams } from "@ce/shared-core";
+import { PrismaClient } from '@ce/db';
+import { CompanyRepository } from '../ports/company.repository';
+import { Company } from '../domain/company.entity';
+import { CompanyMapper } from '../mappers/company.mapper';
+import { PaginatedParams } from '@ce/shared-core';
 
 export class PrismaCompanyRepository implements CompanyRepository {
   constructor(private readonly client: PrismaClient) {}
@@ -13,7 +13,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
     await this.client.company.upsert({
       where: { id: data.id },
       update: data,
-      create: data,
+      create: data
     });
   }
 
@@ -21,25 +21,25 @@ export class PrismaCompanyRepository implements CompanyRepository {
     const raw = await this.client.company.findFirst({
       where: {
         name,
-        email,
-      },
+        email
+      }
     });
 
     return raw ? CompanyMapper.toDomain(raw) : undefined;
   }
 
-  async findByStoreName(storeName: string) {
+  async findByStoreSlug(storeSlug: string) {
     const raw = await this.client.company.findFirst({
       where: {
-        storeName,
-      },
+        storeSlug
+      }
     });
     return raw ? CompanyMapper.toDomain(raw) : undefined;
   }
 
   async findById(id: string) {
     const raw = await this.client.company.findUnique({
-      where: { id },
+      where: { id }
     });
     return raw ? CompanyMapper.toDomain(raw) : undefined;
   }
@@ -47,7 +47,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
   async findAllPaginated(params: PaginatedParams) {
     const rawCompanies = await this.client.company.findMany({
       skip: (params.page - 1) * params.limit,
-      take: params.limit,
+      take: params.limit
     });
 
     const companies = rawCompanies.map((raw) => CompanyMapper.toDomain(raw));
@@ -56,7 +56,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
       data: companies,
       page: params.page,
       limit: params.limit,
-      total: await this.client.company.count(),
+      total: await this.client.company.count()
     };
   }
 }

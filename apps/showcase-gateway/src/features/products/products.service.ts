@@ -2,6 +2,7 @@ import { BaseResponse, GatewayService } from '@ce/server-core';
 import { CreateCategoryDTO } from './dtos/create-category.dto';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { PaginatedQuery } from '@ce/shared-core';
+import { UpdateProductDto } from './dtos/update-product.dto';
 
 export class ProductsService extends GatewayService {
   constructor() {
@@ -34,9 +35,28 @@ export class ProductsService extends GatewayService {
   }
 
   async listProducts(companyId: string, query: PaginatedQuery) {
-    const handler = this.fetcher.get<BaseResponse<{ products: string[] }>>(
+    console.log('companyId', companyId);
+    const handler = this.fetcher.get<BaseResponse>(
       `/products?companyId=${companyId}&page=${query.page}&limit=${query.limit}`
     );
+    return this.executeRequest(handler);
+  }
+
+  async getProduct(productId: string) {
+    const handler = this.fetcher.get<BaseResponse>(`/products/${productId}`);
+    return this.executeRequest(handler);
+  }
+
+  async updateProduct(productId: string, data: UpdateProductDto) {
+    const handler = this.fetcher.patch<BaseResponse>(
+      `/products/${productId}`,
+      data
+    );
+    return this.executeRequest(handler);
+  }
+
+  async deleteProduct(productId: string) {
+    const handler = this.fetcher.delete<BaseResponse>(`/products/${productId}`);
     return this.executeRequest(handler);
   }
 }

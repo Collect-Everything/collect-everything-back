@@ -1,8 +1,4 @@
-import {
-  ProductConditioning,
-  ProductSize,
-  ProductUnity,
-} from "../../domain/product.entity";
+import { ProductConditioning, ProductSize, ProductUnity } from "@ce/shared-core";
 
 export interface UpdateProductCommand {
   productId: string;

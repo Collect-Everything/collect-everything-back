@@ -17,6 +17,10 @@ import {
   CreateProductDtoSchema
 } from './dtos/create-product.dto';
 import { PaginatedQuerySchema } from '@ce/shared-core';
+import {
+  UpdateProductDto,
+  UpdateProductDtoSchema
+} from './dtos/update-product.dto';
 
 export class ProductsController extends GatewayController {
   constructor(
@@ -82,8 +86,8 @@ export class ProductsController extends GatewayController {
 
   listProducts: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier('listProducts'), res, async () => {
-      const { companyId } = req.params;
-      const query = PaginatedQuerySchema.safeParse(req.query);
+      const { companyId, page, limit } = req.query;
+      const query = PaginatedQuerySchema.safeParse({ page, limit });
 
       if (!query.success) {
         throw new HttpException(400, query.error.errors[0].message);
@@ -102,6 +106,65 @@ export class ProductsController extends GatewayController {
         status: 200,
         success: true,
         data: listProductsResult.value.data
+      } satisfies BaseResponse;
+    });
+
+  getProduct: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('getProduct'), res, async () => {
+      const { productId } = req.params;
+      if (!productId) {
+        throw new HttpException(400, 'productId is required to get product');
+      }
+      const getProductResult = await this.productsService.getProduct(
+        productId as string
+      );
+      if (getProductResult.isErr()) {
+        throw new HttpException(400, getProductResult.error.message);
+      }
+      return {
+        status: 200,
+        success: true,
+        data: getProductResult.value.data
+      } satisfies BaseResponse;
+    });
+
+  updateProduct: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('updateProduct'), res, async () => {
+      const { productId } = req.params;
+      if (!productId) {
+        throw new HttpException(400, 'productId is required to update product');
+      }
+      const body = parseBody<UpdateProductDto>(req, UpdateProductDtoSchema);
+      const updateProductResult = await this.productsService.updateProduct(
+        productId as string,
+        body
+      );
+      if (updateProductResult.isErr()) {
+        throw new HttpException(400, updateProductResult.error.message);
+      }
+      return {
+        status: 200,
+        success: true,
+        data: updateProductResult.value.data
+      } satisfies BaseResponse;
+    });
+
+  deleteProduct: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('deleteProduct'), res, async () => {
+      const { productId } = req.params;
+      if (!productId) {
+        throw new HttpException(400, 'productId is required to delete product');
+      }
+      const deleteProductResult = await this.productsService.deleteProduct(
+        productId as string
+      );
+      if (deleteProductResult.isErr()) {
+        throw new HttpException(400, deleteProductResult.error.message);
+      }
+      return {
+        status: 200,
+        success: true,
+        data: deleteProductResult.value.data
       } satisfies BaseResponse;
     });
 }

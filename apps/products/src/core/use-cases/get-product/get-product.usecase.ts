@@ -13,6 +13,6 @@ export class GetProductUseCase {
       return Err.of(new ProductNotFoundError(query.productId));
     }
 
-    return Ok.of(product);
+    return Ok.of(product.data);
   }
 }

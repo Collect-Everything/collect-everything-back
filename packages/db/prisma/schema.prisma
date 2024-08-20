@@ -35,7 +35,8 @@ model Company {
   postalCode       String
   city             String
   country          String
-  storeName String?
+  storeName        String?
+  storeSlug        String? @unique
   color            String?
   logo             String?
   key_phrases      Json?
@@ -62,13 +63,16 @@ model CompanyCustomer {
   id        String      @id
   firstname String
   lastname  String
-  email     String
+  email     String 
   password  String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId String 
   orders    Order[]
+  emailVerified Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+
+  @@unique([email])
 }
 
 enum CompanyUserRole {

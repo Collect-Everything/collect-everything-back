@@ -1,5 +1,5 @@
-import { BaseRouter } from "@ce/server-core";
-import { AuthController } from "./auth.controller";
+import { BaseRouter } from '@ce/server-core';
+import { AuthController } from './auth.controller';
 
 export class AuthRouter extends BaseRouter {
   constructor(private readonly controller: AuthController) {
@@ -7,17 +7,12 @@ export class AuthRouter extends BaseRouter {
 
     this.initRoutes();
   }
-  
+
   initRoutes() {
-    this.router.post("/login", this.controller.login);
+    this.router.post('/login', this.controller.login);
     this.router.post(
-      "/login-with-refresh-token",
-      this.controller.loginWithRefreshToken,
-    );
-    this.router.post(
-      "/register",
-      [],
-      this.controller.registerAdmin,
+      '/login-with-refresh-token',
+      this.controller.loginWithRefreshToken
     );
   }
 }

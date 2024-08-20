@@ -1,4 +1,4 @@
-import { Company, CompanyData } from "../domain/company.entity";
+import { Company, CompanyData } from '../domain/company.entity';
 
 export class CompanyMapper {
   static toDomain(raw: any): Company {
@@ -15,12 +15,13 @@ export class CompanyMapper {
       country: raw.country,
       siret: raw.siret,
       subscriptionStatus: raw.subscriptionStatus,
-      subscriptionUpdatedAt: raw.subscriptionUpdatedAt,
+      subscriptionUpdatedAt: raw.subscriptionUpdatedAt
     };
 
     if (raw.storeName) {
       data.storeConfiguration = {
         storeName: raw.storeName,
+        storeSlug: raw.storeSlug,
         color: raw.color,
         logo: raw.logo,
         keyPhrases: raw.keyPhrases,
@@ -28,7 +29,7 @@ export class CompanyMapper {
         phoneContact: raw.phoneContact,
         emailContact: raw.emailContact,
         links: raw.links,
-        externalUrl: raw.externalUrl,
+        externalUrl: raw.externalUrl
       };
     }
     return Company.fromData(data);
@@ -47,6 +48,7 @@ export class CompanyMapper {
       country: company.data.country,
       siret: company.data.siret,
       storeName: company.storeConfiguration?.props.storeName,
+      storeSlug: company.storeConfiguration?.props.storeSlug,
       color: company.storeConfiguration?.props.color,
       logo: company.storeConfiguration?.props.logo,
       keyPhrases: company.storeConfiguration?.props.keyPhrases,
@@ -56,7 +58,7 @@ export class CompanyMapper {
       links: company.storeConfiguration?.props.links,
       externalUrl: company.storeConfiguration?.props.externalUrl,
       subscriptionStatus: company.data.subscriptionStatus,
-      subscriptionUpdatedAt: company.data.subscriptionUpdatedAt,
+      subscriptionUpdatedAt: company.data.subscriptionUpdatedAt
     };
   }
 }

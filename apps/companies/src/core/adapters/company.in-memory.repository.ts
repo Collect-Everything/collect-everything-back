@@ -1,5 +1,5 @@
-import { Company } from "../domain/company.entity";
-import { CompanyRepository } from "../ports/company.repository";
+import { Company } from '../domain/company.entity';
+import { CompanyRepository } from '../ports/company.repository';
 
 export class InMemoryCompanyRepository implements CompanyRepository {
   companies: Company[] = [];
@@ -7,7 +7,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
     const exists = await this.findById(company.id);
     if (exists) {
       this.companies = this.companies.map((c) =>
-        c.id === company.id ? company : c,
+        c.id === company.id ? company : c
       );
     } else {
       this.companies.push(company);
@@ -22,9 +22,9 @@ export class InMemoryCompanyRepository implements CompanyRepository {
     return this.companies.find((c) => c.name === name || c.email === email);
   }
 
-  async findByStoreName(storeName: string) {
+  async findByStoreSlug(storeSlug: string) {
     return this.companies.find(
-      (c) => c.storeConfiguration?.props.storeName === storeName,
+      (c) => c.storeConfiguration?.props.storeSlug === storeSlug
     );
   }
 
@@ -33,7 +33,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       data: this.companies,
       total: this.companies.length,
       page: 0,
-      limit: this.companies.length,
+      limit: this.companies.length
     };
   }
 }
