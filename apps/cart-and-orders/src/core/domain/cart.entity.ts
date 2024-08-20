@@ -4,7 +4,7 @@ import { Product, ProductData } from './product.entity';
 
 export const CartPropsSchema = z.object({
   id: z.string(),
-  userId: z.string(),
+  customerId: z.string(),
   products: z.array(z.instanceof(Product))
 });
 
@@ -12,7 +12,7 @@ export type CartProps = z.infer<typeof CartPropsSchema>;
 
 export interface CartData {
   id: string;
-  userId: string;
+  customerId: string;
   products: ProductData[];
 }
 
@@ -23,8 +23,8 @@ export class Cart extends Entity<CartProps, string> {
     this.validate(props);
   }
 
-  get userId() {
-    return this._props.userId;
+  get customerId() {
+    return this._props.customerId;
   }
 
   get products() {
@@ -33,7 +33,7 @@ export class Cart extends Entity<CartProps, string> {
 
   static fromData(data: CartData) {
     const products = data.products.map((product) => new Product(product));
-    return new Cart({ id: data.id, userId: data.userId, products });
+    return new Cart({ id: data.id, customerId: data.customerId, products });
   }
 
   hasProduct(productId: string) {

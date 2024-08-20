@@ -5,7 +5,7 @@ import { AddToCartUseCase } from '../add-to-cart/add-to-cart.usecase';
 import { InMemoryProductRepository } from '../../adapters/product.inmemory.repository';
 import { InMemoryCartRepository } from '../../adapters/cart.inmemory.repository';
 import { StubIdProvider } from '@ce/shared-core';
-import { Product } from '../../domain/product.entity';
+import { OrderProduct } from '../../domain/order-product.entity';
 import { RemoveFromCartUseCase } from '../remove-from-cart/remove-from-cart.usecase';
 import { RemoveFromCartCommand } from '../remove-from-cart/remove-from-cart.command';
 import { CartResponseDto, GetCartUseCase } from '../get-cart/get-cart.usecase';
@@ -35,7 +35,7 @@ export const createCartFixture = () => {
     givenPredefinedId: (id: string) => {
       idProvider.id = id;
     },
-    givenSomeProductExists: (products: Product[]) => {
+    givenSomeProductExists: (products: OrderProduct[]) => {
       productRepository.products = products;
     },
     givenSomeCartExists: (carts: Cart[]) => {
@@ -67,7 +67,7 @@ export const createCartFixture = () => {
     },
     thenCartIs: (expectedCart: Cart) => {
       const cart = cartRepository.carts.find(
-        (cart) => cart.userId === expectedCart.userId
+        (cart) => cart.customerId === expectedCart.customerId
       );
 
       expect(cart).toEqual(expectedCart);

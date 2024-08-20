@@ -22,7 +22,7 @@ describe('Feature: Remove from cart', () => {
     fixture.givenSomeCartExists([
       Cart.fromData({
         id: 'cart-1',
-        userId: 'user-1',
+        customerId: 'user-1',
         products: [
           { id: 'product-1', name: 'Product 1', price: 100 },
           { id: 'product-1', name: 'Product 1', price: 100 }

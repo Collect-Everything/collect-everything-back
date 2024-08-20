@@ -1,5 +1,5 @@
-import { Product } from '../domain/product.entity';
+import { OrderProduct } from '../domain/order-product.entity';
 
 export interface ProductRepository {
-  findById(id: string): Promise<Product | undefined>;
+  findById(id: string): Promise<OrderProduct | undefined>;
 }

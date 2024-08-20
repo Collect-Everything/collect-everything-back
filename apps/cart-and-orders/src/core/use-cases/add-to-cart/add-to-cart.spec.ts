@@ -29,7 +29,7 @@ describe('Feature: Add to cart', () => {
     fixture.thenCartIs(
       Cart.fromData({
         id: 'cart-1',
-        userId: 'user-1',
+        customerId: 'user-1',
         products: [{ id: 'product-1', name: 'Product 1', price: 100 }]
       })
     );
@@ -54,7 +54,7 @@ describe('Feature: Add to cart', () => {
     fixture.thenCartIs(
       Cart.fromData({
         id: 'cart-1',
-        userId: 'user-1',
+        customerId: 'user-1',
         products: [
           { id: 'product-1', name: 'Product 1', price: 100 },
           { id: 'product-1', name: 'Product 1', price: 100 },
@@ -87,7 +87,7 @@ describe('Feature: Add to cart', () => {
     fixture.thenCartIs(
       Cart.fromData({
         id: 'cart-1',
-        userId: 'user-1',
+        customerId: 'user-1',
         products: [
           { id: 'product-1', name: 'Product 1', price: 100 },
           { id: 'product-1', name: 'Product 1', price: 100 },

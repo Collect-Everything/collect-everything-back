@@ -26,7 +26,7 @@ export class AddToCartUseCase {
     if (!cart) {
       cart = Cart.fromData({
         id: this.idProvider.generate(),
-        userId: command.userId,
+        customerId: command.userId,
         products: []
       });
     }
