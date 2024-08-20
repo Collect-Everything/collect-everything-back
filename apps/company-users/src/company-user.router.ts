@@ -9,6 +9,9 @@ export class CompanyUserRouter extends BaseRouter {
   }
 
   initRoutes() {
+    this.router.get('/:companyUserId', [], this.controller.getCompanyUser);
+    this.router.get('/', [], this.controller.listCompanyUsers);
+
     this.router.post("/register", this.controller.register);
 
     this.router.post("/validate-email", this.controller.validateEmail);

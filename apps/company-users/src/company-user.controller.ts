@@ -11,12 +11,17 @@ import { EmailAlreadyTakenError } from "./core/use-cases/register/register.error
 import { ValidateEmailUseCase } from "./core/use-cases/validate-email/validate-email.usecase";
 import { EmailAlreadyVerifiedError } from "./core/use-cases/validate-email/validate-email.errors";
 import { ValidateCredentialsUseCase } from "./core/use-cases/validate-credentials/validate-credentials.usecase";
+import { GetCompanyUserUseCase } from "./core/use-cases/get-company-user/get-company-user.usecase";
+import { ListCompanyUsersUseCase } from "./core/use-cases/list-company-users/list-company-users.usecase";
 import { UpdateUseCase } from "./core/use-cases/update/update.usecase";
 import { CompanyUserNotFoundError } from "./core/errors/company-user-not-found";
 import { DeleteUseCase } from "./core/use-cases/delete/delete.usecase";
+import { ApiResponse } from "@ce/shared-core";
 
 export class CompanyUserController extends BaseController {
   constructor(
+    private readonly getCompanyUserUseCase: GetCompanyUserUseCase,
+    private readonly listCompanyUsersUseCase: ListCompanyUsersUseCase,
     private readonly registerUseCase: RegisterUseCase,
     private readonly validateEmailUseCase: ValidateEmailUseCase,
     private readonly validateCredentialsUseCase: ValidateCredentialsUseCase,
@@ -25,6 +30,45 @@ export class CompanyUserController extends BaseController {
   ) {
     super("CompanyUser");
   }
+
+  getCompanyUser: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('getCompanyUser'), res, async () => {
+      const { companyUserId } = req.params;
+      if (!companyUserId) {
+        throw new HttpException(400, 'Missing companyUserId');
+      }
+      const result = await this.getCompanyUserUseCase.execute({ companyUserId });
+      if (result.isErr()) {
+        if (result.error instanceof CompanyUserNotFoundError) {
+          throw new HttpException(404, `CompanyUser ${companyUserId} not found`);
+        }
+        throw new HttpException(500, 'Unknown error', [result.error]);
+      }
+
+      return {
+        success: true,
+        data: {}
+      } satisfies ApiResponse;
+    });
+
+  listCompanyUsers: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('listCompanyUsers'), res, async () => {
+      const query = req.query;
+      console.log('query', query);
+      const result = await this.listCompanyUsersUseCase.execute({
+        limit: parseInt(query.limit as string),
+        page: parseInt(query.page as string)
+      });
+
+      if (result.isErr()) {
+        throw new HttpException(500, 'Unknown error', [result.error]);
+      }
+
+      return {
+        success: true,
+        data: result.value
+      } satisfies ApiResponse;
+    });
 
   register: RequestHandler = async (req, res) =>
     ctrlWrapper("register", res, async () => {

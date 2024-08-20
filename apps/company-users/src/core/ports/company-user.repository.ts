@@ -1,3 +1,4 @@
+import { PaginatedParams, PaginatedResponse } from "@ce/shared-core";
 import { CompanyUser } from "../domain/company-user.entity";
 
 export interface CompanyUserRepository {
@@ -6,4 +7,7 @@ export interface CompanyUserRepository {
   findById(id: string): Promise<CompanyUser | null>;
   delete: (id: string) => Promise<void>;
   countAdminsForCompany: (companyId: string) => Promise<number>;
+  findAllPaginated(
+    params: PaginatedParams
+  ): Promise<PaginatedResponse<CompanyUser>>;
 }

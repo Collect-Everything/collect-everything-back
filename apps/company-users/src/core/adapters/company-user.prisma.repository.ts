@@ -2,6 +2,7 @@ import { PrismaClient } from "@ce/db";
 import { CompanyUserRepository } from "../ports/company-user.repository";
 import { CompanyUser } from "../domain/company-user.entity";
 import { CompanyUserMapper } from "../mappers/company-user.mapper";
+import { PaginatedParams, PaginatedResponse } from "@ce/shared-core";
 
 export class PrismaCompanyUserRepository implements CompanyUserRepository {
   constructor(private prisma: PrismaClient) {}
@@ -61,5 +62,21 @@ export class PrismaCompanyUserRepository implements CompanyUserRepository {
     return this.prisma.companyUser.count({
       where: { companyId, role: "ADMIN" },
     });
+  }
+
+  async findAllPaginated(params: PaginatedParams): Promise<PaginatedResponse<CompanyUser>> {
+    const rawCompanyUsers = await this.prisma.companyUser.findMany({
+      skip: (params.page - 1) * params.limit,
+      take: params.limit
+    });
+
+    const companies = rawCompanyUsers.map((raw) => CompanyUserMapper.toDomain(raw));
+
+    return {
+      data: companies,
+      page: params.page,
+      limit: params.limit,
+      total: await this.prisma.company.count()
+    };
   }
 }
