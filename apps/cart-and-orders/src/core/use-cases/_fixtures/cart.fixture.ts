@@ -8,6 +8,8 @@ import { StubIdProvider } from '@ce/shared-core';
 import { Product } from '../../domain/product.entity';
 import { RemoveFromCartUseCase } from '../remove-from-cart/remove-from-cart.usecase';
 import { RemoveFromCartCommand } from '../remove-from-cart/remove-from-cart.command';
+import { CartResponseDto, GetCartUseCase } from '../get-cart/get-cart.usecase';
+import { GetCartQuery } from '../get-cart/get-cart.query';
 
 export const createCartFixture = () => {
   const cartRepository = new InMemoryCartRepository();
@@ -25,7 +27,10 @@ export const createCartFixture = () => {
     productRepository
   );
 
+  const getCartUseCase = new GetCartUseCase(cartRepository);
+
   let thrownError: any;
+  let cartResponse: CartResponseDto;
   return {
     givenPredefinedId: (id: string) => {
       idProvider.id = id;
@@ -50,12 +55,25 @@ export const createCartFixture = () => {
         thrownError = result.error;
       }
     },
+    whenUserGetsCart: async (query: GetCartQuery) => {
+      const result = await getCartUseCase.execute(query);
+
+      if (result.isErr()) {
+        thrownError = result.error;
+        return;
+      }
+
+      cartResponse = result.value;
+    },
     thenCartIs: (expectedCart: Cart) => {
       const cart = cartRepository.carts.find(
         (cart) => cart.userId === expectedCart.userId
       );
 
       expect(cart).toEqual(expectedCart);
+    },
+    thenCartResponseIs: (expectedCart: CartResponseDto) => {
+      expect(cartResponse).toEqual(expectedCart);
     }
   };
 };

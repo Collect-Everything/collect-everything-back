@@ -22,6 +22,14 @@ export class Product extends Entity<ProductProps, string> {
     this.validate(props);
   }
 
+  get name() {
+    return this._props.name;
+  }
+
+  get price() {
+    return this._props.price;
+  }
+
   static fromData(data: ProductData) {
     return new Product(data);
   }

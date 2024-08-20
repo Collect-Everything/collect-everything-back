@@ -1,4 +1,4 @@
-import { describe, beforeEach, test, expect } from 'vitest';
+import { describe, beforeEach, test } from 'vitest';
 import { Cart } from '../../domain/cart.entity';
 import { CartFixture, createCartFixture } from '../_fixtures/cart.fixture';
 import { Product } from '../../domain/product.entity';

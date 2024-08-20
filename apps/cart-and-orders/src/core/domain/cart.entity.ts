@@ -27,6 +27,10 @@ export class Cart extends Entity<CartProps, string> {
     return this._props.userId;
   }
 
+  get products() {
+    return this._props.products;
+  }
+
   static fromData(data: CartData) {
     const products = data.products.map((product) => new Product(product));
     return new Cart({ id: data.id, userId: data.userId, products });

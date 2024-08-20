@@ -3,14 +3,14 @@ import { CartFixture, createCartFixture } from '../_fixtures/cart.fixture';
 import { Cart } from '../../domain/cart.entity';
 import { Product } from '../../domain/product.entity';
 
-describe('Feature: Remove from cart', () => {
+describe('Feature: Get cart', () => {
   let fixture: CartFixture;
 
   beforeEach(() => {
     fixture = createCartFixture();
   });
 
-  test('user can remove a product from the cart', async () => {
+  test('user can get their cart', async () => {
     fixture.givenSomeProductExists([
       Product.fromData({
         id: 'product-1',
@@ -29,5 +29,20 @@ describe('Feature: Remove from cart', () => {
         ]
       })
     ]);
+
+    await fixture.whenUserGetsCart({
+      userId: 'user-1'
+    });
+
+    fixture.thenCartResponseIs({
+      products: [
+        {
+          id: 'product-1',
+          name: 'Product 1',
+          price: 100,
+          quantity: 2
+        }
+      ]
+    });
   });
 });
