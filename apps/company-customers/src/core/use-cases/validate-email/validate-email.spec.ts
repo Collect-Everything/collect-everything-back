@@ -5,7 +5,7 @@ import {
 } from '../_fixtures/company-customer.fixture';
 import { CompanyCustomer } from '../../domain/company-customer.entity';
 import { EmailAlreadyVerifiedError } from './validate-email.errors';
-import { CompanyUserNotFoundError } from '../../errors/company-user-not-found';
+import { CompanyUserNotFoundError } from '../../errors/company-customer-not-found';
 
 describe('Validate email', () => {
   let fixture: CompanyUserFixture;

@@ -27,6 +27,9 @@ export class CompanyCustomersController extends GatewayController {
     getCompanyCustomer: RequestHandler = (req, res) =>
       ctrlWrapper(this.getIdentifier("getCompanyCustomer"), res, async () => {
         let companyCustomerId = req.params.companyCustomerId
+
+        console.log(companyCustomerId)
+
         const companyCustomerResult = await this.companyUsersService.getCompanyCustomer(companyCustomerId);
 
         if (companyCustomerResult.isErr()) {

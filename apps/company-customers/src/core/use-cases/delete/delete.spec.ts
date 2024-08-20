@@ -4,7 +4,7 @@ import {
   createCompanyCustomerFixture
 } from '../_fixtures/company-customer.fixture';
 import { CompanyCustomer } from '../../domain/company-customer.entity';
-import { CompanyUserNotFoundError } from '../../errors/company-user-not-found';
+import { CompanyUserNotFoundError } from '../../errors/company-customer-not-found';
 
 describe('Delete company user', () => {
   let fixture: CompanyUserFixture;

@@ -2,7 +2,7 @@ import { Err, Ok, Result } from '@ce/shared-core';
 import { CompanyCustomerRepository } from '../../ports/company-customer.repository';
 import { ValidateEmailCommand } from './validate-email.command';
 import { EmailAlreadyVerifiedError } from './validate-email.errors';
-import { CompanyUserNotFoundError } from '../../errors/company-user-not-found';
+import { CompanyUserNotFoundError } from '../../errors/company-customer-not-found';
 
 export class ValidateEmailUseCase {
   constructor(private companyUserRepository: CompanyCustomerRepository) {}

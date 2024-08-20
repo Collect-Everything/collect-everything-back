@@ -4,6 +4,8 @@ import {
   HttpException,
   ctrlWrapper
 } from '@ce/server-core';
+import { GetCompanyCustomerUseCase } from './core/use-cases/get-company-customer/get-company-customer.usecase';
+import { ListCompanyCustomersUseCase } from './core/use-cases/list-company-customers/list-company-customers.usecase';
 import { RegisterUseCase } from './core/use-cases/register/register.usecase';
 import { RequestHandler } from 'express';
 import { RegisterCommand } from './core/use-cases/register/register.command';
@@ -12,11 +14,14 @@ import { ValidateEmailUseCase } from './core/use-cases/validate-email/validate-e
 import { EmailAlreadyVerifiedError } from './core/use-cases/validate-email/validate-email.errors';
 import { ValidateCredentialsUseCase } from './core/use-cases/validate-credentials/validate-credentials.usecase';
 import { UpdateUseCase } from './core/use-cases/update/update.usecase';
-import { CompanyUserNotFoundError } from './core/errors/company-user-not-found';
+import { CompanyCustomerNotFoundError } from './core/errors/company-customer-not-found';
 import { DeleteUseCase } from './core/use-cases/delete/delete.usecase';
+import { ApiResponse } from '@ce/shared-core';
 
 export class CompanyCustomerController extends BaseController {
   constructor(
+    private readonly getCompanyCustomerUseCase: GetCompanyCustomerUseCase,
+    private readonly listCompanyCustomersUseCase: ListCompanyCustomersUseCase,
     private readonly registerUseCase: RegisterUseCase,
     private readonly validateEmailUseCase: ValidateEmailUseCase,
     private readonly validateCredentialsUseCase: ValidateCredentialsUseCase,
@@ -25,6 +30,48 @@ export class CompanyCustomerController extends BaseController {
   ) {
     super('CompanyCustomer');
   }
+  
+  getCompanyCustomer: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('getCompanyCustomer'), res, async () => {
+      const { companyCustomerId } = req.params;
+
+      console.log(companyCustomerId)
+
+      if (!companyCustomerId) {
+        throw new HttpException(400, 'Missing companyCustomerId');
+      }
+      const result = await this.getCompanyCustomerUseCase.execute({ companyCustomerId });
+      if (result.isErr()) {
+        if (result.error instanceof CompanyCustomerNotFoundError) {
+          throw new HttpException(404, `CompanyCustomer ${companyCustomerId} not found`);
+        }
+        throw new HttpException(500, 'Unknown error', [result.error]);
+      }
+
+      return {
+        success: true,
+        data: {result}
+      } satisfies ApiResponse;
+    });
+
+  listCompanyCustomers: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('listCompanyCustomers'), res, async () => {
+      const query = req.query;
+      console.log('query', query);
+      const result = await this.listCompanyCustomersUseCase.execute({
+        limit: parseInt(query.limit as string),
+        page: parseInt(query.page as string)
+      });
+
+      if (result.isErr()) {
+        throw new HttpException(500, 'Unknown error', [result.error]);
+      }
+
+      return {
+        success: true,
+        data: result.value
+      } satisfies ApiResponse;
+    });
 
   register: RequestHandler = async (req, res) =>
     ctrlWrapper('register', res, async () => {
@@ -58,7 +105,7 @@ export class CompanyCustomerController extends BaseController {
       const result = await this.validateEmailUseCase.execute({ email });
 
       if (result.isErr()) {
-        if (result.error instanceof CompanyUserNotFoundError) {
+        if (result.error instanceof CompanyCustomerNotFoundError) {
           throw new HttpException(404, 'Company user not found');
         }
 
@@ -106,7 +153,7 @@ export class CompanyCustomerController extends BaseController {
       }
       const result = await this.updateUseCase.execute({ id, ...body });
       if (result.isErr()) {
-        if (result.error instanceof CompanyUserNotFoundError) {
+        if (result.error instanceof CompanyCustomerNotFoundError) {
           throw new HttpException(404, 'Company user not found');
         }
         throw new HttpException(500, 'Internal server error', [result.error]);
@@ -126,7 +173,7 @@ export class CompanyCustomerController extends BaseController {
       }
       const result = await this.deleteUseCase.execute({ id });
       if (result.isErr()) {
-        if (result.error instanceof CompanyUserNotFoundError) {
+        if (result.error instanceof CompanyCustomerNotFoundError) {
           throw new HttpException(404, 'Company user not found');
         }
         throw new HttpException(500, 'Internal server error', [result.error]);

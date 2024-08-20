@@ -70,10 +70,10 @@ export class PrismaCompanyUserRepository implements CompanyUserRepository {
       take: params.limit
     });
 
-    const companies = rawCompanyUsers.map((raw) => CompanyUserMapper.toDomain(raw));
+    const companyUsers = rawCompanyUsers.map((raw) => CompanyUserMapper.toDomain(raw));
 
     return {
-      data: companies,
+      data: companyUsers,
       page: params.page,
       limit: params.limit,
       total: await this.prisma.company.count()
