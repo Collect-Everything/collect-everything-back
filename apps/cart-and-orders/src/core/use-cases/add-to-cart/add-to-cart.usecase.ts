@@ -12,7 +12,9 @@ export class AddToCartUseCase {
     private idProvider: IdProvider
   ) {}
 
-  async execute(command: AddToCartCommand): Promise<Result<void, Error>> {
+  async execute(
+    command: AddToCartCommand
+  ): Promise<Result<{ cartId: string }, Error>> {
     const product = await this.productRepository.findById(command.productId);
 
     if (!product) {
@@ -35,6 +37,8 @@ export class AddToCartUseCase {
 
     await this.cartRepository.save(cart);
 
-    return Ok.of(undefined);
+    return Ok.of({
+      cartId: cart.id
+    });
   }
 }

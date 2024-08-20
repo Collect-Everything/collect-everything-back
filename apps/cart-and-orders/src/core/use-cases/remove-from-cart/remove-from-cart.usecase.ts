@@ -1,4 +1,4 @@
-import { Err, Ok } from '@ce/shared-core';
+import { Err, Ok, Result } from '@ce/shared-core';
 import { CartRepository } from '../../ports/cart.repository';
 import { ProductRepository } from '../../ports/product.repository';
 import { RemoveFromCartCommand } from './remove-from-cart.command';
@@ -11,7 +11,9 @@ export class RemoveFromCartUseCase {
     private productRepository: ProductRepository
   ) {}
 
-  async execute(command: RemoveFromCartCommand) {
+  async execute(
+    command: RemoveFromCartCommand
+  ): Promise<Result<void, CartNotFoundError | ProductNotInCartError>> {
     const cart = await this.cartRepository.findByUserId(command.userId);
 
     if (!cart) {
