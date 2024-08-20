@@ -1,5 +1,5 @@
-import { CompaniesController } from "./companies.controller";
-import { BaseRouter } from "@ce/server-core";
+import { CompaniesController } from './companies.controller';
+import { BaseRouter } from '@ce/server-core';
 
 export class CompaniesRouter extends BaseRouter {
   constructor(private readonly companiesCtrl: CompaniesController) {
@@ -8,5 +8,7 @@ export class CompaniesRouter extends BaseRouter {
     this.initRoutes();
   }
 
-  initRoutes(): void {}
+  initRoutes(): void {
+    this.router.get('/:companyId', this.companiesCtrl.getCompany);
+  }
 }

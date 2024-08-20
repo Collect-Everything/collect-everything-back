@@ -1,48 +1,54 @@
-import { EventsService } from "@ce/events";
-import { BaseResponse, GatewayService } from "@ce/server-core";
-import { CompanyUserTokenPayloadSchema, Err, Ok } from "@ce/shared-core";
+import { EventsService } from '@ce/events';
+import { BaseResponse, GatewayService } from '@ce/server-core';
+import {
+  CompanyCustomerTokenPayloadSchema,
+  CompanyUserTokenPayloadSchema,
+  Err,
+  Ok
+} from '@ce/shared-core';
+import { CompanyCustomersService } from '../company-customers/company-customers.service';
 
 export class InvalidCredentialsError extends Error {
   constructor() {
-    super("Invalid credentials");
+    super('Invalid credentials');
   }
 }
 
 export class InvalidTokenPayloadError extends Error {
   constructor() {
-    super("Invalid token payload");
+    super('Invalid token payload');
   }
 }
 
 export class AuthService extends GatewayService {
-  constructor(private readonly eventsService: EventsService) {
-    super("auth", {
-      gatewayName: "STORE_GATEWAY",
-      serviceName: "AUTH",
+  constructor(
+    private readonly eventsService: EventsService,
+    private readonly companyCustomersService: CompanyCustomersService
+  ) {
+    super('auth', {
+      gatewayName: 'STORE_GATEWAY',
+      serviceName: 'AUTH'
     });
   }
 
   async login(email: string, password: string) {
-    //TODO: Remplacer par l'appel au service company-customer
-    //const validateResult = await this.companyUsersService.validateCredentials(
-    //  email,
-    //  password,
-    //);
-    //if (validateResult.isErr()) {
-    //  return Err.of(new InvalidCredentialsError());
-    //}
-    //
-    //const userData = validateResult.value.data;
+    const validateResult =
+      await this.companyCustomersService.validateCredentials(email, password);
+    if (validateResult.isErr()) {
+      return Err.of(new InvalidCredentialsError());
+    }
 
-    const tokenResult = await this.generateToken({});
+    const customerData = validateResult.value.data;
+
+    const tokenResult = await this.generateToken(customerData);
 
     if (tokenResult.isErr()) {
-      return Err.of(new Error("Failed to generate token"));
+      return Err.of(new Error('Failed to generate token'));
     }
 
     return Ok.of({
       accessToken: tokenResult.value.data.accessToken,
-      refreshToken: tokenResult.value.data.refreshToken,
+      refreshToken: tokenResult.value.data.refreshToken
     });
   }
 
@@ -53,24 +59,24 @@ export class AuthService extends GatewayService {
       return payloadResult;
     }
 
-    const userData = payloadResult.value;
+    const customerData = payloadResult.value;
 
-    const tokenResult = await this.generateToken(userData);
+    const tokenResult = await this.generateToken(customerData);
 
     if (tokenResult.isErr()) {
-      return Err.of(new Error("Failed to generate token"));
+      return Err.of(new Error('Failed to generate token'));
     }
 
     return Ok.of({
       accessToken: tokenResult.value.data.accessToken,
-      refreshToken: tokenResult.value.data.refreshToken,
+      refreshToken: tokenResult.value.data.refreshToken
     });
   }
 
   private async verifyToken(token: string) {
     const handler = this.fetcher.post<BaseResponse<{ payload: any }>>(
-      "/verify",
-      { token },
+      '/verify',
+      { token }
     );
 
     const result = await this.executeRequest(handler);
@@ -79,9 +85,8 @@ export class AuthService extends GatewayService {
       return result;
     }
 
-    //TODO: Remplacer par le schema pour un company-customer
-    const payloadResult = CompanyUserTokenPayloadSchema.safeParse(
-      result.value.data.payload,
+    const payloadResult = CompanyCustomerTokenPayloadSchema.safeParse(
+      result.value.data.payload
     );
 
     if (payloadResult.success) {
@@ -94,7 +99,7 @@ export class AuthService extends GatewayService {
   private async generateToken(payload: any) {
     const handler = this.fetcher.post<
       BaseResponse<{ accessToken: string; refreshToken: string }>
-    >("/create", payload);
+    >('/create', payload);
 
     return this.executeRequest(handler);
   }
