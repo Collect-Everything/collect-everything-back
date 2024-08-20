@@ -39,7 +39,7 @@ yarn build:packages
 yarn dev --concurrency 20
 ```
 
-Option pour pc lent:
+**Option pour pc lent:**
 Ouvrir deux terminaux, dans le premier lancer une gateway
 avec une commande comme `yarn dev:showcase-gateway` et dans
 le deuxième lancer le service sur lequel vous voulez travailler
