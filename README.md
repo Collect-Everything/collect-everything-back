@@ -2,18 +2,20 @@
 
 ## Prérequis
 
-0. Version de yarn
-   Faire `yarn -v` pour vérifier que vous avez une version de yarn supérieure à 2.0.
-   Si ce n'est pas le cas, sortir du projet avec `cd ..` puis faire `yarn set version stable`
+0. Version de yarn:
 
-1. Installer les dépendances
+Faire `yarn -v` pour vérifier que vous avez une version de yarn supérieure à 2.0.
+Si ce n'est pas le cas, sortir du projet avec `cd ..` puis faire `yarn set version stable`
+
+1. Installer les dépendances:
 
 ```bash
 yarn install
 ```
 
-2. Lancer la DB
-   Si vous avez make d'installé:
+2. Lancer la DB:
+
+Si vous avez make d'installé:
 
 ```bash
 make start-infra
