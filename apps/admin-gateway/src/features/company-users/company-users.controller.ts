@@ -22,4 +22,19 @@ export class CompanyUsersController extends GatewayController {
         data: listCompanyUsersResult.value.data,
       } satisfies BaseResponse;
     });
+
+    getCompanyUser: RequestHandler = (req, res) =>
+      ctrlWrapper(this.getIdentifier("getCompanyUser"), res, async () => {
+        let companyUserId = req.params.companyUserId
+        const companyUserResult = await this.companyUsersService.getCompanyUser(companyUserId);
+
+        if (companyUserResult.isErr()) {
+          throw new HttpException(400, companyUserResult.error.message);
+        }
+        return {
+          status: 200,
+          success: true,
+          data: companyUserResult.value.data,
+        } satisfies BaseResponse;
+      });
 }

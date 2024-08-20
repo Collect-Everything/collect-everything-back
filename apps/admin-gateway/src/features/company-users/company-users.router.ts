@@ -9,5 +9,7 @@ export class CompanyUsersRouter extends BaseRouter {
 
   initRoutes(): void {
     this.router.get("/", this.companyUsersCtrl.listCompanyUsers);
+
+    this.router.get("/:companyUserId", this.companyUsersCtrl.getCompanyUser);
   }
 }

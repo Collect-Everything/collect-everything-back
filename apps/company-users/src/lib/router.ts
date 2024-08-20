@@ -5,6 +5,7 @@ import { companyUserRouter } from "../dependency-injection";
 export const createApiRouter = (app: Express) => {
   const baseApiRouter = express.Router();
   baseApiRouter.use("/", companyUserRouter);
+  baseApiRouter.use("/:companyUserId", companyUserRouter);
 
   app.use(apiConfig.apiPath, baseApiRouter);
 };
