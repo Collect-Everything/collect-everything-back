@@ -13,6 +13,21 @@ export class CompaniesController extends GatewayController {
     super("companies");
   }
 
+  getCompany: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier("getCompany"), res, async () => {
+      let companyId = req.params.companyId
+      const companyResult = await this.companiesService.getCompany(companyId);
+
+      if (companyResult.isErr()) {
+        throw new HttpException(400, companyResult.error.message);
+      }
+      return {
+        status: 200,
+        success: true,
+        data: companyResult.value.data,
+      } satisfies BaseResponse;
+    });
+
   listCompanies: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier("listCompanies"), res, async () => {
       const listCompaniesResult = await this.companiesService.listCompanies({

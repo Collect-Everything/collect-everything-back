@@ -13,6 +13,6 @@ export class GetCompanyUserUseCase {
       return Err.of(new CompanyUserNotFoundError(query.companyUserId));
     }
 
-    return Ok.of(companyUser.data);
+    return Ok.of({...companyUser.data, password:undefined});
   }
 }

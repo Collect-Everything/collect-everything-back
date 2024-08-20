@@ -85,7 +85,7 @@ export class CompanyController extends BaseController {
 
       return {
         success: true,
-        data: {}
+        data: {result}
       } satisfies ApiResponse;
     });
 
