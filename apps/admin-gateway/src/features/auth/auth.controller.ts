@@ -1,4 +1,5 @@
 import {
+  BadRequestError,
   BaseController,
   BaseResponse,
   HttpException,
@@ -19,13 +20,15 @@ export class AuthController extends BaseController {
       const { email, password } = req.body;
 
       if (!email || !password) {
-        throw new HttpException(400, 'Email and password are required');
+        throw new BadRequestError({
+          message: 'Email and password are required'
+        });
       }
 
       const res = await this.authService.login(email, password);
 
       if (res.isErr()) {
-        throw new HttpException(400, res.error.message);
+        throw res.error;
       }
 
       return {
@@ -42,13 +45,13 @@ export class AuthController extends BaseController {
       const { refreshToken } = req.body;
 
       if (!refreshToken) {
-        throw new HttpException(400, 'Refresh token is required');
+        throw new BadRequestError({ message: 'Refresh token is required' });
       }
 
       const res = await this.authService.loginWithRefreshToken(refreshToken);
 
       if (res.isErr()) {
-        throw new HttpException(400, res.error.message);
+        throw res.error;
       }
 
       return {
