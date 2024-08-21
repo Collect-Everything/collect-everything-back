@@ -129,8 +129,7 @@ enum OrderStatus {
     CART
     PENDING
     CONFIRMED
-    SHIPPED
-    DELIVERED
+    PICKED
 }
 
 model Order {

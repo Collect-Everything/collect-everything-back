@@ -3,7 +3,6 @@ import {
   BaseController,
   BaseResponse,
   ConflictError,
-  HttpException,
   NotFoundError,
   UnknownError,
   ctrlWrapper
