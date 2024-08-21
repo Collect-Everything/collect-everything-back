@@ -12,12 +12,15 @@ import { UpdateOrderStatusUseCase } from './core/use-cases/update-order-status/u
 import { RequestHandler } from 'express';
 import { OrderNotFoundError } from './core/errors/order-not-found';
 import { DeleteOrderUseCase } from './core/use-cases/delete-order/delete-order.usecase';
+import { ListOrdersUseCase } from './core/use-cases/list-orders/list-orders.usecase';
+import { OrderStatus } from './core/domain/order.entity';
 
 export class OrderController extends BaseController {
   constructor(
     private getOrderUseCase: GetOrderUseCase,
     private updateOrderStatusUseCase: UpdateOrderStatusUseCase,
-    private deleteOrderUseCase: DeleteOrderUseCase
+    private deleteOrderUseCase: DeleteOrderUseCase,
+    private listOrdersUseCase: ListOrdersUseCase
   ) {
     super('order');
   }
@@ -88,6 +91,26 @@ export class OrderController extends BaseController {
         }
         throw new UnknownError();
       }
+      return {
+        status: 200,
+        success: true,
+        data: result.value
+      } satisfies BaseResponse;
+    });
+
+  listOrders: RequestHandler = async (req, res) =>
+    ctrlWrapper('listOrders', res, async () => {
+      const customerId = req.query.customerId as string;
+      const statuses = req.query.statuses as OrderStatus[];
+      const page = Number(req.query.page) || 1;
+      const limit = Number(req.query.limit) || 10;
+      const query = { customerId, statuses, page, limit };
+      const result = await this.listOrdersUseCase.execute(query);
+
+      if (result.isErr()) {
+        throw new UnknownError();
+      }
+
       return {
         status: 200,
         success: true,

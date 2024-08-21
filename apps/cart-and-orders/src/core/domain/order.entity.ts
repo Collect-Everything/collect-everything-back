@@ -26,6 +26,14 @@ export interface ProductWithQuantity extends ProductData {
   quantity: number;
 }
 
+export interface OrderSummary {
+  id: string;
+  status: OrderStatus;
+  customerId: string;
+  products: ProductWithQuantity[];
+  totalPrice: number;
+}
+
 export class Order extends Entity<OrderProps, string> {
   constructor(props: OrderProps) {
     super(props);
@@ -48,6 +56,16 @@ export class Order extends Entity<OrderProps, string> {
       ...product.data,
       quantity: this.quantityOf(product.id)
     }));
+  }
+
+  get summary(): OrderSummary {
+    return {
+      id: this.id,
+      status: this.status,
+      customerId: this.customerId,
+      products: this.productsWithQuantity,
+      totalPrice: this.totalPrice
+    };
   }
 
   get status() {

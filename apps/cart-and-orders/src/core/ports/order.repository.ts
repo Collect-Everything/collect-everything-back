@@ -1,7 +1,11 @@
-import { Order } from '../domain/order.entity';
+import { PaginatedParams, PaginatedResponse } from '@ce/shared-core';
+import { Order, OrderStatus } from '../domain/order.entity';
 
 export interface OrderRepository {
   findById(id: string): Promise<Order | undefined>;
   save(order: Order): Promise<void>;
   delete(order: Order): Promise<void>;
+  findAllPaginated(
+    params: PaginatedParams & { customerId?: string; statuses?: OrderStatus[] }
+  ): Promise<PaginatedResponse<Order>>;
 }

@@ -1,7 +1,8 @@
 import { PrismaClient } from '@ce/db';
 import { OrderRepository } from '../ports/order.repository';
-import { Order } from '../domain/order.entity';
+import { Order, OrderStatus } from '../domain/order.entity';
 import { Product } from '../domain/product.entity';
+import { PaginatedParams } from '@ce/shared-core';
 
 export class PrismaOrderRepository implements OrderRepository {
   constructor(private prisma: PrismaClient) {}
@@ -55,6 +56,42 @@ export class PrismaOrderRepository implements OrderRepository {
     await this.prisma.order.delete({
       where: { id: order.id }
     });
+  }
+
+  async findAllPaginated(
+    params: PaginatedParams & { customerId?: string; statuses?: OrderStatus[] }
+  ) {
+    const where = {
+      customerId: params.customerId ?? undefined,
+      status: params.statuses
+        ? {
+            in: params.statuses
+          }
+        : undefined
+    };
+    const rawOrders = await this.prisma.order.findMany({
+      where,
+      include: {
+        orderProducts: {
+          include: {
+            product: true
+          }
+        }
+      },
+      skip: (params.page - 1) * params.limit,
+      take: params.limit
+    });
+
+    const orders = rawOrders.map((rawOrder) => this.rawToOrder(rawOrder));
+
+    return {
+      data: orders,
+      total: await this.prisma.order.count({
+        where
+      }),
+      limit: params.limit,
+      page: params.page
+    };
   }
 
   private rawToOrder(rawOrder: any) {
