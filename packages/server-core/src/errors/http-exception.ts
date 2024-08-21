@@ -56,7 +56,7 @@ export class NotFoundError extends HttpException {
       404,
       params?.message ?? STATUS_TEXT[404],
       params?.errors,
-      ERROR_CODES.API_ERROR
+      ERROR_CODES.NOT_FOUND
     );
   }
 }
@@ -66,6 +66,17 @@ export class ForbiddenError extends HttpException {
     super(
       403,
       params?.message ?? STATUS_TEXT[403],
+      params?.errors,
+      ERROR_CODES.FORBIDDEN
+    );
+  }
+}
+
+export class UnauthorizedError extends HttpException {
+  constructor(params?: ErrorParams) {
+    super(
+      401,
+      params?.message ?? STATUS_TEXT[401],
       params?.errors,
       ERROR_CODES.API_ERROR
     );
@@ -78,7 +89,7 @@ export class ConflictError extends HttpException {
       409,
       params?.message ?? STATUS_TEXT[409],
       params?.errors,
-      ERROR_CODES.API_ERROR
+      ERROR_CODES.CONFLICT
     );
   }
 }

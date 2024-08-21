@@ -1,7 +1,10 @@
 import {
+  BadRequestError,
   BaseController,
   BaseResponse,
   HttpException,
+  NotFoundError,
+  UnknownError,
   ctrlWrapper
 } from '@ce/server-core';
 import { AddToCartUseCase } from './core/use-cases/add-to-cart/add-to-cart.usecase';
@@ -37,10 +40,10 @@ export class CartController extends BaseController {
         const error = result.error;
 
         if (error instanceof ProductNotFoundError) {
-          throw new HttpException(400, 'Product not found');
+          throw new NotFoundError({ message: 'Product not found' });
         }
 
-        throw new HttpException(500, 'Internal server error');
+        throw new UnknownError();
       }
 
       return {
@@ -58,10 +61,10 @@ export class CartController extends BaseController {
       if (result.isErr()) {
         const error = result.error;
         if (error instanceof CartNotFoundError) {
-          throw new HttpException(400, 'Product not found');
+          throw new NotFoundError({ message: 'Cart not found' });
         }
 
-        throw new HttpException(500, 'Internal server error');
+        throw new UnknownError();
       }
 
       return {
@@ -83,12 +86,12 @@ export class CartController extends BaseController {
       if (result.isErr()) {
         const error = result.error;
         if (error instanceof CartNotFoundError) {
-          throw new HttpException(400, 'Product not found');
+          throw new NotFoundError({ message: 'Cart not found' });
         }
         if (error instanceof ProductNotInCartError) {
-          throw new HttpException(400, 'Product not in cart');
+          throw new BadRequestError({ message: 'Product not in cart' });
         }
-        throw new HttpException(500, 'Internal server error');
+        throw new UnknownError();
       }
 
       return {

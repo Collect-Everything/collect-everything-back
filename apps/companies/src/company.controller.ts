@@ -36,10 +36,10 @@ export class CompanyController extends BaseController {
 
       if (result.isErr()) {
         if (result.error instanceof CompanyAlreadyExistsError) {
-          throw new ConflictError({ errors: [result.error] });
+          throw new ConflictError({ message: result.error.message });
         }
 
-        throw new UnknownError({ errors: [result.error] });
+        throw new UnknownError();
       }
 
       return {
@@ -70,7 +70,7 @@ export class CompanyController extends BaseController {
             message: `Company ${companyId} not found`
           });
         }
-        throw new UnknownError({ errors: [result.error] });
+        throw new UnknownError();
       }
       return {
         success: true,
@@ -91,7 +91,7 @@ export class CompanyController extends BaseController {
             message: `Company ${companyId} not found`
           });
         }
-        throw new UnknownError({ errors: [result.error] });
+        throw new UnknownError();
       }
 
       return {
@@ -110,7 +110,7 @@ export class CompanyController extends BaseController {
       });
 
       if (result.isErr()) {
-        throw new UnknownError({ errors: [result.error] });
+        throw new UnknownError();
       }
 
       return {
@@ -134,7 +134,7 @@ export class CompanyController extends BaseController {
             message: `Company ${storeSlug} not found`
           });
         }
-        throw new UnknownError({ errors: [result.error] });
+        throw new UnknownError();
       }
       return {
         success: true,

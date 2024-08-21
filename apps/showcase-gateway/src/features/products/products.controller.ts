@@ -1,5 +1,7 @@
 import {
+  BadRequestError,
   BaseResponse,
+  BodyValidationError,
   GatewayController,
   HttpException,
   ctrlWrapper,
@@ -39,14 +41,14 @@ export class ProductsController extends GatewayController {
       );
 
       if (categoryExistsResult.isErr()) {
-        throw new HttpException(400, categoryExistsResult.error.message);
+        throw categoryExistsResult.error;
       }
 
       const createCategoryResult =
         await this.productsService.createCategory(body);
 
       if (createCategoryResult.isErr()) {
-        throw new HttpException(400, createCategoryResult.error.message);
+        throw createCategoryResult.error;
       }
 
       return {
@@ -60,7 +62,7 @@ export class ProductsController extends GatewayController {
     ctrlWrapper(this.getIdentifier('listCategories'), res, async () => {
       const listCategoriesResult = await this.productsService.listCategories();
       if (listCategoriesResult.isErr()) {
-        throw new HttpException(400, listCategoriesResult.error.message);
+        throw listCategoriesResult.error;
       }
       return {
         status: 200,
@@ -75,7 +77,7 @@ export class ProductsController extends GatewayController {
       const createProductResult =
         await this.productsService.createProduct(body);
       if (createProductResult.isErr()) {
-        throw new HttpException(400, createProductResult.error.message);
+        throw createProductResult.error;
       }
       return {
         status: 201,
@@ -90,17 +92,19 @@ export class ProductsController extends GatewayController {
       const query = PaginatedQuerySchema.safeParse({ page, limit });
 
       if (!query.success) {
-        throw new HttpException(400, query.error.errors[0].message);
+        throw new BodyValidationError({ message: query.error.message });
       }
       if (!companyId) {
-        throw new HttpException(400, 'companyId is required to list products');
+        throw new BadRequestError({
+          message: 'companyId is required to list products'
+        });
       }
       const listProductsResult = await this.productsService.listProducts(
         companyId as string,
         query.data
       );
       if (listProductsResult.isErr()) {
-        throw new HttpException(400, listProductsResult.error.message);
+        throw listProductsResult.error;
       }
       return {
         status: 200,
@@ -113,13 +117,13 @@ export class ProductsController extends GatewayController {
     ctrlWrapper(this.getIdentifier('getProduct'), res, async () => {
       const { productId } = req.params;
       if (!productId) {
-        throw new HttpException(400, 'productId is required to get product');
+        throw new BadRequestError({ message: 'productId is required' });
       }
       const getProductResult = await this.productsService.getProduct(
         productId as string
       );
       if (getProductResult.isErr()) {
-        throw new HttpException(400, getProductResult.error.message);
+        throw getProductResult.error;
       }
       return {
         status: 200,
@@ -132,7 +136,7 @@ export class ProductsController extends GatewayController {
     ctrlWrapper(this.getIdentifier('updateProduct'), res, async () => {
       const { productId } = req.params;
       if (!productId) {
-        throw new HttpException(400, 'productId is required to update product');
+        throw new BadRequestError({ message: 'productId is required' });
       }
       const body = parseBody<UpdateProductDto>(req, UpdateProductDtoSchema);
       const updateProductResult = await this.productsService.updateProduct(
@@ -140,7 +144,7 @@ export class ProductsController extends GatewayController {
         body
       );
       if (updateProductResult.isErr()) {
-        throw new HttpException(400, updateProductResult.error.message);
+        throw updateProductResult.error;
       }
       return {
         status: 200,
@@ -153,13 +157,13 @@ export class ProductsController extends GatewayController {
     ctrlWrapper(this.getIdentifier('deleteProduct'), res, async () => {
       const { productId } = req.params;
       if (!productId) {
-        throw new HttpException(400, 'productId is required to delete product');
+        throw new BadRequestError({ message: 'productId is required' });
       }
       const deleteProductResult = await this.productsService.deleteProduct(
         productId as string
       );
       if (deleteProductResult.isErr()) {
-        throw new HttpException(400, deleteProductResult.error.message);
+        throw deleteProductResult.error;
       }
       return {
         status: 200,

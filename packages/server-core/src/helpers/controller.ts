@@ -1,7 +1,13 @@
 import { ZodSchema } from 'zod';
 import { Request, Response } from 'express';
 import { boldLog, redLog } from './console';
-import { ERROR_CODES, HttpException, STATUS_TEXT } from '../errors';
+import {
+  ERROR_CODES,
+  HttpException,
+  STATUS_TEXT,
+  ServiceCallError,
+  serviceCallErrorToHttpException
+} from '../errors';
 import { BaseResponse } from '../types';
 
 export interface ErrorResponse {
@@ -18,7 +24,13 @@ export async function ctrlWrapper(
     const result = await handler();
     response.status(result.status ?? 200).send(result);
   } catch (error) {
-    if (error instanceof HttpException) {
+    if (error instanceof ServiceCallError) {
+      httpErrorHandler(
+        response,
+        serviceCallErrorToHttpException(error),
+        identifier
+      );
+    } else if (error instanceof HttpException) {
       httpErrorHandler(response, error, identifier);
     } else {
       response.status(500).send({
@@ -91,6 +103,7 @@ export function httpErrorHandler(
   res.status(status).send({
     message,
     statusText: STATUS_TEXT?.[status] ?? 'Unknown',
-    errors: error.errors
+    errors: error.errors,
+    key: error.key ?? ERROR_CODES.UNKNOWN
   });
 }
