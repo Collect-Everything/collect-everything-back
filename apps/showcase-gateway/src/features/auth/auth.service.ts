@@ -1,39 +1,32 @@
-import { EventsService } from "@ce/events";
-import { CompanyUsersService } from "../company-users/company-users.service";
-import { BaseResponse, GatewayService } from "@ce/server-core";
-import { CompanyUserTokenPayloadSchema, Err, Ok } from "@ce/shared-core";
-
-export class InvalidCredentialsError extends Error {
-  constructor() {
-    super("Invalid credentials");
-  }
-}
-
-export class InvalidTokenPayloadError extends Error {
-  constructor() {
-    super("Invalid token payload");
-  }
-}
+import { EventsService } from '@ce/events';
+import { CompanyUsersService } from '../company-users/company-users.service';
+import {
+  BaseResponse,
+  GatewayService,
+  ServiceCallError
+} from '@ce/server-core';
+import { CompanyUserTokenPayloadSchema, Err, Ok } from '@ce/shared-core';
 
 export class AuthService extends GatewayService {
   constructor(
     private readonly eventsService: EventsService,
-    private readonly companyUsersService: CompanyUsersService,
+    private readonly companyUsersService: CompanyUsersService
   ) {
-    super("auth", {
-      gatewayName: "SHOWCASE_GATEWAY",
-      serviceName: "AUTH",
+    super('auth', {
+      gatewayName: 'SHOWCASE_GATEWAY',
+      serviceName: 'AUTH'
     });
   }
 
   async login(email: string, password: string) {
     const validateResult = await this.companyUsersService.validateCredentials(
       email,
-      password,
+      password
     );
 
+    console.log('validateResult', validateResult);
     if (validateResult.isErr()) {
-      return Err.of(new InvalidCredentialsError());
+      return validateResult;
     }
 
     const userData = validateResult.value.data;
@@ -41,12 +34,12 @@ export class AuthService extends GatewayService {
     const tokenResult = await this.generateToken(userData);
 
     if (tokenResult.isErr()) {
-      return Err.of(new Error("Failed to generate token"));
+      return tokenResult;
     }
 
     return Ok.of({
       accessToken: tokenResult.value.data.accessToken,
-      refreshToken: tokenResult.value.data.refreshToken,
+      refreshToken: tokenResult.value.data.refreshToken
     });
   }
 
@@ -62,19 +55,19 @@ export class AuthService extends GatewayService {
     const tokenResult = await this.generateToken(userData);
 
     if (tokenResult.isErr()) {
-      return Err.of(new Error("Failed to generate token"));
+      return tokenResult;
     }
 
     return Ok.of({
       accessToken: tokenResult.value.data.accessToken,
-      refreshToken: tokenResult.value.data.refreshToken,
+      refreshToken: tokenResult.value.data.refreshToken
     });
   }
 
   private async verifyToken(token: string) {
     const handler = this.fetcher.post<BaseResponse<{ payload: any }>>(
-      "/verify",
-      { token },
+      '/verify',
+      { token }
     );
 
     const result = await this.executeRequest(handler);
@@ -84,20 +77,22 @@ export class AuthService extends GatewayService {
     }
 
     const payloadResult = CompanyUserTokenPayloadSchema.safeParse(
-      result.value.data.payload,
+      result.value.data.payload
     );
 
     if (payloadResult.success) {
       return Ok.of(payloadResult.data);
     }
 
-    return Err.of(new InvalidTokenPayloadError());
+    return Err.of(
+      new ServiceCallError(400, 'Invalid token payload', 'AUTH_ERROR')
+    );
   }
 
   private async generateToken(payload: any) {
     const handler = this.fetcher.post<
       BaseResponse<{ accessToken: string; refreshToken: string }>
-    >("/create", payload);
+    >('/create', payload);
 
     return this.executeRequest(handler);
   }
