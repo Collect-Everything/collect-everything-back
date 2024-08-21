@@ -36,4 +36,8 @@ export class InMemoryCompanyRepository implements CompanyRepository {
       limit: this.companies.length
     };
   }
+
+  async delete(id: string) {
+    this.companies = this.companies.filter((c) => c.id !== id);
+  }
 }
