@@ -2,6 +2,7 @@ import { Admin } from './../domain/admin.entity';
 import { PrismaClient } from "@ce/db";
 import { AdminRepository } from "../ports/admin.repository";
 import { AdminMapper } from "../mappers/admin.mapper";
+import { PaginatedParams, PaginatedResponse } from '@ce/shared-core';
 
 export class PrismaAdminRepository implements AdminRepository {
   constructor(private prisma: PrismaClient) {}
@@ -39,5 +40,21 @@ export class PrismaAdminRepository implements AdminRepository {
       where: { id },
     });
     return raw ? AdminMapper.toDomain(raw) : null;
+  }
+
+  async findAllPaginated(params: PaginatedParams): Promise<PaginatedResponse<Admin>> {
+    const rawAdmins = await this.prisma.admin.findMany({
+      skip: (params.page - 1) * params.limit,
+      take: params.limit
+    });
+
+    const admins = rawAdmins.map((raw) => AdminMapper.toDomain(raw));
+
+    return {
+      data: admins,
+      page: params.page,
+      limit: params.limit,
+      total: await this.prisma.admin.count()
+    };
   }
 }

@@ -9,6 +9,10 @@ export class AdminUserRouter extends BaseRouter {
   }
   
   initRoutes() {
+    this.router.get("/", this.controller.listAdmins);
+
+    this.router.get("/:adminId", this.controller.getAdmin);
+
     this.router.post(
       "/register",
       [],

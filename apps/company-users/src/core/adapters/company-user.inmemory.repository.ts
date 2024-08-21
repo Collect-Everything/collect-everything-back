@@ -1,5 +1,6 @@
 import { CompanyUserRepository } from "../ports/company-user.repository";
 import { CompanyUser } from "../domain/company-user.entity";
+import { PaginatedParams, PaginatedResponse } from "@ce/shared-core";
 
 export class InMemoryCompanyUserRepository implements CompanyUserRepository {
   companyUsers: CompanyUser[] = [];
@@ -31,5 +32,9 @@ export class InMemoryCompanyUserRepository implements CompanyUserRepository {
     return this.companyUsers.filter(
       (c) => c.companyId === companyId && c.role === "ADMIN",
     ).length;
+  }
+
+  findAllPaginated(params: PaginatedParams): Promise<PaginatedResponse<CompanyUser>> {
+    throw new Error("Method not implemented.");
   }
 }

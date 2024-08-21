@@ -1,6 +1,6 @@
 import { EventsService, ServerEvent } from "@ce/events";
 import { BaseResponse, GatewayService } from "@ce/server-core";
-import { CreateAdminDto, Err } from "@ce/shared-core";
+import { CreateAdminDto, Err, PaginatedParams } from "@ce/shared-core";
 import { InvalidCredentialsError } from "../auth/auth.service";
 
 export class AdminUsersService extends GatewayService {
@@ -31,6 +31,19 @@ export class AdminUsersService extends GatewayService {
       email,
       password,
     });
+    return this.executeRequest(handler);
+  }
+
+  async getAdmin(adminId: string) {
+    const handler = this.fetcher.get<BaseResponse<{}>>(`/${adminId}`);
+    return this.executeRequest(handler);
+  }
+
+  async listAdmins(query: PaginatedParams) {
+    const handler = this.fetcher.get<BaseResponse<{}>>(
+      `?page=${query.page}&limit=${query.limit}`,
+    );
+
     return this.executeRequest(handler);
   }
 }

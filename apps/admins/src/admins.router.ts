@@ -9,6 +9,9 @@ export class AdminRouter extends BaseRouter {
   }
 
   initRoutes() {
+    this.router.get('/:adminId', [], this.controller.getAdminUser);
+    this.router.get('/', [], this.controller.listAdminUsers);
+
     this.router.post(
       "/validate-credentials",
       this.controller.validateCredentials,
