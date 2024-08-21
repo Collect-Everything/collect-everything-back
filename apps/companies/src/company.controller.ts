@@ -1,5 +1,12 @@
 import { RequestHandler } from 'express';
-import { BaseController, HttpException, ctrlWrapper } from '@ce/server-core';
+import {
+  BadRequestError,
+  BaseController,
+  ConflictError,
+  NotFoundError,
+  UnknownError,
+  ctrlWrapper
+} from '@ce/server-core';
 import { ApiResponse, CreateCompanyDTO } from '@ce/shared-core';
 import { CreateCompanyUseCase } from './core/use-cases/create-company/create-company.usecase';
 import { ConfigureStoreUseCase } from './core/use-cases/configure-store/configure-store.usecase';
@@ -29,10 +36,10 @@ export class CompanyController extends BaseController {
 
       if (result.isErr()) {
         if (result.error instanceof CompanyAlreadyExistsError) {
-          throw new HttpException(400, `Company already exists`);
+          throw new ConflictError({ errors: [result.error] });
         }
 
-        throw new HttpException(500, 'Unknown error', [result.error]);
+        throw new UnknownError({ errors: [result.error] });
       }
 
       return {
@@ -47,7 +54,7 @@ export class CompanyController extends BaseController {
       const body = req.body;
 
       if (!companyId) {
-        throw new HttpException(400, 'Missing companyId');
+        throw new BadRequestError({ message: 'Missing companyId params' });
       }
 
       const result = await this.configureStoreUseCase.execute({
@@ -56,12 +63,14 @@ export class CompanyController extends BaseController {
       });
       if (result.isErr()) {
         if (result.error instanceof StoreNameAlreadyExistsError) {
-          throw new HttpException(400, `Store name already exists`);
+          throw new BadRequestError({ message: 'Store name already exists' });
         }
         if (result.error instanceof CompanyNotFoundError) {
-          throw new HttpException(404, `Company ${companyId} not found`);
+          throw new NotFoundError({
+            message: `Company ${companyId} not found`
+          });
         }
-        throw new HttpException(500, 'Unknown error', [result.error]);
+        throw new UnknownError({ errors: [result.error] });
       }
       return {
         success: true,
@@ -73,19 +82,21 @@ export class CompanyController extends BaseController {
     ctrlWrapper(this.getIdentifier('getCompany'), res, async () => {
       const { companyId } = req.params;
       if (!companyId) {
-        throw new HttpException(400, 'Missing companyId');
+        throw new BadRequestError({ message: 'Missing companyId params' });
       }
       const result = await this.getCompanyUseCase.execute({ companyId });
       if (result.isErr()) {
         if (result.error instanceof CompanyNotFoundError) {
-          throw new HttpException(404, `Company ${companyId} not found`);
+          throw new NotFoundError({
+            message: `Company ${companyId} not found`
+          });
         }
-        throw new HttpException(500, 'Unknown error', [result.error]);
+        throw new UnknownError({ errors: [result.error] });
       }
 
       return {
         success: true,
-        data: {result}
+        data: { result }
       } satisfies ApiResponse;
     });
 
@@ -99,7 +110,7 @@ export class CompanyController extends BaseController {
       });
 
       if (result.isErr()) {
-        throw new HttpException(500, 'Unknown error', [result.error]);
+        throw new UnknownError({ errors: [result.error] });
       }
 
       return {
@@ -112,16 +123,18 @@ export class CompanyController extends BaseController {
     ctrlWrapper(this.getIdentifier('getStoreConfiguration'), res, async () => {
       const { storeSlug } = req.params;
       if (!storeSlug) {
-        throw new HttpException(400, 'Missing storeSlug');
+        throw new BadRequestError({ message: 'Missing storeSlug params' });
       }
       const result = await this.getStoreConfigurationUseCase.execute({
         storeSlug
       });
       if (result.isErr()) {
         if (result.error instanceof CompanyNotFoundError) {
-          throw new HttpException(404, `Company ${storeSlug} not found`);
+          throw new NotFoundError({
+            message: `Company ${storeSlug} not found`
+          });
         }
-        throw new HttpException(500, 'Unknown error', [result.error]);
+        throw new UnknownError({ errors: [result.error] });
       }
       return {
         success: true,
