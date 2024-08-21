@@ -1,10 +1,6 @@
-import { Entity, EntityValidationError } from '@ce/shared-core';
+import { Entity, EntityValidationError, OrderStatus } from '@ce/shared-core';
 import { z } from 'zod';
 import { Product, ProductData } from './product.entity';
-
-export const ORDER_STATUS = ['PENDING', 'CONFIRMED', 'PICKED'] as const;
-export const OrderStatus = z.enum(ORDER_STATUS);
-export type OrderStatus = z.infer<typeof OrderStatus>;
 
 export const OrderPropsSchema = z.object({
   id: z.string(),

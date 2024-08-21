@@ -1,8 +1,8 @@
 import { PrismaClient } from '@ce/db';
 import { OrderRepository } from '../ports/order.repository';
-import { Order, OrderStatus } from '../domain/order.entity';
+import { Order } from '../domain/order.entity';
 import { Product } from '../domain/product.entity';
-import { PaginatedParams } from '@ce/shared-core';
+import { OrderStatus, PaginatedParams } from '@ce/shared-core';
 
 export class PrismaOrderRepository implements OrderRepository {
   constructor(private prisma: PrismaClient) {}

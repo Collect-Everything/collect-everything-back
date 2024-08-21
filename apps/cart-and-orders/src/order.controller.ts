@@ -13,7 +13,7 @@ import { RequestHandler } from 'express';
 import { OrderNotFoundError } from './core/errors/order-not-found';
 import { DeleteOrderUseCase } from './core/use-cases/delete-order/delete-order.usecase';
 import { ListOrdersUseCase } from './core/use-cases/list-orders/list-orders.usecase';
-import { OrderStatus } from './core/domain/order.entity';
+import { OrderStatus } from '@ce/shared-core';
 
 export class OrderController extends BaseController {
   constructor(

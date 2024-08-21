@@ -1,5 +1,9 @@
-import { PaginatedParams, PaginatedResponse } from '@ce/shared-core';
-import { Order, OrderStatus } from '../domain/order.entity';
+import {
+  OrderStatus,
+  PaginatedParams,
+  PaginatedResponse
+} from '@ce/shared-core';
+import { Order } from '../domain/order.entity';
 
 export interface OrderRepository {
   findById(id: string): Promise<Order | undefined>;
