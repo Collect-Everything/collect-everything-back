@@ -10,6 +10,14 @@ export class HttpException extends Error {
   ) {
     super(message);
   }
+
+  toJSON() {
+    return {
+      status: this.status,
+      message: this.message,
+      errors: this.errors
+    };
+  }
 }
 
 interface ErrorParams {
