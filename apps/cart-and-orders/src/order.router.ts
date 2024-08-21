@@ -11,5 +11,7 @@ export class OrderRouter extends BaseRouter {
   initRoutes() {
     this.router.get('/:orderId', this.controller.getOrder);
     this.router.patch('/:orderId/status', this.controller.updateOrderStatus);
+    this.router.delete('/:orderId', this.controller.deleteOrder);
+    this.router.get('/', this.controller.listOrders);
   }
 }
