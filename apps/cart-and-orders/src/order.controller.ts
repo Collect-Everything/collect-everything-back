@@ -11,11 +11,13 @@ import { GetOrderUseCase } from './core/use-cases/get-order/get-order.usecase';
 import { UpdateOrderStatusUseCase } from './core/use-cases/update-order-status/update-order-status.usecase';
 import { RequestHandler } from 'express';
 import { OrderNotFoundError } from './core/errors/order-not-found';
+import { DeleteOrderUseCase } from './core/use-cases/delete-order/delete-order.usecase';
 
 export class OrderController extends BaseController {
   constructor(
     private getOrderUseCase: GetOrderUseCase,
-    private updateOrderStatusUseCase: UpdateOrderStatusUseCase
+    private updateOrderStatusUseCase: UpdateOrderStatusUseCase,
+    private deleteOrderUseCase: DeleteOrderUseCase
   ) {
     super('order');
   }
@@ -59,6 +61,27 @@ export class OrderController extends BaseController {
       }
       const command = { orderId, status };
       const result = await this.updateOrderStatusUseCase.execute(command);
+      if (result.isErr()) {
+        if (result.error instanceof OrderNotFoundError) {
+          throw new NotFoundError({ message: 'Order not found' });
+        }
+        throw new UnknownError();
+      }
+      return {
+        status: 200,
+        success: true,
+        data: result.value
+      } satisfies BaseResponse;
+    });
+
+  deleteOrder: RequestHandler = async (req, res) =>
+    ctrlWrapper('deleteOrder', res, async () => {
+      const orderId = req.params.orderId;
+      if (!orderId) {
+        throw new BadRequestError({ message: 'Missing orderId params' });
+      }
+      const command = { orderId };
+      const result = await this.deleteOrderUseCase.execute(command);
       if (result.isErr()) {
         if (result.error instanceof OrderNotFoundError) {
           throw new NotFoundError({ message: 'Order not found' });

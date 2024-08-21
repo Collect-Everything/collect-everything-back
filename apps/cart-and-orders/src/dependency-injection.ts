@@ -5,6 +5,7 @@ import { PrismaOrderRepository } from './core/adapters/order.prisma.repository';
 import { PrismaProductRepository } from './core/adapters/product.prisma.repository';
 import { RealIDProvider } from './core/adapters/real-id-provider';
 import { AddToCartUseCase } from './core/use-cases/add-to-cart/add-to-cart.usecase';
+import { DeleteOrderUseCase } from './core/use-cases/delete-order/delete-order.usecase';
 import { GetCartUseCase } from './core/use-cases/get-cart/get-cart.usecase';
 import { GetOrderUseCase } from './core/use-cases/get-order/get-order.usecase';
 import { RemoveFromCartUseCase } from './core/use-cases/remove-from-cart/remove-from-cart.usecase';
@@ -44,9 +45,12 @@ const getOrderUserCase = new GetOrderUseCase(orderRepository);
 
 const updateOrderStatusUseCase = new UpdateOrderStatusUseCase(orderRepository);
 
+const deleteOrderUseCase = new DeleteOrderUseCase(orderRepository);
+
 const orderController = new OrderController(
   getOrderUserCase,
-  updateOrderStatusUseCase
+  updateOrderStatusUseCase,
+  deleteOrderUseCase
 );
 
 const orderRouter = new OrderRouter(orderController).router;
