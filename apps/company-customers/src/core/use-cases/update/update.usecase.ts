@@ -1,25 +1,25 @@
 import { Err, Ok } from '@ce/shared-core';
 import { CompanyCustomerRepository } from '../../ports/company-customer.repository';
 import { UpdateCommand } from './update.command';
-import { CompanyUserNotFoundError } from '../../errors/company-customer-not-found';
+import { CompanyCustomerNotFoundError } from '../../errors/company-customer-not-found';
 
 export class UpdateUseCase {
   constructor(private readonly repository: CompanyCustomerRepository) {}
 
   async execute(command: UpdateCommand) {
-    const companyUser = await this.repository.findById(command.id);
+    const companyCustomer = await this.repository.findById(command.id);
 
-    if (!companyUser) {
-      return Err.of(new CompanyUserNotFoundError());
+    if (!companyCustomer) {
+      return Err.of(new CompanyCustomerNotFoundError(command.id));
     }
 
-    companyUser.update({
+    companyCustomer.update({
       email: command.email,
       firstname: command.firstname,
       lastname: command.lastname
     });
 
-    await this.repository.save(companyUser);
+    await this.repository.save(companyCustomer);
 
     return Ok.of(undefined);
   }

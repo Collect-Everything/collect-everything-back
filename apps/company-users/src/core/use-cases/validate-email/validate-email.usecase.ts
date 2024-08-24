@@ -7,16 +7,16 @@ import { CompanyUserNotFoundError } from '../../errors/company-user-not-found';
 export class ValidateEmailUseCase {
   constructor(private companyUserRepository: CompanyUserRepository) {}
   async execute(command: ValidateEmailCommand): Promise<Result<void, Error>> {
-    const companyUser = await this.companyUserRepository.findByEmail(
-      command.email
+    const companyUser = await this.companyUserRepository.findById(
+      command.userId
     );
 
     if (!companyUser) {
-      return Err.of(new CompanyUserNotFoundError(command.email));
+      return Err.of(new CompanyUserNotFoundError(command.userId));
     }
 
     if (companyUser.isVerified) {
-      return Err.of(new EmailAlreadyVerifiedError(command.email));
+      return Err.of(new EmailAlreadyVerifiedError(companyUser.email));
     }
 
     companyUser.validateEmail();

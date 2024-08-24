@@ -1,8 +1,8 @@
-import { Err, Ok } from "@ce/shared-core";
-import { CompanyUserRepository } from "../../ports/company-user.repository";
-import { DeleteCommand } from "./delete.command";
-import { CompanyUserNotFoundError } from "../../errors/company-user-not-found";
-import { LastAdminError } from "./delete.errors";
+import { Err, Ok } from '@ce/shared-core';
+import { CompanyUserRepository } from '../../ports/company-user.repository';
+import { DeleteCommand } from './delete.command';
+import { CompanyUserNotFoundError } from '../../errors/company-user-not-found';
+import { LastAdminError } from './delete.errors';
 
 export class DeleteUseCase {
   constructor(private readonly companyUserRepository: CompanyUserRepository) {}
@@ -11,12 +11,12 @@ export class DeleteUseCase {
     const companyUser = await this.companyUserRepository.findById(command.id);
 
     if (!companyUser) {
-      return Err.of(new CompanyUserNotFoundError());
+      return Err.of(new CompanyUserNotFoundError(command.id));
     }
 
-    if (companyUser.role === "ADMIN") {
+    if (companyUser.role === 'ADMIN') {
       const adminCount = await this.companyUserRepository.countAdminsForCompany(
-        companyUser.companyId,
+        companyUser.companyId
       );
 
       if (adminCount <= 1) {
