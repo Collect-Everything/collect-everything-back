@@ -3,10 +3,16 @@ export interface ConfigureStoreCommand {
   storeName: string;
   color?: string;
   logo?: string;
-  keyPhrases?: Record<string, string>;
+  title?: string;
+  description?: string;
+  button?: string;
+  keyPhrases: { title: string; description: string }[];
   productsType?: string;
   phoneContact?: string;
   emailContact?: string;
   links?: Record<string, string>;
+  instagramUrl?: string;
+  facebookUrl?: string;
+  twitterUrl?: string;
   externalUrl?: string;
 }

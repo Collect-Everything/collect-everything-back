@@ -1,12 +1,16 @@
 import { ValueObject, ValueObjectValidationError } from '@ce/shared-core';
 import { z } from 'zod';
+import { Advantage, AdvantageData } from './advantage.vo';
 
 export const StoreConfigurationPropsSchema = z.object({
   storeName: z.string(),
   storeSlug: z.string(),
   color: z.string().optional(),
   logo: z.string().optional(),
-  keyPhrases: z.record(z.string()).optional(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  button: z.string().optional(),
+  advantages: z.array(z.instanceof(Advantage)).optional(),
   productsType: z.string().optional(),
   phoneContact: z.string().optional(),
   emailContact: z.string().optional(),
@@ -19,7 +23,10 @@ export interface StoreConfigurationData {
   storeSlug: string;
   color?: string;
   logo?: string;
-  keyPhrases?: Record<string, string>;
+  title?: string;
+  description?: string;
+  button?: string;
+  advantages?: AdvantageData[];
   productsType?: string;
   phoneContact?: string;
   emailContact?: string;
@@ -44,7 +51,10 @@ export class StoreConfiguration extends ValueObject<StoreConfigurationProps> {
     return new StoreConfiguration({
       ...data,
       color: data.color ?? DEFAULT_STORE_COLOR,
-      logo: data.logo ?? DEFAULT_STORE_LOGO
+      logo: data.logo ?? DEFAULT_STORE_LOGO,
+      advantages: data.advantages?.map((advantage) =>
+        Advantage.fromData(advantage)
+      )
     });
   }
 
