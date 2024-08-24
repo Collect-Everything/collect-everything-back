@@ -1,8 +1,14 @@
-import { ZodSchema } from "zod";
-import { Request, Response } from "express";
-import { boldLog, redLog } from "./console";
-import { HttpException, STATUS_TEXT } from "../errors";
-import { BaseResponse } from "../types";
+import { ZodSchema } from 'zod';
+import { Request, Response } from 'express';
+import { boldLog, redLog } from './console';
+import {
+  ERROR_CODES,
+  HttpException,
+  STATUS_TEXT,
+  ServiceCallError,
+  serviceCallErrorToHttpException
+} from '../errors';
+import { BaseResponse } from '../types';
 
 export interface ErrorResponse {
   statusText: string;
@@ -12,26 +18,32 @@ export interface ErrorResponse {
 export async function ctrlWrapper(
   identifier: string,
   response: Response,
-  handler: () => Promise<BaseResponse>,
+  handler: () => Promise<BaseResponse>
 ) {
   try {
     const result = await handler();
     response.status(result.status ?? 200).send(result);
   } catch (error) {
-    if (error instanceof HttpException) {
+    if (error instanceof ServiceCallError) {
+      httpErrorHandler(
+        response,
+        serviceCallErrorToHttpException(error),
+        identifier
+      );
+    } else if (error instanceof HttpException) {
       httpErrorHandler(response, error, identifier);
     } else {
       response.status(500).send({
-        error: "Internal server error",
-        statusText: "Internal Server Error",
+        error: 'Internal server error',
+        statusText: 'Internal Server Error'
       });
-      logError(identifier, "Error throwed in controller", error);
+      logError(identifier, 'Error throwed in controller', error);
     }
   }
 }
 
 export function getJsonBody(req: Request) {
-  if (!req.is("application/json")) {
+  if (!req.is('application/json')) {
     return JSON.parse(req.body.data);
   }
   return req.body;
@@ -41,7 +53,7 @@ export function parseBody<T>(req: Request, schema: ZodSchema<T>): T {
   const body = getJsonBody(req);
 
   if (!body) {
-    throw new HttpException(400, "Invalid request body");
+    throw new HttpException(400, 'Invalid request body');
   }
 
   const result = schema.safeParse(body);
@@ -49,7 +61,12 @@ export function parseBody<T>(req: Request, schema: ZodSchema<T>): T {
   if (result.success) {
     return result.data;
   } else {
-    throw new HttpException(400, "Body validation error", result.error.errors);
+    throw new HttpException(
+      400,
+      'Body validation error',
+      result.error.errors,
+      ERROR_CODES.BODY_VALIDATION_ERROR
+    );
   }
 }
 
@@ -58,11 +75,13 @@ const formatError = (identifier: string, message: string) => {
 };
 
 const logError = (identifier: string, message: string, details?: any) => {
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     const date = new Date().toISOString();
 
     console.log(
-      `${boldLog(redLog(date + " | "))}${redLog(formatError(identifier, message))}`,
+      `${boldLog(redLog(date + ' | '))}${redLog(
+        formatError(identifier, message)
+      )}`
     );
 
     if (details) {
@@ -74,7 +93,7 @@ const logError = (identifier: string, message: string, details?: any) => {
 export function httpErrorHandler(
   res: Response,
   error: HttpException,
-  identifier: string,
+  identifier: string
 ) {
   const message = error.message;
   let status = error.status;
@@ -83,7 +102,8 @@ export function httpErrorHandler(
 
   res.status(status).send({
     message,
-    statusText: STATUS_TEXT?.[status] ?? "Unknown",
+    statusText: STATUS_TEXT?.[status] ?? 'Unknown',
     errors: error.errors,
+    key: error.key ?? ERROR_CODES.UNKNOWN
   });
 }

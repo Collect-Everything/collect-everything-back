@@ -1,52 +1,53 @@
 import {
+  BadRequestError,
   BaseController,
   BaseResponse,
-  HttpException,
-  ctrlWrapper,
-} from "@ce/server-core";
-import { AccessTokenService, InvalidTokenError } from "./access-token.service";
-import { RequestHandler } from "express";
+  UnknownError,
+  ctrlWrapper
+} from '@ce/server-core';
+import { AccessTokenService, InvalidTokenError } from './access-token.service';
+import { RequestHandler } from 'express';
 
 export class AccessTokenController extends BaseController {
   constructor(private readonly accessTokenService: AccessTokenService) {
-    super("AccessToken");
+    super('AccessToken');
   }
 
   create: RequestHandler = async (req, res) =>
-    ctrlWrapper("create", res, async () => {
+    ctrlWrapper('create', res, async () => {
       const result = this.accessTokenService.create(req.body);
 
       if (result.isErr()) {
-        throw new HttpException(400, "Invalid payload", result.error);
+        throw new BadRequestError({ message: 'Invalid payload' });
       }
 
       return {
         success: true,
         data: {
           accessToken: result.value.accessToken,
-          refreshToken: result.value.refreshToken,
-        },
+          refreshToken: result.value.refreshToken
+        }
       } satisfies BaseResponse;
     });
 
   verify: RequestHandler = async (req, res) =>
-    ctrlWrapper("verify", res, async () => {
+    ctrlWrapper('verify', res, async () => {
       if (!req.body.token) {
-        throw new HttpException(400, "Token is required");
+        throw new BadRequestError({ message: 'Token params is required' });
       }
       const result = this.accessTokenService.verify(req.body.token);
       if (result.isErr()) {
         if (result.error instanceof InvalidTokenError) {
-          throw new HttpException(400, "Invalid token");
+          throw new BadRequestError({ message: 'Invalid token' });
         }
 
-        throw new HttpException(500, "Internal server error", result.error);
+        throw new UnknownError();
       }
       return {
         success: true,
         data: {
-          payload: result.value,
-        },
+          payload: result.value
+        }
       } satisfies BaseResponse;
     });
 }

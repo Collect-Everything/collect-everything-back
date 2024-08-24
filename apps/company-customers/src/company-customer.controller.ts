@@ -1,7 +1,10 @@
 import {
+  BadRequestError,
   BaseController,
   BaseResponse,
-  HttpException,
+  ConflictError,
+  NotFoundError,
+  UnknownError,
   ctrlWrapper
 } from '@ce/server-core';
 import { GetCompanyCustomerUseCase } from './core/use-cases/get-company-customer/get-company-customer.usecase';
@@ -30,41 +33,42 @@ export class CompanyCustomerController extends BaseController {
   ) {
     super('CompanyCustomer');
   }
-  
+
   getCompanyCustomer: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier('getCompanyCustomer'), res, async () => {
       const { companyCustomerId } = req.params;
 
-      console.log(companyCustomerId)
-
       if (!companyCustomerId) {
-        throw new HttpException(400, 'Missing companyCustomerId');
+        throw new BadRequestError({ message: 'Missing companyCustomerId' });
       }
-      const result = await this.getCompanyCustomerUseCase.execute({ companyCustomerId });
+      const result = await this.getCompanyCustomerUseCase.execute({
+        companyCustomerId
+      });
       if (result.isErr()) {
         if (result.error instanceof CompanyCustomerNotFoundError) {
-          throw new HttpException(404, `CompanyCustomer ${companyCustomerId} not found`);
+          throw new NotFoundError({
+            message: `CompanyCustomer ${companyCustomerId} not found`
+          });
         }
-        throw new HttpException(500, 'Unknown error', [result.error]);
+        throw new UnknownError();
       }
 
       return {
         success: true,
-        data: {result}
+        data: { result }
       } satisfies ApiResponse;
     });
 
   listCompanyCustomers: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier('listCompanyCustomers'), res, async () => {
       const query = req.query;
-      console.log('query', query);
       const result = await this.listCompanyCustomersUseCase.execute({
         limit: parseInt(query.limit as string),
         page: parseInt(query.page as string)
       });
 
       if (result.isErr()) {
-        throw new HttpException(500, 'Unknown error', [result.error]);
+        throw new UnknownError();
       }
 
       return {
@@ -81,10 +85,10 @@ export class CompanyCustomerController extends BaseController {
 
       if (result.isErr()) {
         if (result.error instanceof EmailAlreadyTakenError) {
-          throw new HttpException(400, 'Email already taken');
+          throw new ConflictError({ message: 'Email already taken' });
         }
 
-        throw new HttpException(500, 'Internal server error', result.error);
+        throw new UnknownError();
       }
 
       return {
@@ -99,21 +103,21 @@ export class CompanyCustomerController extends BaseController {
       const email = req.body.email;
 
       if (!email) {
-        throw new HttpException(400, 'Email is required');
+        throw new BadRequestError({ message: 'Email is required' });
       }
 
       const result = await this.validateEmailUseCase.execute({ email });
 
       if (result.isErr()) {
         if (result.error instanceof CompanyCustomerNotFoundError) {
-          throw new HttpException(404, 'Company user not found');
+          throw new NotFoundError({ message: 'Company user not found' });
         }
 
         if (result.error instanceof EmailAlreadyVerifiedError) {
-          throw new HttpException(400, 'Email already verified');
+          throw new ConflictError({ message: 'Email already verified' });
         }
 
-        throw new HttpException(500, 'Internal server error', [result.error]);
+        throw new UnknownError();
       }
 
       return {
@@ -128,14 +132,16 @@ export class CompanyCustomerController extends BaseController {
       const email = req.body.email;
       const password = req.body.password;
       if (!email || !password) {
-        throw new HttpException(400, 'Email and password are required');
+        throw new BadRequestError({
+          message: 'Email and password are required'
+        });
       }
       const result = await this.validateCredentialsUseCase.execute({
         email,
         password
       });
       if (result.isErr()) {
-        throw new HttpException(401, 'Invalid credentials');
+        throw new BadRequestError({ message: 'Invalid credentials' });
       }
       return {
         status: 200,
@@ -149,14 +155,14 @@ export class CompanyCustomerController extends BaseController {
       const id = req.params.id;
       const body = req.body;
       if (!id) {
-        throw new HttpException(400, 'Id is required');
+        throw new BadRequestError({ message: 'Id is required' });
       }
       const result = await this.updateUseCase.execute({ id, ...body });
       if (result.isErr()) {
         if (result.error instanceof CompanyCustomerNotFoundError) {
-          throw new HttpException(404, 'Company user not found');
+          throw new NotFoundError({ message: 'Company user not found' });
         }
-        throw new HttpException(500, 'Internal server error', [result.error]);
+        throw new UnknownError();
       }
       return {
         status: 200,
@@ -169,14 +175,14 @@ export class CompanyCustomerController extends BaseController {
     ctrlWrapper('delete', res, async () => {
       const id = req.params.id;
       if (!id) {
-        throw new HttpException(400, 'Id is required');
+        throw new BadRequestError({ message: 'Id is required' });
       }
       const result = await this.deleteUseCase.execute({ id });
       if (result.isErr()) {
         if (result.error instanceof CompanyCustomerNotFoundError) {
-          throw new HttpException(404, 'Company user not found');
+          throw new NotFoundError({ message: 'Company user not found' });
         }
-        throw new HttpException(500, 'Internal server error', [result.error]);
+        throw new UnknownError();
       }
       return {
         status: 200,
