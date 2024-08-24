@@ -1,11 +1,6 @@
 import { EventsService } from '@ce/events';
 import { BaseResponse, GatewayService } from '@ce/server-core';
-import {
-  CompanyCustomerTokenPayloadSchema,
-  CompanyUserTokenPayloadSchema,
-  Err,
-  Ok
-} from '@ce/shared-core';
+import { CompanyCustomerTokenPayloadSchema, Err, Ok } from '@ce/shared-core';
 import { CompanyCustomersService } from '../company-customers/company-customers.service';
 
 export class InvalidCredentialsError extends Error {
@@ -41,6 +36,7 @@ export class AuthService extends GatewayService {
     const customerData = validateResult.value.data;
 
     const tokenResult = await this.generateToken(customerData);
+    console.log('tokenResult', tokenResult);
 
     if (tokenResult.isErr()) {
       return Err.of(new Error('Failed to generate token'));

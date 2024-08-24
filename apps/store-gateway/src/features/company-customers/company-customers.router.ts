@@ -15,5 +15,13 @@ export class CompanyCustomersRouter extends BaseRouter {
       [],
       this.companyCustomersCtrl.registerCompanyCustomer
     );
+    this.router.patch(
+      '/:companyCustomerId',
+      this.companyCustomersCtrl.updateCompanyCustomer
+    );
+    this.router.delete(
+      '/:companyCustomerId',
+      this.companyCustomersCtrl.deleteCompanyCustomer
+    );
   }
 }
