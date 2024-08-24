@@ -12,7 +12,7 @@ export class ConfigureStoreUseCase {
     try {
       const storeSlug = slugify(command.storeName);
       const companyWithSameStoreSlug =
-        await this.companyRepository.findByStoreSlug(command.storeName);
+        await this.companyRepository.findByStoreSlug(storeSlug);
 
       if (companyWithSameStoreSlug) {
         return Err.of(new StoreNameAlreadyExistsError(command.storeName));
@@ -29,7 +29,10 @@ export class ConfigureStoreUseCase {
         storeSlug,
         color: command.color,
         logo: command.logo,
-        keyPhrases: command.keyPhrases,
+        title: command.title,
+        description: command.description,
+        button: command.button,
+        advantages: command.advantages,
         productsType: command.productsType,
         phoneContact: command.phoneContact,
         emailContact: command.emailContact,

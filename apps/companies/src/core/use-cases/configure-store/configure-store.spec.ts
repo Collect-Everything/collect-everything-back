@@ -58,6 +58,13 @@ describe('Configure Store', () => {
     await fixture.whenUserConfiguresStore({
       companyId: 'id-1',
       storeName: 'Store 1',
+      title: 'Title',
+      description: 'Description',
+      button: 'Button',
+      advantages: [
+        { title: 'Advantage 1', description: 'Description 1' },
+        { title: 'Advantage 2', description: 'Description 2' }
+      ],
       color: '#FFFFFF',
       logo: '/logo.png'
     });
@@ -67,6 +74,13 @@ describe('Configure Store', () => {
       StoreConfiguration.fromData({
         storeName: 'Store 1',
         storeSlug: 'store-1',
+        title: 'Title',
+        description: 'Description',
+        button: 'Button',
+        advantages: [
+          { title: 'Advantage 1', description: 'Description 1' },
+          { title: 'Advantage 2', description: 'Description 2' }
+        ],
         color: '#FFFFFF',
         logo: '/logo.png'
       })
@@ -142,7 +156,7 @@ describe('Configure Store', () => {
     );
   });
 
-  test('The store name is already used, it should throw an error', async () => {
+  test('The store name is already used for the company, it should throw an error', async () => {
     await fixture.givenSomeCompanies([
       Company.fromData({
         id: '2',
@@ -167,7 +181,7 @@ describe('Configure Store', () => {
     ]);
 
     await fixture.whenUserConfiguresStore({
-      companyId: 'id-1',
+      companyId: '2',
       storeName: 'Store 1',
       color: '#FFFFFF',
       logo: '/logo.png'

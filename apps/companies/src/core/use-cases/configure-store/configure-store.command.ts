@@ -6,7 +6,7 @@ export interface ConfigureStoreCommand {
   title?: string;
   description?: string;
   button?: string;
-  keyPhrases: { title: string; description: string }[];
+  advantages?: { title: string; description: string }[];
   productsType?: string;
   phoneContact?: string;
   emailContact?: string;

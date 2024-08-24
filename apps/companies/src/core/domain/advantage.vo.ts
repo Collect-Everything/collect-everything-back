@@ -19,8 +19,20 @@ export class Advantage extends ValueObject<AdvantageProps> {
     this.validate();
   }
 
+  get title(): string {
+    return this.props.title;
+  }
+
+  get description(): string {
+    return this.props.description;
+  }
+
   static fromData(data: AdvantageData): Advantage {
     return new Advantage(data);
+  }
+
+  get data(): AdvantageData {
+    return this.props;
   }
 
   private validate() {
