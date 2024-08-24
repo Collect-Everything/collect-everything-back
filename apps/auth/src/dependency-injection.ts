@@ -2,8 +2,7 @@ import { AccessTokenController } from "./access-token.controller";
 import { AccessTokenRouter } from "./access-token.router";
 import { AccessTokenService } from "./access-token.service";
 
-//TODO: Mettre un vrai secret depuis les variables d'environnement
-const accessTokenService = new AccessTokenService("super-secret");
+const accessTokenService = new AccessTokenService(process.env.JWT_SECRET!);
 
 const accessTokenController = new AccessTokenController(accessTokenService);
 

@@ -9,4 +9,5 @@ export interface CompanyRepository {
   findAllPaginated(
     params: PaginatedParams
   ): Promise<PaginatedResponse<Company>>;
+  delete(id: string): Promise<void>;
 }

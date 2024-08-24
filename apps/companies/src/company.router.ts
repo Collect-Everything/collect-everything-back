@@ -22,5 +22,6 @@ export class CompanyRouter extends BaseRouter {
       [],
       this.controller.getStoreConfiguration
     );
+    this.router.delete('/:companyId', [], this.controller.deleteCompany);
   }
 }

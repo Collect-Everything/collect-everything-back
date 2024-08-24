@@ -6,6 +6,7 @@ export const createApiRouter = (app: Express) => {
   const baseApiRouter = express.Router();
 
   baseApiRouter.use("/", adminRouter)
+  baseApiRouter.use("/:adminUserId", adminRouter);
 
   app.use(apiConfig.apiPath, baseApiRouter);
 

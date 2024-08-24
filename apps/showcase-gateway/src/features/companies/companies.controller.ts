@@ -43,13 +43,16 @@ export class CompaniesController extends GatewayController {
       });
 
       if (registerResult.isErr()) {
+        await this.companiesService.deleteCompany(
+          createCompanyResult.value.data.companyId
+        );
         throw registerResult.error;
       }
 
       return {
         status: 201,
         success: true,
-        data: {}
+        data: { companyId: createCompanyResult.value.data.companyId }
       } satisfies BaseResponse;
     });
 

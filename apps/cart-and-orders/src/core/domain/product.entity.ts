@@ -30,6 +30,14 @@ export class Product extends Entity<ProductProps, string> {
     return this._props.price;
   }
 
+  get data() {
+    return {
+      id: this.id,
+      name: this.name,
+      price: this.price
+    };
+  }
+
   static fromData(data: ProductData) {
     return new Product(data);
   }

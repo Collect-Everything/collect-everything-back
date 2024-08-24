@@ -2,12 +2,12 @@ import { RequestHandler } from 'express';
 import {
   BadRequestError,
   BaseController,
+  BaseResponse,
   ConflictError,
   NotFoundError,
   UnknownError,
   ctrlWrapper
 } from '@ce/server-core';
-import { ApiResponse, CreateCompanyDTO } from '@ce/shared-core';
 import { CreateCompanyUseCase } from './core/use-cases/create-company/create-company.usecase';
 import { ConfigureStoreUseCase } from './core/use-cases/configure-store/configure-store.usecase';
 import { CompanyAlreadyExistsError } from './core/use-cases/create-company/create-company.errors';
@@ -16,6 +16,8 @@ import { CompanyNotFoundError } from './core/errors/company-not-found';
 import { GetCompanyUseCase } from './core/use-cases/get-company/get-company.usecase';
 import { ListCompaniesUseCase } from './core/use-cases/list-companies/list-companies.usecase';
 import { GetStoreConfigurationUseCase } from './core/use-cases/get-store-configuration/get-store-configuration.usecase';
+import { CreateCompanyDTO } from '@ce/shared-core';
+import { DeleteCompanyUseCase } from './core/use-cases/delete-company/delete-company.usecase';
 
 export class CompanyController extends BaseController {
   constructor(
@@ -23,7 +25,8 @@ export class CompanyController extends BaseController {
     private configureStoreUseCase: ConfigureStoreUseCase,
     private getCompanyUseCase: GetCompanyUseCase,
     private listCompaniesUeCase: ListCompaniesUseCase,
-    private getStoreConfigurationUseCase: GetStoreConfigurationUseCase
+    private getStoreConfigurationUseCase: GetStoreConfigurationUseCase,
+    private deleteCompanyUseCase: DeleteCompanyUseCase
   ) {
     super('CompanyController');
   }
@@ -43,9 +46,10 @@ export class CompanyController extends BaseController {
       }
 
       return {
+        status: 201,
         success: true,
-        data: { companyId: result.value.id }
-      } satisfies ApiResponse;
+        data: result.value
+      } satisfies BaseResponse;
     });
 
   configureStore: RequestHandler = (req, res) =>
@@ -73,9 +77,10 @@ export class CompanyController extends BaseController {
         throw new UnknownError();
       }
       return {
+        status: 200,
         success: true,
         data: {}
-      } satisfies ApiResponse;
+      } satisfies BaseResponse;
     });
 
   getCompany: RequestHandler = (req, res) =>
@@ -95,9 +100,10 @@ export class CompanyController extends BaseController {
       }
 
       return {
+        status: 200,
         success: true,
         data: { result }
-      } satisfies ApiResponse;
+      } satisfies BaseResponse;
     });
 
   listCompanies: RequestHandler = (req, res) =>
@@ -114,9 +120,10 @@ export class CompanyController extends BaseController {
       }
 
       return {
+        status: 200,
         success: true,
         data: result.value
-      } satisfies ApiResponse;
+      } satisfies BaseResponse;
     });
 
   getStoreConfiguration: RequestHandler = (req, res) =>
@@ -137,8 +144,31 @@ export class CompanyController extends BaseController {
         throw new UnknownError();
       }
       return {
+        status: 200,
         success: true,
         data: result.value
-      } satisfies ApiResponse;
+      } satisfies BaseResponse;
+    });
+
+  deleteCompany: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('deleteCompany'), res, async () => {
+      const { companyId } = req.params;
+      if (!companyId) {
+        throw new BadRequestError({ message: 'Missing companyId params' });
+      }
+      const result = await this.deleteCompanyUseCase.execute({ companyId });
+      if (result.isErr()) {
+        if (result.error instanceof CompanyNotFoundError) {
+          throw new NotFoundError({
+            message: `Company ${companyId} not found`
+          });
+        }
+        throw new UnknownError();
+      }
+      return {
+        status: 200,
+        success: true,
+        data: {}
+      } satisfies BaseResponse;
     });
 }

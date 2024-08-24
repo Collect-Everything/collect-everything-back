@@ -1,5 +1,6 @@
 import { AdminRepository } from './../ports/admin.repository';
 import { Admin } from "../domain/admin.entity";
+import { PaginatedParams, PaginatedResponse } from '@ce/shared-core';
 
 export class InMemoryAdminRepository implements AdminRepository {
   admins: Admin[] = [];
@@ -25,5 +26,9 @@ export class InMemoryAdminRepository implements AdminRepository {
 
   async delete(id: string): Promise<void> {
     this.admins = this.admins.filter((c) => c.id !== id);
+  }
+
+  findAllPaginated(params: PaginatedParams): Promise<PaginatedResponse<Admin>> {
+    throw new Error('Method not implemented.');
   }
 }

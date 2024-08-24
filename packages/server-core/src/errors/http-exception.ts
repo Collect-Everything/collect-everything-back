@@ -10,6 +10,14 @@ export class HttpException extends Error {
   ) {
     super(message);
   }
+
+  toJSON() {
+    return {
+      status: this.status,
+      message: this.message,
+      errors: this.errors
+    };
+  }
 }
 
 interface ErrorParams {
@@ -34,7 +42,7 @@ export class BadRequestError extends HttpException {
       400,
       params?.message ?? STATUS_TEXT[400],
       params?.errors,
-      ERROR_CODES.INVALID_REQUEST_BODY
+      ERROR_CODES.BAD_REQUEST
     );
   }
 }

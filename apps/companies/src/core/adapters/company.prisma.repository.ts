@@ -59,4 +59,8 @@ export class PrismaCompanyRepository implements CompanyRepository {
       total: await this.client.company.count()
     };
   }
+
+  async delete(id: string) {
+    await this.client.company.delete({ where: { id } });
+  }
 }
