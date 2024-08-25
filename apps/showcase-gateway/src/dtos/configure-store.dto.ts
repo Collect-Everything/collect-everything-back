@@ -8,12 +8,15 @@ export const ConfigureStoreDTOSchema = z.object({
   description: z.string().optional(),
   button: z.string().optional(),
   image: z.string().optional(),
-  advantages: z.array(
-    z.object({
-      title: z.string(),
-      description: z.string()
-    })
-  ),
+  advantages: z
+    .array(
+      z.object({
+        title: z.string(),
+        description: z.string(),
+        icon: z.string().optional()
+      })
+    )
+    .optional(),
   productsType: z.string().optional(),
   phoneContact: z.string().optional(),
   emailContact: z.string().optional(),

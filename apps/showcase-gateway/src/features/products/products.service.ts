@@ -1,8 +1,8 @@
 import { BaseResponse, GatewayService } from '@ce/server-core';
-import { CreateCategoryDTO } from './dtos/create-category.dto';
-import { CreateProductDto } from './dtos/create-product.dto';
+import { CreateCategoryDTO } from '../../dtos/create-category.dto';
+import { CreateProductDto } from '../../dtos/create-product.dto';
 import { PaginatedQuery } from '@ce/shared-core';
-import { UpdateProductDto } from './dtos/update-product.dto';
+import { UpdateProductDto } from '../../dtos/update-product.dto';
 
 export class ProductsService extends GatewayService {
   constructor() {

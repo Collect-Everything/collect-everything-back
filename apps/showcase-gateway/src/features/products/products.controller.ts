@@ -3,7 +3,6 @@ import {
   BaseResponse,
   BodyValidationError,
   GatewayController,
-  HttpException,
   ctrlWrapper,
   parseBody
 } from '@ce/server-core';
@@ -12,17 +11,17 @@ import { RequestHandler } from 'express';
 import {
   CreateCategoryDTO,
   CreateCategoryDtoSchema
-} from './dtos/create-category.dto';
+} from '../../dtos/create-category.dto';
 import { CompaniesService } from '../companies/companies.service';
 import {
   CreateProductDto,
   CreateProductDtoSchema
-} from './dtos/create-product.dto';
+} from '../../dtos/create-product.dto';
 import { PaginatedQuerySchema } from '@ce/shared-core';
 import {
   UpdateProductDto,
   UpdateProductDtoSchema
-} from './dtos/update-product.dto';
+} from '../../dtos/update-product.dto';
 
 export class ProductsController extends GatewayController {
   constructor(

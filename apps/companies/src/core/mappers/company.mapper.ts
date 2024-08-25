@@ -28,6 +28,7 @@ export class CompanyMapper {
         description: raw.description,
         button: raw.button,
         image: raw.image,
+        advantages: raw.advantages,
         productsType: raw.productsType,
         phoneContact: raw.phoneContact,
         emailContact: raw.emailContact,
@@ -58,6 +59,9 @@ export class CompanyMapper {
       logo: company.storeConfiguration?.props.logo,
       title: company.storeConfiguration?.props.title,
       image: company.storeConfiguration?.props.image,
+      advantages: company.storeConfiguration?.props.advantages?.map(
+        (advantage) => advantage.data
+      ),
       description: company.storeConfiguration?.props.description,
       button: company.storeConfiguration?.props.button,
       productsType: company.storeConfiguration?.props.productsType,

@@ -3,7 +3,8 @@ import { z } from 'zod';
 
 export const AdvantagePropsSchema = z.object({
   title: z.string(),
-  description: z.string()
+  description: z.string(),
+  icon: z.string().nullish()
 });
 
 export type AdvantageProps = z.infer<typeof AdvantagePropsSchema>;
@@ -11,6 +12,7 @@ export type AdvantageProps = z.infer<typeof AdvantagePropsSchema>;
 export interface AdvantageData {
   title: string;
   description: string;
+  icon?: string | null;
 }
 
 export class Advantage extends ValueObject<AdvantageProps> {

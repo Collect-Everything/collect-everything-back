@@ -7,7 +7,7 @@ export interface ConfigureStoreCommand {
   description?: string;
   button?: string;
   image?: string;
-  advantages?: { title: string; description: string }[];
+  advantages?: { title: string; description: string; icon?: string }[];
   productsType?: string;
   phoneContact?: string;
   emailContact?: string;
