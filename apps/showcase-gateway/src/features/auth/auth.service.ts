@@ -24,7 +24,6 @@ export class AuthService extends GatewayService {
       password
     );
 
-    console.log('validateResult', validateResult);
     if (validateResult.isErr()) {
       return validateResult;
     }
@@ -38,6 +37,7 @@ export class AuthService extends GatewayService {
     }
 
     return Ok.of({
+      payload: userData,
       accessToken: tokenResult.value.data.accessToken,
       refreshToken: tokenResult.value.data.refreshToken
     });
@@ -59,6 +59,7 @@ export class AuthService extends GatewayService {
     }
 
     return Ok.of({
+      payload: userData,
       accessToken: tokenResult.value.data.accessToken,
       refreshToken: tokenResult.value.data.refreshToken
     });

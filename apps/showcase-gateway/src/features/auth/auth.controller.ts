@@ -32,10 +32,7 @@ export class AuthController extends BaseController {
 
       return {
         success: true,
-        data: {
-          accessToken: res.value.accessToken,
-          refreshToken: res.value.refreshToken
-        }
+        data: res.value
       } satisfies BaseResponse;
     });
 
@@ -55,10 +52,7 @@ export class AuthController extends BaseController {
 
       return {
         success: true,
-        data: {
-          accessToken: res.value.accessToken,
-          refreshToken: res.value.refreshToken
-        }
+        data: res.value
       } satisfies BaseResponse;
     });
 }

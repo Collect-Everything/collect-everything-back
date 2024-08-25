@@ -11,7 +11,10 @@ import {
 import { CreateCompanyUseCase } from './core/use-cases/create-company/create-company.usecase';
 import { ConfigureStoreUseCase } from './core/use-cases/configure-store/configure-store.usecase';
 import { CompanyAlreadyExistsError } from './core/use-cases/create-company/create-company.errors';
-import { StoreNameAlreadyExistsError } from './core/use-cases/configure-store/configure-store.errors';
+import {
+  NoStoreToConfigureError,
+  StoreNameAlreadyExistsError
+} from './core/use-cases/configure-store/configure-store.errors';
 import { CompanyNotFoundError } from './core/errors/company-not-found';
 import { GetCompanyUseCase } from './core/use-cases/get-company/get-company.usecase';
 import { ListCompaniesUseCase } from './core/use-cases/list-companies/list-companies.usecase';
@@ -74,6 +77,9 @@ export class CompanyController extends BaseController {
             message: `Company ${companyId} not found`
           });
         }
+        if (result.error instanceof NoStoreToConfigureError) {
+          throw new BadRequestError({ message: 'No store to configure' });
+        }
         throw new UnknownError();
       }
       return {
@@ -128,17 +134,17 @@ export class CompanyController extends BaseController {
 
   getStoreConfiguration: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier('getStoreConfiguration'), res, async () => {
-      const { storeSlug } = req.params;
-      if (!storeSlug) {
-        throw new BadRequestError({ message: 'Missing storeSlug params' });
+      const { companyId } = req.params;
+      if (!companyId) {
+        throw new BadRequestError({ message: 'Missing companyId params' });
       }
       const result = await this.getStoreConfigurationUseCase.execute({
-        storeSlug
+        companyId
       });
       if (result.isErr()) {
         if (result.error instanceof CompanyNotFoundError) {
           throw new NotFoundError({
-            message: `Company ${storeSlug} not found`
+            message: `Company ${companyId} not found`
           });
         }
         throw new UnknownError();

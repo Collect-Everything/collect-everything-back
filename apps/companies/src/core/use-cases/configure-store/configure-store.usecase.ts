@@ -1,7 +1,10 @@
-import { Err, Ok, Result } from '@ce/shared-core';
+import { Err, Ok, Result, withoutUndefinedProperties } from '@ce/shared-core';
 import { CompanyRepository } from '../../ports/company.repository';
 import { ConfigureStoreCommand } from './configure-store.command';
-import { StoreNameAlreadyExistsError } from './configure-store.errors';
+import {
+  NoStoreToConfigureError,
+  StoreNameAlreadyExistsError
+} from './configure-store.errors';
 import { CompanyNotFoundError } from '../../errors/company-not-found';
 import { slugify } from '@ce/utils';
 
@@ -9,42 +12,56 @@ export class ConfigureStoreUseCase {
   constructor(private readonly companyRepository: CompanyRepository) {}
 
   async execute(command: ConfigureStoreCommand): Promise<Result<void, Error>> {
-    try {
-      const storeSlug = slugify(command.storeName);
+    const company = await this.companyRepository.findById(command.companyId);
+
+    if (!company) {
+      return Err.of(new CompanyNotFoundError(command.companyId));
+    }
+
+    let storeSlug = company.storeConfiguration?.storeSlug;
+    let storeName = company.storeConfiguration?.storeName;
+
+    if (command.storeName) {
+      storeName = command.storeName;
+      storeSlug = slugify(command.storeName);
       const companyWithSameStoreSlug =
         await this.companyRepository.findByStoreSlug(storeSlug);
 
-      if (companyWithSameStoreSlug) {
+      if (
+        companyWithSameStoreSlug &&
+        companyWithSameStoreSlug.id !== company.id
+      ) {
         return Err.of(new StoreNameAlreadyExistsError(command.storeName));
       }
+    }
 
-      const company = await this.companyRepository.findById(command.companyId);
+    if (!storeSlug || !storeName) {
+      return Err.of(new NoStoreToConfigureError());
+    }
 
-      if (!company) {
-        return Err.of(new CompanyNotFoundError(command.companyId));
-      }
-
-      company.configureStore({
-        storeName: command.storeName,
+    company.configureStore(
+      withoutUndefinedProperties({
+        storeName,
         storeSlug,
         color: command.color,
         logo: command.logo,
         title: command.title,
         description: command.description,
         button: command.button,
+        image: command.image,
         advantages: command.advantages,
         productsType: command.productsType,
         phoneContact: command.phoneContact,
         emailContact: command.emailContact,
-        links: command.links,
+        instagramUrl: command.instagramUrl,
+        twitterUrl: command.twitterUrl,
+        facebookUrl: command.facebookUrl,
         externalUrl: command.externalUrl
-      });
+      })
+    );
 
-      await this.companyRepository.save(company);
+    await this.companyRepository.save(company);
 
-      return Ok.of(undefined);
-    } catch (error) {
-      return Err.of(error as Error);
-    }
+    return Ok.of(undefined);
   }
 }

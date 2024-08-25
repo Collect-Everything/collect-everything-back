@@ -8,11 +8,9 @@ export class GetStoreConfigurationUseCase {
   constructor(private companyRepository: CompanyRepository) {}
 
   async execute(query: GetStoreConfigurationQuery) {
-    const company = await this.companyRepository.findByStoreSlug(
-      query.storeSlug
-    );
+    const company = await this.companyRepository.findById(query.companyId);
     if (!company) {
-      return Err.of(new CompanyNotFoundError(query.storeSlug));
+      return Err.of(new CompanyNotFoundError(query.companyId));
     }
 
     if (!company.storeConfiguration) {

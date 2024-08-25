@@ -50,7 +50,15 @@ export function getJsonBody(req: Request) {
 }
 
 export function parseBody<T>(req: Request, schema: ZodSchema<T>): T {
-  const body = getJsonBody(req);
+  let body: any;
+
+  if (req.is('application/json')) {
+    body = getJsonBody(req);
+  } else if (req.is('multipart/form-data')) {
+    body = JSON.parse(req.body.body);
+    console.log('body', body);
+    console.log('typeof body', typeof body);
+  }
 
   if (!body) {
     throw new HttpException(400, 'Invalid request body');

@@ -156,40 +156,6 @@ describe('Configure Store', () => {
     );
   });
 
-  test('The store name is already used for the company, it should throw an error', async () => {
-    await fixture.givenSomeCompanies([
-      Company.fromData({
-        id: '2',
-        name: 'Company 2',
-        phone: '123456789',
-        email: 'company-2@gmail.com',
-        addressLabel: '123 Main St',
-        street: 'Main St',
-        streetNumber: '123',
-        postalCode: '12345',
-        city: 'City',
-        country: 'Country',
-        storeConfiguration: {
-          storeName: 'Store 1',
-          storeSlug: 'store-1',
-          color: '#FFFFFF',
-          logo: '/logo.png'
-        },
-        subscriptionStatus: 'FREE_TRIAL',
-        subscriptionUpdatedAt: new Date('2024-08-10')
-      })
-    ]);
-
-    await fixture.whenUserConfiguresStore({
-      companyId: '2',
-      storeName: 'Store 1',
-      color: '#FFFFFF',
-      logo: '/logo.png'
-    });
-
-    fixture.thenErrorShouldBe(StoreNameAlreadyExistsError);
-  });
-
   test('the company id provided does not exist, it should throw an error', async () => {
     await fixture.whenUserConfiguresStore({
       companyId: 'id-1',

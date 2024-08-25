@@ -5,33 +5,39 @@ import { Advantage, AdvantageData } from './advantage.vo';
 export const StoreConfigurationPropsSchema = z.object({
   storeName: z.string(),
   storeSlug: z.string(),
-  color: z.string().optional(),
-  logo: z.string().optional(),
-  title: z.string().optional(),
-  description: z.string().optional(),
-  button: z.string().optional(),
-  advantages: z.array(z.instanceof(Advantage)).optional(),
-  productsType: z.string().optional(),
-  phoneContact: z.string().optional(),
-  emailContact: z.string().optional(),
-  links: z.record(z.string()).optional(),
-  externalUrl: z.string().optional()
+  color: z.string().nullish(),
+  logo: z.string().nullish(),
+  title: z.string().nullish(),
+  description: z.string().nullish(),
+  button: z.string().nullish(),
+  image: z.string().nullish(),
+  advantages: z.array(z.instanceof(Advantage)).nullish(),
+  productsType: z.string().nullish(),
+  phoneContact: z.string().nullish(),
+  emailContact: z.string().nullish(),
+  instagramUrl: z.string().nullish(),
+  twitterUrl: z.string().nullish(),
+  facebookUrl: z.string().nullish(),
+  externalUrl: z.string().nullish()
 });
 
 export interface StoreConfigurationData {
   storeName: string;
   storeSlug: string;
-  color?: string;
-  logo?: string;
-  title?: string;
-  description?: string;
-  button?: string;
-  advantages?: AdvantageData[];
-  productsType?: string;
-  phoneContact?: string;
-  emailContact?: string;
-  links?: Record<string, string>;
-  externalUrl?: string;
+  color?: string | null;
+  logo?: string | null;
+  title?: string | null;
+  description?: string | null;
+  button?: string | null;
+  image?: string | null;
+  advantages?: AdvantageData[] | null;
+  productsType?: string | null;
+  phoneContact?: string | null;
+  emailContact?: string | null;
+  instagramUrl?: string | null;
+  twitterUrl?: string | null;
+  facebookUrl?: string | null;
+  externalUrl?: string | null;
 }
 
 export type StoreConfigurationProps = z.infer<
@@ -45,6 +51,14 @@ export class StoreConfiguration extends ValueObject<StoreConfigurationProps> {
   constructor(props: StoreConfigurationProps) {
     super(props);
     this.validate();
+  }
+
+  get storeName(): string {
+    return this.props.storeName;
+  }
+
+  get storeSlug(): string {
+    return this.props.storeSlug;
   }
 
   static fromData(data: StoreConfigurationData): StoreConfiguration {
@@ -71,7 +85,9 @@ export class StoreConfiguration extends ValueObject<StoreConfigurationProps> {
       productsType: this.props.productsType,
       phoneContact: this.props.phoneContact,
       emailContact: this.props.emailContact,
-      links: this.props.links,
+      instagramUrl: this.props.instagramUrl,
+      twitterUrl: this.props.twitterUrl,
+      facebookUrl: this.props.facebookUrl,
       externalUrl: this.props.externalUrl
     };
   }

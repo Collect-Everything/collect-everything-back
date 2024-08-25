@@ -1,15 +1,15 @@
-import { Entity, EntityValidationError } from "@ce/shared-core";
-import { z } from "zod";
+import { Entity, EntityValidationError } from '@ce/shared-core';
+import { z } from 'zod';
 import {
   StoreConfiguration,
-  StoreConfigurationData,
-} from "./store-configuration.vo";
+  StoreConfigurationData
+} from './store-configuration.vo';
 
 const SUBSCRIPTION_STATUS = [
-  "FREE_TRIAL",
-  "ACTIVE",
-  "CANCELED",
-  "EXPIRED",
+  'FREE_TRIAL',
+  'ACTIVE',
+  'CANCELED',
+  'EXPIRED'
 ] as const;
 export type SubscriptionStatus = (typeof SUBSCRIPTION_STATUS)[number];
 export const SubscriptionStatus = z.enum(SUBSCRIPTION_STATUS);
@@ -27,8 +27,8 @@ const CompanyPropsSchema = z.object({
   country: z.string(),
   siret: z.string().nullish(),
   storeConfiguration: z.instanceof(StoreConfiguration).nullish(),
-  subscriptionStatus: SubscriptionStatus.default("FREE_TRIAL"),
-  subscriptionUpdatedAt: z.date(),
+  subscriptionStatus: SubscriptionStatus.default('FREE_TRIAL'),
+  subscriptionUpdatedAt: z.date()
 });
 
 export interface CompanyData {
@@ -69,10 +69,10 @@ export class Company extends Entity<CompanyProps, string> {
 
   get subscriptionStatus(): SubscriptionStatus {
     if (
-      this._props.subscriptionStatus === "FREE_TRIAL" &&
+      this._props.subscriptionStatus === 'FREE_TRIAL' &&
       this.isFreeTrialExpired()
     ) {
-      return "EXPIRED";
+      return 'EXPIRED';
     }
 
     return this._props.subscriptionStatus;
@@ -82,7 +82,7 @@ export class Company extends Entity<CompanyProps, string> {
     return {
       ...this._props,
       siret: this._props.siret ?? undefined,
-      storeConfiguration: this._props.storeConfiguration?.props,
+      storeConfiguration: this._props.storeConfiguration?.props
     };
   }
 
@@ -98,7 +98,10 @@ export class Company extends Entity<CompanyProps, string> {
   }
 
   configureStore(data: StoreConfigurationData) {
-    this._props.storeConfiguration = StoreConfiguration.fromData(data);
+    this._props.storeConfiguration = StoreConfiguration.fromData({
+      ...this._props.storeConfiguration?.data,
+      ...data
+    });
   }
 
   static fromData(data: CompanyData): Company {
@@ -106,7 +109,7 @@ export class Company extends Entity<CompanyProps, string> {
       ...data,
       storeConfiguration: data.storeConfiguration
         ? StoreConfiguration.fromData(data.storeConfiguration)
-        : undefined,
+        : undefined
     });
   }
 

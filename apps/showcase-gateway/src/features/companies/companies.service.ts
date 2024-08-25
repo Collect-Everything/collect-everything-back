@@ -31,6 +31,13 @@ export class CompaniesService extends GatewayService {
     return this.executeRequest(handler);
   }
 
+  async getStoreConfiguration(companyId: string) {
+    const handler = this.fetcher.get<BaseResponse<{}>>(
+      `/${companyId}/store-configuration`
+    );
+    return this.executeRequest(handler);
+  }
+
   async getCompany(companyId: string) {
     const handler = this.fetcher.get<BaseResponse<{}>>(`/${companyId}`);
     return this.executeRequest(handler);

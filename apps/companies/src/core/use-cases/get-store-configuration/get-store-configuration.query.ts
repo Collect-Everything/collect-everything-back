@@ -1,3 +1,3 @@
 export interface GetStoreConfigurationQuery {
-  storeSlug: string;
+  companyId: string;
 }

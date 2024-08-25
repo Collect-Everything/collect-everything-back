@@ -39,12 +39,18 @@ model Company {
   storeSlug        String? @unique
   color            String?
   logo             String?
-  key_phrases      Json?
+  title            String?
+  description      String?
+  button           String?
+  image            String?
+  advantages       Json?
   productsType     String?
   siret            String?
   phoneContact     String?
   emailContact     String?
-  links            Json?
+  instagramUrl     String?
+  facebookUrl      String?
+  twitterUrl       String?
   externalUrl      String?
   companyCustomers CompanyCustomer[]
   companyUsers     CompanyUser[]

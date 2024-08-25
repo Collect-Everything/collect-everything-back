@@ -12,6 +12,7 @@ import {
   CreateCompanyAndAdminDTOSchema
 } from '../../dtos/create-company-and-admin.dto';
 import { ConfigureStoreDTOSchema } from '../../dtos/configure-store.dto';
+import { getFileUrl } from '../../lib/multer';
 
 export class CompaniesController extends GatewayController {
   constructor(
@@ -60,9 +61,20 @@ export class CompaniesController extends GatewayController {
     ctrlWrapper(this.getIdentifier('configureStore'), res, async () => {
       const companyId = req.params.companyId;
       const storeConfiguration = parseBody(req, ConfigureStoreDTOSchema);
+      const files = req.files as Record<string, Express.Multer.File[]>;
+      const logoFile = files?.['logo']?.[0];
+      const imageFile = files?.['image']?.[0];
       const configureStoreResult = await this.companiesService.configureStore(
         companyId,
-        storeConfiguration
+        {
+          ...storeConfiguration,
+          logo: logoFile
+            ? getFileUrl(logoFile.filename)
+            : storeConfiguration.logo,
+          image: imageFile
+            ? getFileUrl(imageFile.filename)
+            : storeConfiguration.image
+        }
       );
       if (configureStoreResult.isErr()) {
         throw configureStoreResult.error;
@@ -70,6 +82,20 @@ export class CompaniesController extends GatewayController {
       return {
         success: true,
         data: {}
+      } satisfies BaseResponse;
+    });
+
+  getStoreConfiguration: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('getStoreConfiguration'), res, async () => {
+      const companyId = req.params.companyId;
+      const storeConfigurationResult =
+        await this.companiesService.getStoreConfiguration(companyId);
+      if (storeConfigurationResult.isErr()) {
+        throw storeConfigurationResult.error;
+      }
+      return {
+        success: true,
+        data: storeConfigurationResult.value.data
       } satisfies BaseResponse;
     });
 }
