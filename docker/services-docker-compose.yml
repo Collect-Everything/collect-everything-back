@@ -3,9 +3,35 @@ services:
     container_name: showcase-gateway
     build:
       context: ../
-      dockerfile: ./apps/showcase-gateway/Dockerfile
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: showcase-gateway
     ports:
       - ${SHOWCASE_GATEWAY_PORT}:${SHOWCASE_GATEWAY_PORT}
+    restart: always
+    networks:
+      - ce_network
+  store-gateway:
+    container_name: store-gateway
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: store-gateway
+    ports:
+      - ${STORE_GATEWAY_PORT}:${STORE_GATEWAY_PORT}
+    restart: always
+    networks:
+      - ce_network
+  admin-gateway:
+    container_name: admin-gateway
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: admin-gateway
+    ports:
+      - ${ADMIN_GATEWAY_PORT}:${ADMIN_GATEWAY_PORT}
     restart: always
     networks:
       - ce_network
@@ -13,9 +39,47 @@ services:
     container_name: company-users
     build:
       context: ../
-      dockerfile: ./apps/company-users/Dockerfile
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: company-users
     ports:
       - ${COMPANY_USERS_PORT}:${COMPANY_USERS_PORT}
+    restart: always
+    networks:
+      - ce_network
+  company-customers:
+    container_name: company-customers
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: company-customers
+    ports:
+      - ${COMPANY_CUSTOMERS_PORT}:${COMPANY_CUSTOMERS_PORT}
+    restart: always
+    networks:
+      - ce_network
+  cart-and-orders:
+    container_name: cart-and-orders
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: cart-and-orders
+    ports:
+      - ${CART_AND_ORDERS_PORT}:${CART_AND_ORDERS_PORT}
+    restart: always
+    networks:
+      - ce_network
+  products:
+    container_name: products
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: products
+    ports:
+      - ${PRODUCTS_PORT}:${PRODUCTS_PORT}
     restart: always
     networks:
       - ce_network
@@ -23,7 +87,9 @@ services:
     container_name: companies
     build:
       context: ../
-      dockerfile: ./apps/companies/Dockerfile
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: companies
     ports:
       - ${COMPANIES_PORT}:${COMPANIES_PORT}
     restart: always
@@ -33,7 +99,9 @@ services:
     container_name: email-validation
     build:
       context: ../
-      dockerfile: ./apps/email-validation/Dockerfile
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: email-validation
     ports:
       - ${EMAIL_VALIDATION_PORT}:${EMAIL_VALIDATION_PORT}
     restart: always
@@ -46,9 +114,23 @@ services:
     container_name: auth
     build:
       context: ../
-      dockerfile: ./apps/auth/Dockerfile
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: auth
     ports:
       - ${AUTH_PORT}:${AUTH_PORT}
+    restart: always
+    networks:
+      - ce_network
+  admins:
+    container_name: admins
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.service
+      args:
+        SERVICE_NAME: admins
+    ports:
+      - ${ADMINS_PORT}:${ADMINS_PORT}
     restart: always
     networks:
       - ce_network

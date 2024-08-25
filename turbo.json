@@ -1,10 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
-  "globalDotEnv": [".env"],
-  "globalEnv": ["PORT"],
-  "pipeline": {
+  "globalDependencies": ["**/.env.*local", ".env"],
+  "tasks": {
     "build": {
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
       "dependsOn": ["^build", "^db:generate"],
       "env": ["NEXT_PUBLIC_API_HOST"]
@@ -18,12 +17,6 @@
     },
     "dev": {
       "dependsOn": ["^db:generate"],
-      "dotEnv": [
-        ".env.development.local",
-        ".env.development",
-        ".env.local",
-        ".env"
-      ],
       "cache": false,
       "persistent": true
     },

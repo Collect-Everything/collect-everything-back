@@ -60,7 +60,6 @@
     "@manypkg/cli": "^0.21.4",
     "dotenv-cli": "latest",
     "prettier": "^3.3.3",
-    "sequelize-cli": "^6.6.2",
-    "turbo": "latest"
+    "turbo": "2.0.14"
   }
 }
