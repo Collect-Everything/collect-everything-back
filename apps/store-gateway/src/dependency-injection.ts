@@ -9,6 +9,8 @@ import { EmailValidationController } from './features/email-validation/email-val
 import { EmailValidationRouter } from './features/email-validation/email-validation.router';
 import { EmailValidationService } from './features/email-validation/email-validation.service';
 import { CompanyCustomersService } from './features/company-customers/company-customers.service';
+import { CompanyCustomersRouter } from './features/company-customers/company-customers.router';
+import { CompanyCustomersController } from './features/company-customers/company-customers.controller';
 import { CartAndOrdersService } from './features/cart-and-orders/cart-and-orders.service';
 import { CartAndOrdersController } from './features/cart-and-orders/cart-and-orders.controller';
 import { CartAndOrdersRouter } from './features/cart-and-orders/cart-and-orders.router';
@@ -33,6 +35,13 @@ const emailValidationRouter = new EmailValidationRouter(emailValidationCtrl)
 const authRouter = new AuthRouter(authCtrl).router;
 const cartAndOrdersRouter = new CartAndOrdersRouter(cartAndOrdersCtrl).router;
 
+const companyCustomersCtrl = new CompanyCustomersController(
+  companyCustomersService
+);
+const companiesCustomersRouter = new CompanyCustomersRouter(
+  companyCustomersCtrl
+).router;
+
 export {
   companiesService,
   emailValidationService,
@@ -40,5 +49,6 @@ export {
   emailValidationRouter,
   authRouter,
   companyCustomersService,
+  companiesCustomersRouter,
   cartAndOrdersRouter
 };
