@@ -22,6 +22,21 @@ export class CompaniesController extends GatewayController {
     super('companies');
   }
 
+  getCompany: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('getCompany'), res, async () => {
+      let companyId = req.params.companyId;
+      const companyResult = await this.companiesService.getCompany(companyId);
+
+      if (companyResult.isErr()) {
+        throw companyResult.error;
+      }
+      return {
+        status: 200,
+        success: true,
+        data: companyResult.value.data
+      } satisfies BaseResponse;
+    });
+
   createCompanyAndAdmin: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier('createCompany'), res, async () => {
       const body = parseBody<CreateCompanyAndAdminDTO>(
