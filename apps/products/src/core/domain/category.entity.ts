@@ -7,6 +7,10 @@ export const CategoryPropsSchema = z.object({
   companyId: z.string(),
 });
 
+interface UpdateCategoryProps {
+  name?: string;
+}
+
 export type CategoryProps = z.infer<typeof CategoryPropsSchema>;
 
 export class Category extends Entity<CategoryProps, string> {
@@ -41,5 +45,13 @@ export class Category extends Entity<CategoryProps, string> {
     if (!result.success) {
       throw new EntityValidationError(result.error.errors);
     }
+  }
+
+  update(props: UpdateCategoryProps) {
+    this._props = {
+      ...this._props,
+      ...props,
+    };
+    this.validate();
   }
 }

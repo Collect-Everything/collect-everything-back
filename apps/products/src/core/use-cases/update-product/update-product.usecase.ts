@@ -26,6 +26,8 @@ export class UpdateProductUseCase {
       }),
     );
 
+    await this.productRepository.save(product);
+
     return Ok.of(undefined);
   }
 }

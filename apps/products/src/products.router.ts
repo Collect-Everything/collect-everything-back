@@ -11,6 +11,8 @@ export class ProductsRouter extends BaseRouter {
   initRoutes(): void {
     this.router.post("/categories", [], this.controller.createCategory);
     this.router.get("/categories", [], this.controller.listCategories);
+    this.router.patch("/categories/:categoryId", [], this.controller.updateCategory);
+    this.router.delete("/categories/:categoryId", [], this.controller.deleteCategory);
 
     this.router.post("/products", [], this.controller.createProduct);
     this.router.get("/products", [], this.controller.listProducts);

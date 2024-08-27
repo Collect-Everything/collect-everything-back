@@ -48,4 +48,10 @@ export class PrismaCategoryRepository implements CategoryRepository {
       }),
     );
   }
+
+  async delete(categoryId: string) {
+    await this.prisma.productCategory.delete({
+      where: { id: categoryId },
+    });
+  }
 }

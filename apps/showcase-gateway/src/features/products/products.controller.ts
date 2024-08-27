@@ -22,6 +22,10 @@ import {
   UpdateProductDto,
   UpdateProductDtoSchema
 } from '../../dtos/update-product.dto';
+import {
+  UpdateCategoryDTO,
+  UpdateCategoryDtoSchema
+} from '../../dtos/update-category.dto';
 
 export class ProductsController extends GatewayController {
   constructor(
@@ -69,6 +73,46 @@ export class ProductsController extends GatewayController {
         data: listCategoriesResult.value.data
       } satisfies BaseResponse;
     });
+
+    updateCategory: RequestHandler = (req, res) =>
+      ctrlWrapper(this.getIdentifier('updateCategory'), res, async () => {
+        const { categoryId } = req.params;
+        if (!categoryId) {
+          throw new BadRequestError({ message: 'categoryId is required' });
+        }
+        const body = parseBody<UpdateCategoryDTO>(req, UpdateCategoryDtoSchema);
+        const updateCategoryResult = await this.productsService.updateCategory(
+          categoryId as string,
+          body
+        );
+        if (updateCategoryResult.isErr()) {
+          throw updateCategoryResult.error;
+        }
+        return {
+          status: 200,
+          success: true,
+          data: updateCategoryResult.value.data
+        } satisfies BaseResponse;
+      });
+  
+    deleteCategory: RequestHandler = (req, res) =>
+      ctrlWrapper(this.getIdentifier('deleteCategory'), res, async () => {
+        const { categoryId } = req.params;
+        if (!categoryId) {
+          throw new BadRequestError({ message: 'categoryId is required' });
+        }
+        const deleteCategoryResult = await this.productsService.deleteCategory(
+          categoryId as string
+        );
+        if (deleteCategoryResult.isErr()) {
+          throw deleteCategoryResult.error;
+        }
+        return {
+          status: 200,
+          success: true,
+          data: deleteCategoryResult.value.data
+        } satisfies BaseResponse;
+      });
 
   createProduct: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier('createProduct'), res, async () => {

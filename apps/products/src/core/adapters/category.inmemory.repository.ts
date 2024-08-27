@@ -23,4 +23,8 @@ export class InMemoryCategoryRepository implements CategoryRepository {
       return true;
     });
   }
+
+  async delete(categoryId: string) {
+    this.categories = this.categories.filter((category) => category.id !== categoryId);
+  }
 }

@@ -3,6 +3,7 @@ import { CreateCategoryDTO } from '../../dtos/create-category.dto';
 import { CreateProductDto } from '../../dtos/create-product.dto';
 import { PaginatedQuery } from '@ce/shared-core';
 import { UpdateProductDto } from '../../dtos/update-product.dto';
+import { UpdateCategoryDTO } from '../../dtos/update-category.dto';
 
 export class ProductsService extends GatewayService {
   constructor() {
@@ -23,6 +24,19 @@ export class ProductsService extends GatewayService {
   async listCategories() {
     const handler =
       this.fetcher.get<BaseResponse<{ categories: string[] }>>('/categories');
+    return this.executeRequest(handler);
+  }
+
+  async updateCategory(categoryId: string, data: UpdateCategoryDTO) {
+    const handler = this.fetcher.patch<BaseResponse>(
+      `/categories/${categoryId}`,
+      data
+    );
+    return this.executeRequest(handler);
+  }
+
+  async deleteCategory(categoryId: string) {
+    const handler = this.fetcher.delete<BaseResponse>(`/categories/${categoryId}`);
     return this.executeRequest(handler);
   }
 

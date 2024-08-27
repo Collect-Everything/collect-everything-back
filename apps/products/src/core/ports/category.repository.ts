@@ -9,4 +9,5 @@ export interface CategoryRepository {
   save(category: Category): Promise<void>;
   findById(id: string): Promise<Category | null>;
   findAll(filters?: CategoriesFilters): Promise<Category[]>;
+  delete(categoryId: string): Promise<void>;
 }

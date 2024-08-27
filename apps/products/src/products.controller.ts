@@ -1,5 +1,8 @@
 import { BaseController, HttpException, ctrlWrapper } from "@ce/server-core";
 import { CreateCategoryUseCase } from "./core/use-cases/create-category/create-category.usecase";
+import { DeleteCategoryUseCase } from "./core/use-cases/delete-category/delete-category.usecase";
+import { UpdateCategoryUseCase } from "./core/use-cases/update-category/update-category.usecase";
+
 import { CreateProductUseCase } from "./core/use-cases/create-product/create-product.usecase";
 import { DeleteProductUseCase } from "./core/use-cases/delete-product/delete-product.usecase";
 import { GetProductUseCase } from "./core/use-cases/get-product/get-product.usecase";
@@ -20,6 +23,8 @@ export class ProductsController extends BaseController {
     private readonly getProductUseCase: GetProductUseCase,
     private readonly updateProductUseCase: UpdateProductUseCase,
     private readonly deleteProductUseCase: DeleteProductUseCase,
+    private readonly updateCategoryUseCase: UpdateCategoryUseCase,
+    private readonly deleteCategoryUseCase: DeleteCategoryUseCase,
     private readonly listCategoriesUseCase: ListCategoriesUseCase,
   ) {
     super("ProductsController");
@@ -125,4 +130,28 @@ export class ProductsController extends BaseController {
         data: result,
       } satisfies ApiResponse;
     });
+
+    updateCategory: RequestHandler = async (req, res) =>
+      ctrlWrapper(this.getIdentifier("updateCategory"), res, async () => {
+        const categoryId = req.params.categoryId;
+        const body = req.body;
+        const result = await this.updateCategoryUseCase.execute({
+          categoryId,
+          ...body,
+        });
+        return {
+          success: true,
+          data: result,
+        } satisfies ApiResponse;
+      });
+  
+    deleteCategory: RequestHandler = async (req, res) =>
+      ctrlWrapper(this.getIdentifier("deleteCategory"), res, async () => {
+        const categoryId = req.params.categoryId;
+        const result = await this.deleteCategoryUseCase.execute({ categoryId });
+        return {
+          success: true,
+          data: result,
+        } satisfies ApiResponse;
+      });
 }
