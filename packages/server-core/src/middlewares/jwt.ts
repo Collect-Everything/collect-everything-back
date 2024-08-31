@@ -11,14 +11,14 @@ export const jwtMiddleware: RequestHandler = (req, _res, next) => {
         throw new Error('Env variable JWT_SECRET is not defined');
       }
       jwt.verify(token, secret, (_err, decoded) => {
-        const jwtPayload = decoded as {
-          data: any;
+        const jwtPayload = decoded as any & {
           iat: number;
           exp: number;
         };
 
-        if (new Date().getTime() < jwtPayload.exp * 1000) {
-          (req as Req).user = jwtPayload?.data;
+        const isTokenExpired = Date.now() >= jwtPayload.exp * 1000;
+        if (!isTokenExpired) {
+          (req as Req).user = jwtPayload;
         }
       });
     }

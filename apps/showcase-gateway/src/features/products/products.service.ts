@@ -21,9 +21,9 @@ export class ProductsService extends GatewayService {
     return this.executeRequest(handler);
   }
 
-  async listCategories() {
+  async listCategories(companyId: string) {
     const handler =
-      this.fetcher.get<BaseResponse<{ categories: string[] }>>('/categories');
+      this.fetcher.get<BaseResponse<{ categories: string[] }>>(`/categories?companyId=${companyId}`);
     return this.executeRequest(handler);
   }
 
