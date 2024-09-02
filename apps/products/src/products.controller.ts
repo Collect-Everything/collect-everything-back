@@ -79,7 +79,10 @@ export class ProductsController extends BaseController {
         page: parseInt(query.page as string),
       });
 
-      console.log(result);
+      if (result.isErr()) {
+        throw new HttpException(500, "Unknown error", [result.error]);
+      }
+
       return {
         success: true,
         data: result.value,

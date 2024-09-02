@@ -7,6 +7,11 @@ export const CategoryPropsSchema = z.object({
   companyId: z.string(),
 });
 
+export interface CategoryData {
+  id: string;
+  name: string;
+}
+
 interface UpdateCategoryProps {
   name?: string;
 }

@@ -5,7 +5,7 @@ import { Category } from "../domain/category.entity";
 import { PaginatedParams } from "@ce/shared-core";
 
 export class PrismaProductRepository implements ProductRepository {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaClient) { }
 
   async save(product: Product) {
     const p = product.data;
@@ -91,7 +91,7 @@ export class PrismaProductRepository implements ProductRepository {
         category: Category.fromData({
           id: product.category.id,
           name: product.category.name,
-        companyId: product.companyId,
+          companyId: product.companyId,
         }),
         name: product.name,
         price: product.price,
@@ -109,44 +109,43 @@ export class PrismaProductRepository implements ProductRepository {
     const { page, limit, ...filters } = params;
     const products = await this.prisma.product.findMany({
       where: {
-      companyId: filters.companyId,
-      categoryId: filters.categoryId,
+        companyId: filters.companyId,
+        categoryId: filters.categoryId,
       },
       include: {
-      category: true,
+        category: true,
       },
       skip: (page - 1) * limit,
       take: limit,
     });
     const total = await this.prisma.product.count({
       where: {
-      companyId: filters.companyId,
-      categoryId: filters.categoryId,
+        companyId: filters.companyId,
+        categoryId: filters.categoryId,
       },
     });
     return {
       data: products.map((product) =>
-      Product.fromData({
-        id: product.id,
-        companyId: product.companyId,
-        category: Category.fromData({
-          id: product.category.id,
-          name: product.category.name,
+        Product.fromData({
+          id: product.id,
           companyId: product.companyId,
+          category: {
+            id: product.category.id,
+            name: product.category.name,
+          },
+          name: product.name,
+          price: product.price,
+          description: product.description ?? "",
+          image: product.image ?? undefined,
+          stock: product.stock,
+          conditioning: product.conditioning,
+          unity: product.unity,
+          size: product.size ?? undefined,
         }),
-        name: product.name,
-        price: product.price,
-        description: product.description ?? "",
-        image: product.image ?? undefined,
-        stock: product.stock,
-        conditioning: product.conditioning,
-        unity: product.unity,
-        size: product.size ?? undefined,
-      }),
       ),
       total,
       page,
-      limit 
+      limit
     };
   }
 

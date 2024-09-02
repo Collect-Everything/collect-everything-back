@@ -1,28 +1,37 @@
-import express, { Express } from "express";
-import { GATEWAYS_CONFIG, SERVICES_CONFIG, Service } from "../config";
-import cors from "cors";
-import helmet from "helmet";
-import hpp from "hpp";
-import morgan from "morgan";
+import express, { Express } from 'express';
+import { GATEWAYS_CONFIG, SERVICES_CONFIG, Service } from '../config';
+import cors from 'cors';
+import helmet from 'helmet';
+import hpp from 'hpp';
+import morgan from 'morgan';
 import {
   limiter,
   globalErrorHandler,
   gatewaysApiKeyMiddleware,
-  jwtMiddleware,
-} from "../middlewares";
-import { ApiConfig } from "@ce/shared-core";
-import { blueLog, boldLog, greenLog } from "./console";
-import { Gateway } from "../config";
+  jwtMiddleware
+} from '../middlewares';
+import { ApiConfig } from '@ce/shared-core';
+import { blueLog, boldLog, greenLog } from './console';
+import { Gateway } from '../config';
 
-const __DEV__ = process.env.NODE_ENV === "development";
+const __DEV__ = process.env.NODE_ENV === 'development';
 
 const applyCommonMiddlewares = (app: Express) => {
-  app.use(cors());
-  app.use(helmet());
-  app.use(morgan(__DEV__ ? "dev" : "common"));
+  app.use(
+    cors({
+      origin: '*'
+    })
+  );
+  app.use(
+    helmet({
+      crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: false
+    })
+  );
+  app.use(morgan(__DEV__ ? 'dev' : 'common'));
   app.use(limiter); // Rate limiter
   app.use(express.urlencoded({ extended: true }));
-  app.use(express.json({ limit: "100mb" }));
+  app.use(express.json({ limit: '100mb' }));
   app.use(hpp());
   app.use(jwtMiddleware);
 };
@@ -34,8 +43,8 @@ export const createServiceApp = (
 ) => {
   const app = express();
 
-  if (apiConfig.uploads?.source === "local") {
-    app.use(apiConfig.uploads.source, express.static("/static"));
+  if (apiConfig.uploads?.source === 'local') {
+    app.use(apiConfig.uploads.source, express.static('/static'));
   }
 
   app.use(gatewaysApiKeyMiddleware(SERVICES_CONFIG[service].allowedGateways)); // Gateway middleware
@@ -43,7 +52,7 @@ export const createServiceApp = (
 
   createApiRouter(app);
 
-  app.get("/ping", (_req, res) => res.status(200).send("API OK !"));
+  app.get('/ping', (_req, res) => res.status(200).send('API OK !'));
 
   app.use(globalErrorHandler);
 
@@ -59,7 +68,7 @@ export const createServiceApp = (
           )
         );
       });
-    },
+    }
   };
 };
 
@@ -74,7 +83,7 @@ export const createGatewayApp = (
 
   createApiRouter(app);
 
-  app.get("/ping", (_req, res) => res.status(200).send("API OK !"));
+  app.get('/ping', (_req, res) => res.status(200).send('API OK !'));
 
   app.use(globalErrorHandler);
 
@@ -90,6 +99,6 @@ export const createGatewayApp = (
           )
         );
       });
-    },
+    }
   };
 };

@@ -21,6 +21,7 @@ import { ListCompaniesUseCase } from './core/use-cases/list-companies/list-compa
 import { GetStoreConfigurationUseCase } from './core/use-cases/get-store-configuration/get-store-configuration.usecase';
 import { CreateCompanyDTO } from '@ce/shared-core';
 import { DeleteCompanyUseCase } from './core/use-cases/delete-company/delete-company.usecase';
+import { GetCompanyBySlugUseCase } from './core/use-cases/get-company-by-slug/get-company-by-slug.usecase';
 
 export class CompanyController extends BaseController {
   constructor(
@@ -29,7 +30,8 @@ export class CompanyController extends BaseController {
     private getCompanyUseCase: GetCompanyUseCase,
     private listCompaniesUeCase: ListCompaniesUseCase,
     private getStoreConfigurationUseCase: GetStoreConfigurationUseCase,
-    private deleteCompanyUseCase: DeleteCompanyUseCase
+    private deleteCompanyUseCase: DeleteCompanyUseCase,
+    private getCompanyBySlugUseCase: GetCompanyBySlugUseCase
   ) {
     super('CompanyController');
   }
@@ -175,6 +177,28 @@ export class CompanyController extends BaseController {
         status: 200,
         success: true,
         data: {}
+      } satisfies BaseResponse;
+    });
+
+  getCompanyBySlug: RequestHandler = (req, res) =>
+    ctrlWrapper(this.getIdentifier('getCompanyBySlug'), res, async () => {
+      const { slug } = req.params;
+      if (!slug) {
+        throw new BadRequestError({ message: 'Missing slug params' });
+      }
+      const result = await this.getCompanyBySlugUseCase.execute({ slug });
+      if (result.isErr()) {
+        if (result.error instanceof CompanyNotFoundError) {
+          throw new NotFoundError({
+            message: `Company ${slug} not found`
+          });
+        }
+        throw new UnknownError();
+      }
+      return {
+        status: 200,
+        success: true,
+        data: result.value
       } satisfies BaseResponse;
     });
 }

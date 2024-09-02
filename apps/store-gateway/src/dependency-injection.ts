@@ -14,6 +14,7 @@ import { CompanyCustomersController } from './features/company-customers/company
 import { CartAndOrdersService } from './features/cart-and-orders/cart-and-orders.service';
 import { CartAndOrdersController } from './features/cart-and-orders/cart-and-orders.controller';
 import { CartAndOrdersRouter } from './features/cart-and-orders/cart-and-orders.router';
+import { ProductsService } from './features/products/products.service';
 
 const companiesService = new CompaniesService(eventsService);
 
@@ -21,8 +22,12 @@ const companyCustomersService = new CompanyCustomersService(eventsService);
 const emailValidationService = new EmailValidationService(eventsService);
 const authService = new AuthService(eventsService, companyCustomersService);
 const cartAndOrdersService = new CartAndOrdersService(eventsService);
+const productsService = new ProductsService();
 
-const companiesCtrl = new CompaniesController(companiesService);
+const companiesCtrl = new CompaniesController(
+  companiesService,
+  productsService
+);
 const emailValidationCtrl = new EmailValidationController(
   emailValidationService
 );

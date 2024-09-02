@@ -6,6 +6,7 @@ import { RealIDProvider } from './core/adapters/real-id-provider';
 import { ConfigureStoreUseCase } from './core/use-cases/configure-store/configure-store.usecase';
 import { CreateCompanyUseCase } from './core/use-cases/create-company/create-company.usecase';
 import { DeleteCompanyUseCase } from './core/use-cases/delete-company/delete-company.usecase';
+import { GetCompanyBySlugUseCase } from './core/use-cases/get-company-by-slug/get-company-by-slug.usecase';
 import { GetCompanyUseCase } from './core/use-cases/get-company/get-company.usecase';
 import { GetStoreConfigurationUseCase } from './core/use-cases/get-store-configuration/get-store-configuration.usecase';
 import { ListCompaniesUseCase } from './core/use-cases/list-companies/list-companies.usecase';
@@ -34,13 +35,16 @@ const getStoreConfigurationUseCase = new GetStoreConfigurationUseCase(
 
 const deleteCompanyUseCase = new DeleteCompanyUseCase(companyRepository);
 
+const getCompanyBySlugUseCase = new GetCompanyBySlugUseCase(companyRepository);
+
 const companyController = new CompanyController(
   createCompanyUseCase,
   configureStoreUseCase,
   getCompanyUseCase,
   listCompaniesUseCase,
   getStoreConfigurationUseCase,
-  deleteCompanyUseCase
+  deleteCompanyUseCase,
+  getCompanyBySlugUseCase
 );
 
 const companyRouter = new CompanyRouter(companyController).router;

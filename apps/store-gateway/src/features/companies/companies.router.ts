@@ -10,5 +10,6 @@ export class CompaniesRouter extends BaseRouter {
 
   initRoutes(): void {
     this.router.get('/:companyId', this.companiesCtrl.getCompany);
+    this.router.get('/:companySlug/data', this.companiesCtrl.getCompanyData);
   }
 }

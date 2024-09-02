@@ -1,4 +1,4 @@
-import { ProductConditioning, ProductUnity, ProductSize } from "@ce/shared-core";
+import { ProductUnity, ProductSize } from "@ce/shared-core";
 
 export interface CreateProductCommand {
   categoryId: string;
@@ -8,7 +8,7 @@ export interface CreateProductCommand {
   description?: string;
   image?: string;
   stock: number;
-  conditioning: ProductConditioning;
+  conditioning: number
   unity: ProductUnity;
   size?: ProductSize;
 }

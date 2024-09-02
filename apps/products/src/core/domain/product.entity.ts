@@ -1,6 +1,6 @@
 import { Entity, EntityValidationError, ProductConditioning, ProductConditioningSchema, ProductSize, ProductSizeSchema, ProductUnity, ProductUnitySchema } from "@ce/shared-core";
 import { z } from "zod";
-import { Category } from "./category.entity";
+import { Category, CategoryData } from "./category.entity";
 
 
 const ProductPropsSchema = z.object({
@@ -28,10 +28,10 @@ interface UpdateProductProps {
   size?: ProductSize;
 }
 
-interface ProductData {
+export interface ProductData {
   id: string;
   companyId: string;
-  category: Category;
+  category: CategoryData;
   name: string;
   price: number;
   description?: string;
@@ -63,7 +63,7 @@ export class Product extends Entity<ProductProps, string> {
     return this._props.name;
   }
 
-  get data() {
+  get data(): ProductData {
     return {
       id: this.id,
       companyId: this.companyId,
@@ -93,10 +93,11 @@ export class Product extends Entity<ProductProps, string> {
     );
     const unityResult = ProductUnitySchema.parse(data.unity);
     const sizeResult = ProductSizeSchema.optional().parse(data.size);
+    const category = Category.fromData({ ...data.category, companyId: data.companyId });
     return new Product({
       id: data.id,
       companyId: data.companyId,
-      category: data.category,
+      category,
       name: data.name,
       price: data.price,
       description: data.description,

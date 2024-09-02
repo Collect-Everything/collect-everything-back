@@ -81,6 +81,7 @@ export class StoreConfiguration extends ValueObject<StoreConfigurationProps> {
       title: this.props.title,
       description: this.props.description,
       button: this.props.button,
+      image: this.props.image,
       advantages: this.props.advantages?.map((advantage) => advantage.data),
       productsType: this.props.productsType,
       phoneContact: this.props.phoneContact,
