@@ -6,7 +6,7 @@ import {
 import { Category } from "../domain/category.entity";
 
 export class PrismaCategoryRepository implements CategoryRepository {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaClient) { }
 
   async save(category: Category): Promise<void> {
     await this.prisma.productCategory.upsert({

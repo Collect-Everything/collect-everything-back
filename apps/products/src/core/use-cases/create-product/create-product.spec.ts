@@ -30,7 +30,7 @@ describe("Feature: Create Category", () => {
         description: "A red tomato",
         image: "http://tomato.com",
         stock: 10,
-        conditioning: 1,
+        conditioning: "unit",
         unity: "unit",
       });
 
@@ -44,7 +44,7 @@ describe("Feature: Create Category", () => {
           description: "A red tomato",
           image: "http://tomato.com",
           stock: 10,
-          conditioning: 1,
+          conditioning: "unit",
           unity: "unit",
         }),
       );

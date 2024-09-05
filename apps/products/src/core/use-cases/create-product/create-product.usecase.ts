@@ -10,10 +10,11 @@ export class CreateProductUseCase {
     private readonly productRepository: ProductRepository,
     private readonly categoryRepository: CategoryRepository,
     private readonly idProvider: IdProvider,
-  ) {}
+  ) { }
   async execute(
     command: CreateProductCommand,
   ): Promise<Result<{ productId: string }, Error>> {
+    console.log("COMMAND : ", command)
     const category = await this.categoryRepository.findById(command.categoryId);
 
     if (!category) {

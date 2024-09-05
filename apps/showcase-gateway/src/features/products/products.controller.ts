@@ -27,6 +27,7 @@ import {
   UpdateCategoryDTO,
   UpdateCategoryDtoSchema
 } from '../../dtos/update-category.dto';
+import { getFileUrl } from '../../lib/multer';
 
 export class ProductsController extends GatewayController {
   constructor(
@@ -119,8 +120,12 @@ export class ProductsController extends GatewayController {
   createProduct: RequestHandler = (req, res) =>
     ctrlWrapper(this.getIdentifier('createProduct'), res, async () => {
       const body = parseBody<CreateProductDto>(req, CreateProductDtoSchema);
+      const imageFile = req.file
       const createProductResult =
-        await this.productsService.createProduct(body);
+        await this.productsService.createProduct({
+          ...body,
+          image: imageFile ? getFileUrl(imageFile.filename) : body.image
+        });
       if (createProductResult.isErr()) {
         throw createProductResult.error;
       }
@@ -184,10 +189,12 @@ export class ProductsController extends GatewayController {
       if (!productId) {
         throw new BadRequestError({ message: 'productId is required' });
       }
+      const imageFile = req.file
       const body = parseBody<UpdateProductDto>(req, UpdateProductDtoSchema);
       const updateProductResult = await this.productsService.updateProduct(
         productId as string,
-        body
+        { ...body, image: imageFile ? getFileUrl(imageFile.filename) : body.image }
+
       );
       if (updateProductResult.isErr()) {
         throw updateProductResult.error;
