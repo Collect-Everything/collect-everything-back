@@ -1,134 +1,111 @@
 services:
   showcase-gateway:
+    image: service-app
     container_name: showcase-gateway
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: showcase-gateway
+    environment:
+      - SERVICE_NAME=showcase-gateway
     ports:
       - ${SHOWCASE_GATEWAY_PORT}:${SHOWCASE_GATEWAY_PORT}
     restart: always
     networks:
       - ce_network
   store-gateway:
+    image: service-app
     container_name: store-gateway
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: store-gateway
+    environment:
+      - SERVICE_NAME=store-gateway
     ports:
       - ${STORE_GATEWAY_PORT}:${STORE_GATEWAY_PORT}
     restart: always
     networks:
       - ce_network
   admin-gateway:
+    image: service-app
     container_name: admin-gateway
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: admin-gateway
+    environment:
+      - SERVICE_NAME=admin-gateway
     ports:
       - ${ADMIN_GATEWAY_PORT}:${ADMIN_GATEWAY_PORT}
     restart: always
     networks:
       - ce_network
   company-users:
-    container_name: company-users
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: company-users
+    image: service-app
+    container_name: company-users 
+    environment:
+      - SERVICE_NAME=company-users
     ports:
       - ${COMPANY_USERS_PORT}:${COMPANY_USERS_PORT}
     restart: always
     networks:
       - ce_network
   company-customers:
-    container_name: company-customers
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: company-customers
+    image: service-app
+    container_name: company-customers 
+    environment:
+      - SERVICE_NAME=company-customers
     ports:
       - ${COMPANY_CUSTOMERS_PORT}:${COMPANY_CUSTOMERS_PORT}
     restart: always
     networks:
       - ce_network
   cart-and-orders:
-    container_name: cart-and-orders
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: cart-and-orders
+    image: service-app
+    container_name: cart-and-orders 
+    environment:
+      - SERVICE_NAME=cart-and-orders
     ports:
       - ${CART_AND_ORDERS_PORT}:${CART_AND_ORDERS_PORT}
     restart: always
     networks:
       - ce_network
   products:
-    container_name: products
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: products
+    image: service-app
+    container_name: products 
+    environment:
+      - SERVICE_NAME=products
     ports:
       - ${PRODUCTS_PORT}:${PRODUCTS_PORT}
     restart: always
     networks:
       - ce_network
   companies:
-    container_name: companies
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: companies
+    image: service-app
+    container_name: companies 
+    environment:
+      - SERVICE_NAME=companies
     ports:
       - ${COMPANIES_PORT}:${COMPANIES_PORT}
     restart: always
     networks:
       - ce_network
   email-validation:
-    container_name: email-validation
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: email-validation
+    image: service-app
+    container_name: email-validation 
+    environment:
+      - SERVICE_NAME=email-validation
+      - REDIS_PASS=${REDIS_PASS}
+      - REDIS_PORT=${REDIS_PORT}
     ports:
       - ${EMAIL_VALIDATION_PORT}:${EMAIL_VALIDATION_PORT}
     restart: always
-    environment:
-      REDIS_PASS: ${REDIS_PASS}
-      REDIS_PORT: ${REDIS_PORT}
     networks:
       - ce_network
   auth:
+    image: service-app
     container_name: auth
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: auth
+    environment:
+      - SERVICE_NAME=auth
     ports:
       - ${AUTH_PORT}:${AUTH_PORT}
     restart: always
     networks:
       - ce_network
   admins:
+    image: service-app
     container_name: admins
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile.service
-      args:
-        SERVICE_NAME: admins
+    environment:
+      - SERVICE_NAME=admins
     ports:
       - ${ADMINS_PORT}:${ADMINS_PORT}
     restart: always

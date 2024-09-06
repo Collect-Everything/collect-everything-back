@@ -12,7 +12,7 @@ RUN yarn global add turbo@^2.0.14
 ARG SERVICE_NAME
 
 COPY . .
-RUN turbo prune ${SERVICE_NAME} --docker
+RUN turbo prune --docker
 
 FROM base AS installer
 RUN apk update
@@ -28,7 +28,7 @@ COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 COPY .env .env
 
-RUN yarn turbo build --filter=${SERVICE_NAME}...
+RUN yarn turbo build
 
 FROM base AS runner
 WORKDIR /app
