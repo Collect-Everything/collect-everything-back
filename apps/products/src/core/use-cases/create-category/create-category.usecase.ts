@@ -2,13 +2,12 @@ import { Err, IdProvider, Ok, Result } from "@ce/shared-core";
 import { CreateCategoryCommand } from "./create-category.command";
 import { CategoryRepository } from "../../ports/category.repository";
 import { Category } from "../../domain/category.entity";
-import { CategoryAlreadyExistsError } from "./create-category.errors";
 
 export class CreateCategoryUseCase {
   constructor(
     private readonly categoryRepository: CategoryRepository,
     private readonly idProvider: IdProvider,
-  ) {}
+  ) { }
 
   async execute(
     command: CreateCategoryCommand,

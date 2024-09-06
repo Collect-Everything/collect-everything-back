@@ -26,6 +26,7 @@ export class PrismaCategoryRepository implements CategoryRepository {
     const category = await this.prisma.productCategory.findUnique({
       where: { id },
     });
+
     if (!category) return null;
     return Category.fromData({
       id: category.id,

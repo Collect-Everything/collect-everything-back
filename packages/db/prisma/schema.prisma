@@ -111,7 +111,7 @@ model ProductCategory {
 model Product {
     id String @id
     name String
-    description String?
+    description String? @db.Text
     price Float
     image String?
     category ProductCategory @relation(fields: [categoryId], references: [id])

@@ -14,7 +14,6 @@ export class CreateProductUseCase {
   async execute(
     command: CreateProductCommand,
   ): Promise<Result<{ productId: string }, Error>> {
-    console.log("COMMAND : ", command)
     const category = await this.categoryRepository.findById(command.categoryId);
 
     if (!category) {
@@ -24,7 +23,10 @@ export class CreateProductUseCase {
     const product = Product.fromData({
       id: this.idProvider.generate(),
       companyId: category.companyId,
-      category,
+      category: {
+        id: category.id,
+        name: category.name,
+      },
       name: command.name,
       price: command.price,
       description: command.description,
