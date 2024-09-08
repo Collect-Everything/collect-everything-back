@@ -14,7 +14,7 @@ export class ValidateCredentialsUseCase {
   constructor(
     private companyUserRepository: CompanyUserRepository,
     private readonly passwordHasher: PasswordHasher
-  ) {}
+  ) { }
 
   async execute(
     query: ValidateCredentialsQuery
@@ -50,7 +50,8 @@ export class ValidateCredentialsUseCase {
       firstname: companyUser.firstname,
       lastname: companyUser.lastname,
       role: companyUser.role,
-      companyId: companyUser.companyId
+      companyId: companyUser.companyId,
+      emailVerified: companyUser.emailVerified,
     });
   }
 }

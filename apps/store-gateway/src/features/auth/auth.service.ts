@@ -35,8 +35,11 @@ export class AuthService extends GatewayService {
 
     const customerData = validateResult.value.data;
 
+    if (!customerData.emailVerified) {
+      return Err.of(new Error('Email not verified'));
+    }
+
     const tokenResult = await this.generateToken(customerData);
-    console.log('tokenResult', tokenResult);
 
     if (tokenResult.isErr()) {
       return Err.of(new Error('Failed to generate token'));

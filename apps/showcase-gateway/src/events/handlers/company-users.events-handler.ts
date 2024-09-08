@@ -20,6 +20,7 @@ export const registerCompanyUsersEvents: Handler = (service) => {
     async (payload: CompanyUserCreatedPayload) => {
       const result = await emailValidationService.sendValidationEmail(
         payload.email,
+        'http://localhost:3000/validate-email',
       );
 
       if (result.isErr()) {

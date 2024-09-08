@@ -4,6 +4,7 @@ import z from "zod";
 const EmailValidationPropsSchema = z.object({
   id: z.string(),
   email: z.string().email(),
+  callbackUrl: z.string(),
   token: z.string(),
   createdAt: z.date(),
 });
@@ -15,6 +16,7 @@ export interface EmailValidationData {
   email: string;
   token: string;
   createdAt: Date;
+  callbackUrl: string;
 }
 
 export const EMAIL_VALIDATION_EXPIRATION_TIME = 10 * 60 * 1000; // 10 minutes
@@ -33,6 +35,10 @@ export class EmailValidation extends Entity<EmailValidationProps, string> {
     return this._props.token;
   }
 
+  get callbackUrl() {
+    return this._props.callbackUrl;
+  }
+
   get expiresAt(): Date {
     return new Date(
       this._props.createdAt.getTime() + EMAIL_VALIDATION_EXPIRATION_TIME,
@@ -45,6 +51,7 @@ export class EmailValidation extends Entity<EmailValidationProps, string> {
       email: this._props.email,
       token: this._props.token,
       createdAt: this._props.createdAt,
+      callbackUrl: this._props.callbackUrl,
     };
   }
 
@@ -60,6 +67,7 @@ export class EmailValidation extends Entity<EmailValidationProps, string> {
     return new EmailValidation({
       id: props.id,
       email: props.email,
+      callbackUrl: props.callbackUrl,
       token: props.token,
       createdAt: props.createdAt,
     });
@@ -68,6 +76,7 @@ export class EmailValidation extends Entity<EmailValidationProps, string> {
   private validate() {
     const result = EmailValidationPropsSchema.safeParse(this._props);
     if (!result.success) {
+      console.log("result", JSON.stringify(result.error))
       throw new EntityValidationError(result.error.errors);
     }
   }

@@ -57,6 +57,10 @@ export class CompanyUser extends Entity<CompanyUserProps, string> {
     return this._props.role;
   }
 
+  get emailVerified() {
+    return this._props.emailVerified || false;
+  }
+
   get data(): CompanyUserData {
     return {
       id: this._props.id,

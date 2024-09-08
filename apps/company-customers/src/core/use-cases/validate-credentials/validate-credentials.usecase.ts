@@ -13,7 +13,7 @@ export class ValidateCredentialsUseCase {
   constructor(
     private companyUserRepository: CompanyCustomerRepository,
     private readonly passwordHasher: PasswordHasher
-  ) {}
+  ) { }
 
   async execute(
     query: ValidateCredentialsQuery
@@ -40,7 +40,8 @@ export class ValidateCredentialsUseCase {
         email: companyUser.email,
         firstname: companyUser.firstname,
         lastname: companyUser.lastname,
-        companyId: companyUser.companyId
+        companyId: companyUser.companyId,
+        emailVerified: companyUser.emailVerified
       });
     } catch (error) {
       return Err.of(new InvalidCredentialsError());

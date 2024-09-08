@@ -40,6 +40,7 @@ export class CompanyUsersService extends GatewayService {
         lastname: string;
         role: string;
         companyId: string;
+        emailVerified: boolean;
       }>
     >("/validate-credentials", {
       email,

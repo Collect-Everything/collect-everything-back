@@ -17,6 +17,6 @@ export class GetStoreConfigurationUseCase {
       return Err.of(new StoreNotConfiguredError());
     }
 
-    return Ok.of(company.storeConfiguration.data);
+    return Ok.of({ id: company.id, ...company.storeConfiguration.data });
   }
 }

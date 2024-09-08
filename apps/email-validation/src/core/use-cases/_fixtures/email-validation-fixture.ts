@@ -5,7 +5,7 @@ import { StubEmailValidator } from "../../adapters/stub-email-validator";
 import { StubIDProvider } from "../../adapters/stub-id-provider";
 import { StubTokenProvider } from "../../adapters/stub-token-provider";
 import { EmailValidation } from "../../domain/email-validation.entity";
-import { SendValidationEmailUseCase } from "../send-validation-email/send-validation-email";
+import { SendValidationEmailUseCase } from "../send-validation-email/send-validation-email.usecase";
 import {
   CheckValidationTokenResponse,
   CheckValidationTokenUseCase,

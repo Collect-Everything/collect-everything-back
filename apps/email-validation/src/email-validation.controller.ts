@@ -5,7 +5,7 @@ import {
   ctrlWrapper
 } from '@ce/server-core';
 import { CheckValidationTokenUseCase } from './core/use-cases/check-validation-token/check-validation-token';
-import { SendValidationEmailUseCase } from './core/use-cases/send-validation-email/send-validation-email';
+import { SendValidationEmailUseCase } from './core/use-cases/send-validation-email/send-validation-email.usecase';
 import { RequestHandler } from 'express';
 import { ApiResponse } from '@ce/shared-core';
 import { EmailValidationNotFoundError } from './core/use-cases/check-validation-token/check-validation-token.errors';
@@ -28,7 +28,11 @@ export class EmailValidationController extends BaseController {
         });
       }
 
-      await this.sendValidationEmailUseCase.execute(body);
+      const res = await this.sendValidationEmailUseCase.execute(body);
+
+      if (res.isErr()) {
+        throw new BadRequestError({ message: res.error.message });
+      }
 
       return {
         success: true,

@@ -1,5 +1,4 @@
 import {
-  COMPANY_USER_ROLES,
   CompanyUserRole,
   Entity,
   EntityValidationError
@@ -49,6 +48,10 @@ export class CompanyCustomer extends Entity<CompanyCustomerProps, string> {
 
   get companyId() {
     return this._props.companyId;
+  }
+
+  get emailVerified() {
+    return this._props.emailVerified;
   }
 
   get data(): CompanyCustomerData {

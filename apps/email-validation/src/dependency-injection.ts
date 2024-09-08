@@ -3,22 +3,20 @@ import { RedisEmailValidationRepository } from "./core/adapters/email-validation
 import { RealDateProvider } from "./core/adapters/real-date-provider";
 import { RealIDProvider } from "./core/adapters/real-id-provider";
 import { RealTokenProvider } from "./core/adapters/real-token-provider";
-import { StubEmailValidator } from "./core/adapters/stub-email-validator";
 import { redisClient } from "./lib/redis";
-import { SendValidationEmailUseCase } from "./core/use-cases/send-validation-email/send-validation-email";
+import { SendValidationEmailUseCase } from "./core/use-cases/send-validation-email/send-validation-email.usecase";
 import { CheckValidationTokenUseCase } from "./core/use-cases/check-validation-token/check-validation-token";
 import { EmailValidationController } from "./email-validation.controller";
 import { EmailValidationRouter } from "./email-validation.router";
+import { BrevoEmailValidator } from "./core/adapters/brevo-email-validator";
+import { BrevoEmailService } from "./core/services/brevo-email-service";
+import { brevoConfig } from "./config/brevo.config";
 
 const dateProvider = new RealDateProvider();
 const idProvider = new RealIDProvider();
 const tokenProvider = new RealTokenProvider();
-const emailValidator = new StubEmailValidator((emailValidation) =>
-  console.log(
-    `Sending email to ${emailValidation.email}, the code is : ${emailValidation.token}`,
-  ),
-);
-
+const brevoEmailService = new BrevoEmailService(brevoConfig)
+const emailValidator = new BrevoEmailValidator(brevoEmailService)
 const repository = new RedisEmailValidationRepository(
   redisClient as RedisClientType,
 );

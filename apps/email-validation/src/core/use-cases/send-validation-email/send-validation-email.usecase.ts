@@ -15,13 +15,14 @@ export class SendValidationEmailUseCase {
     private dateProvider: DateProvider,
     private tokenProvider: TokenProvider,
     private idProvider: IDProvider,
-  ) {}
+  ) { }
   async execute(
     command: SendValidationEmailCommand,
   ): Promise<Result<void, any>> {
     try {
       const emailValidation = EmailValidation.create({
         id: this.idProvider.provide(),
+        callbackUrl: command.callbackUrl,
         email: command.email,
         token: this.tokenProvider.provide(),
         createdAt: this.dateProvider.getNow(),

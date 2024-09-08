@@ -30,6 +30,10 @@ export class AuthService extends GatewayService {
 
     const userData = validateResult.value.data;
 
+    if (!userData.emailVerified) {
+      throw new Error('Email not verified');
+    }
+
     const tokenResult = await this.generateToken(userData);
 
     if (tokenResult.isErr()) {

@@ -1,3 +1,3 @@
 export interface ValidateEmailCommand {
-  userId: string;
+  email: string;
 }

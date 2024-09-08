@@ -5,7 +5,7 @@ import { CompanyUserMapper } from '../mappers/company-user.mapper';
 import { PaginatedParams, PaginatedResponse } from '@ce/shared-core';
 
 export class PrismaCompanyUserRepository implements CompanyUserRepository {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaClient) { }
 
   async save(companyUser: CompanyUser): Promise<void> {
     const data = CompanyUserMapper.toPersistence(companyUser);

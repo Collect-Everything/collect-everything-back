@@ -10,8 +10,8 @@ export class EmailValidationService extends GatewayService {
     });
   }
 
-  async sendValidationEmail(email: string) {
-    const handler = this.fetcher.post("/send-validation-email", { email });
+  async sendValidationEmail(email: string, callbackUrl: string) {
+    const handler = this.fetcher.post("/send-validation-email", { email, callbackUrl })
     return this.executeRequest(handler);
   }
 

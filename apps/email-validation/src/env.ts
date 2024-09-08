@@ -13,6 +13,7 @@ const EnvSchema = z.object({
   jwtSecret: z.string().default("secret"),
   redisPass: z.string(),
   redisPort: z.coerce.number().default(6379),
+  brevoApiKey: z.string().min(1),
 });
 
 const ENV_MAP = {
@@ -26,6 +27,7 @@ const ENV_MAP = {
   jwtSecret: process.env.JWT_SECRET,
   redisPass: process.env.REDIS_PASS,
   redisPort: process.env.REDIS_PORT,
+  brevoApiKey: process.env.BREVO_API_KEY,
 };
 
 export const env = EnvSchema.parse(ENV_MAP);

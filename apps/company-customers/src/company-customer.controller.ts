@@ -100,13 +100,13 @@ export class CompanyCustomerController extends BaseController {
 
   validateEmail: RequestHandler = async (req, res) =>
     ctrlWrapper('validateEmail', res, async () => {
-      const email = req.body.email;
+      const customerId = req.body.customerId;
 
-      if (!email) {
-        throw new BadRequestError({ message: 'Email is required' });
+      if (!customerId) {
+        throw new BadRequestError({ message: 'Customer Id is required' });
       }
 
-      const result = await this.validateEmailUseCase.execute({ email });
+      const result = await this.validateEmailUseCase.execute({ customerId });
 
       if (result.isErr()) {
         if (result.error instanceof CompanyCustomerNotFoundError) {
