@@ -55,14 +55,14 @@ export class PrismaProductRepository implements ProductRepository {
       },
     });
     if (!product) return null;
+
     return Product.fromData({
       id: product.id,
       companyId: product.companyId,
-      category: Category.fromData({
+      category: {
         id: product.category.id,
         name: product.category.name,
-        companyId: product.companyId,
-      }),
+      },
       name: product.name,
       price: product.price,
       description: product.description ?? "",
@@ -88,11 +88,10 @@ export class PrismaProductRepository implements ProductRepository {
       Product.fromData({
         id: product.id,
         companyId: product.companyId,
-        category: Category.fromData({
+        category: {
           id: product.category.id,
           name: product.category.name,
-          companyId: product.companyId,
-        }),
+        },
         name: product.name,
         price: product.price,
         description: product.description ?? "",

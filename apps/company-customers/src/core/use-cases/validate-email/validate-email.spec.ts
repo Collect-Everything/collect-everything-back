@@ -5,7 +5,7 @@ import {
 } from '../_fixtures/company-customer.fixture';
 import { CompanyCustomer } from '../../domain/company-customer.entity';
 import { EmailAlreadyVerifiedError } from './validate-email.errors';
-import { CompanyUserNotFoundError } from '../../errors/company-customer-not-found';
+import { CompanyCustomerNotFoundError } from '../../errors/company-customer-not-found';
 
 describe('Validate email', () => {
   let fixture: CompanyUserFixture;
@@ -27,15 +27,15 @@ describe('Validate email', () => {
       })
     ]);
 
-    await fixture.whenValidatingEmail('johndoe@gmail.com');
+    await fixture.whenValidatingEmail({ email: 'johndoe@gmail.com' });
 
     await fixture.thenCompanyUserShouldBeValidated('id-1');
   });
 
   test('the user does not exist, it should throw an error', async () => {
-    await fixture.whenValidatingEmail('johndoe@gmail.com');
+    await fixture.whenValidatingEmail({ email: 'johndoe@gmail.com' });
 
-    fixture.thenErrorShouldBe(CompanyUserNotFoundError);
+    fixture.thenErrorShouldBe(CompanyCustomerNotFoundError);
   });
 
   test('the user exists but his email is already validated, it should throw an error', async () => {
@@ -51,7 +51,7 @@ describe('Validate email', () => {
       })
     ]);
 
-    await fixture.whenValidatingEmail('johndoe@gmail.com');
+    await fixture.whenValidatingEmail({ email: 'johndoe@gmail.com' });
 
     fixture.thenErrorShouldBe(EmailAlreadyVerifiedError);
   });

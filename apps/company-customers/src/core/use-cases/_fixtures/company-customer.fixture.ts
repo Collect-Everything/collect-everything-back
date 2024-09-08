@@ -12,6 +12,7 @@ import { CompanyCustomerTokenPayload, StubIdProvider } from '@ce/shared-core';
 import { DeleteCommand } from '../delete/delete.command';
 import { DeleteUseCase } from '../delete/delete.usecase';
 import { InMemoryCompanyCustomerRepository } from '../../adapters/company-customer.inmemory.repository';
+import { ValidateEmailCommand } from '../validate-email/validate-email.command';
 
 export const createCompanyCustomerFixture = () => {
   const idProvider = new StubIdProvider();
@@ -40,7 +41,7 @@ export const createCompanyCustomerFixture = () => {
       idProvider.id = id;
     },
     givenSomeCompanyCustomers: (companyCustomers: CompanyCustomer[]) => {
-      companyCustomerRepository.companyUsers = companyCustomers;
+      companyCustomerRepository.companyCustomers = companyCustomers;
     },
     whenRegisteringCompanyCustomer: async (command: RegisterCommand) => {
       const result = await registerUseCase.execute(command);
@@ -49,8 +50,8 @@ export const createCompanyCustomerFixture = () => {
         thrownError = result.error;
       }
     },
-    whenValidatingEmail: async (email: string) => {
-      const result = await validateEmailUseCase.execute({ email });
+    whenValidatingEmail: async (command: ValidateEmailCommand) => {
+      const result = await validateEmailUseCase.execute(command);
 
       if (result.isErr()) {
         thrownError = result.error;
@@ -87,7 +88,7 @@ export const createCompanyCustomerFixture = () => {
 
       expect(companyUser?.isVerified).toBe(true);
     },
-    thenShouldReturnUser: (expected: CompanyCustomerTokenPayload) => {
+    thenShouldReturnUser: (expected: any) => {
       expect(returnedUser).toEqual(expected);
     },
     thenCompanyUserShouldBeDeleted: async (id: string) => {

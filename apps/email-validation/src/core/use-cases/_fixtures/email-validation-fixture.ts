@@ -10,6 +10,7 @@ import {
   CheckValidationTokenResponse,
   CheckValidationTokenUseCase,
 } from "../check-validation-token/check-validation-token";
+import { SendValidationEmailCommand } from "../send-validation-email/send-validation-email.command";
 
 export const createEmailValidationFixture = () => {
   let emailSentTo: string;
@@ -52,8 +53,8 @@ export const createEmailValidationFixture = () => {
     givenSomeEmailValidationExists: (emailValidations: EmailValidation[]) => {
       repository.emailValidations = emailValidations;
     },
-    whenUserTryToValidateEmail: async (email: string) => {
-      const result = await sendValidationEmailUseCase.execute({ email });
+    whenUserTryToValidateEmail: async (command: SendValidationEmailCommand) => {
+      const result = await sendValidationEmailUseCase.execute(command);
 
       if (result.isErr()) {
         thrownError = result.error;

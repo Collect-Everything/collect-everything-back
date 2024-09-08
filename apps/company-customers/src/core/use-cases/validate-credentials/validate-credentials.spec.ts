@@ -36,7 +36,8 @@ describe('Validate credentials', () => {
       email: 'johndoe@gmail.com',
       firstname: 'John',
       lastname: 'Doe',
-      companyId: '1'
+      companyId: '1',
+      emailVerified: true
     });
   });
 

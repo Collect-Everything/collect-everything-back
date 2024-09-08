@@ -1,6 +1,6 @@
 import { CompanyUserRepository } from "../ports/company-user.repository";
 import { CompanyUser } from "../domain/company-user.entity";
-import { PaginatedParams, PaginatedResponse } from "@ce/shared-core";
+import { PaginatedParams } from "@ce/shared-core";
 
 export class InMemoryCompanyUserRepository implements CompanyUserRepository {
   companyUsers: CompanyUser[] = [];
@@ -20,8 +20,8 @@ export class InMemoryCompanyUserRepository implements CompanyUserRepository {
     return this.companyUsers.find((c) => c.id === id) || null;
   }
 
-  async findByEmail(email: string): Promise<CompanyUser | null> {
-    return this.companyUsers.find((c) => c.email === email) || null;
+  async findByEmail(email: string) {
+    return this.companyUsers.filter((c) => c.email === email) || null;
   }
 
   async delete(id: string): Promise<void> {
@@ -34,7 +34,16 @@ export class InMemoryCompanyUserRepository implements CompanyUserRepository {
     ).length;
   }
 
-  findAllPaginated(params: PaginatedParams): Promise<PaginatedResponse<CompanyUser>> {
-    throw new Error("Method not implemented.");
+  async findAllPaginated(
+    params: PaginatedParams
+  ) {
+    return {
+      data: this.companyUsers.filter((product) => {
+        return true;
+      }),
+      total: this.companyUsers.length,
+      limit: params.limit,
+      page: params.page,
+    };
   }
 }

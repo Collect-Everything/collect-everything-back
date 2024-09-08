@@ -4,7 +4,7 @@ import {
   createCompanyCustomerFixture
 } from '../_fixtures/company-customer.fixture';
 import { CompanyCustomer } from '../../domain/company-customer.entity';
-import { CompanyUserNotFoundError } from '../../errors/company-customer-not-found';
+import { CompanyCustomerNotFoundError } from '../../errors/company-customer-not-found';
 
 describe('Update company user', () => {
   let fixture: CompanyUserFixture;
@@ -48,6 +48,6 @@ describe('Update company user', () => {
       id: 'id-1'
     });
 
-    fixture.thenErrorShouldBe(CompanyUserNotFoundError);
+    fixture.thenErrorShouldBe(CompanyCustomerNotFoundError);
   });
 });

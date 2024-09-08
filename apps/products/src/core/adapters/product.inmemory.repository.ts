@@ -1,3 +1,4 @@
+import { PaginatedParams } from "@ce/shared-core";
 import { Product } from "../domain/product.entity";
 import { ProductFilters, ProductRepository } from "../ports/product.repository";
 
@@ -21,9 +22,17 @@ export class InMemoryProductRepository implements ProductRepository {
     });
   }
 
-  async findAllPaginated() {
+  async findAllPaginated(params: PaginatedParams & ProductFilters) {
     return {
-      data: this.products,
+      data: this.products.filter((product) => {
+        if (params.companyId && product.companyId !== params.companyId) {
+          return false;
+        }
+        if (params.categoryId && product.category.id !== params.categoryId) {
+          return false;
+        }
+        return true;
+      }),
       total: this.products.length,
       limit: 10,
       page: 1,

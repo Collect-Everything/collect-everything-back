@@ -22,6 +22,7 @@ describe("Check Validation Token", () => {
       EmailValidation.create({
         id: "id-1",
         email: "johndoe@gmail.com",
+        callbackUrl: "https://example.com",
         token: "stub-token",
         createdAt: new Date("2021-01-01T00:02:00Z"),
       }),
@@ -41,6 +42,7 @@ describe("Check Validation Token", () => {
       EmailValidation.create({
         id: "id-1",
         email: "johndoe@gmail.com",
+        callbackUrl: "https://example.com",
         token: "stub-token",
         createdAt: new Date("2021-01-01T00:10:00Z"),
       }),
@@ -57,6 +59,7 @@ describe("Check Validation Token", () => {
       EmailValidation.create({
         id: "id-1",
         email: "johndoe@gmail.com",
+        callbackUrl: "https://example.com",
         token: "stub-token",
         createdAt: new Date("2021-01-01T00:10:00Z"),
       }),

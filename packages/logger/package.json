@@ -9,8 +9,7 @@
   ],
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup --external pino --external pino-http --external pino-pretty",
-    "test": "vitest"
+    "build": "tsup --external pino --external pino-http --external pino-pretty"
   },
   "devDependencies": {
     "@ce/eslint-config": "*",

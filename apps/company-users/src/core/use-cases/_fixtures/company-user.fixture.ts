@@ -86,7 +86,7 @@ export const createCompanyUserFixture = () => {
 
       expect(companyUser?.isVerified).toBe(true);
     },
-    thenShouldReturnUser: (expected: CompanyUserTokenPayload) => {
+    thenShouldReturnUser: (expected: any) => {
       expect(returnedUser).toEqual(expected);
     },
     thenCompanyUserShouldBeDeleted: async (id: string) => {

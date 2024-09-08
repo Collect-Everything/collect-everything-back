@@ -24,7 +24,10 @@ describe("Feature: Get Product", () => {
       Product.fromData({
         id: "id-1",
         companyId: "id-1",
-        category,
+        category: {
+          id: "id-1",
+          name: "Vegetables",
+        },
         name: "Tomato",
         price: 250,
         description: "A red tomato",
@@ -36,7 +39,10 @@ describe("Feature: Get Product", () => {
       Product.fromData({
         id: "id-2",
         companyId: "id-1",
-        category,
+        category: {
+          id: "id-1",
+          name: "Vegetables",
+        },
         name: "Potato",
         price: 150,
         description: "A yellow potato",
@@ -53,7 +59,10 @@ describe("Feature: Get Product", () => {
       Product.fromData({
         id: "id-1",
         companyId: "id-1",
-        category,
+        category: {
+          id: "id-1",
+          name: "Vegetables",
+        },
         name: "Tomato",
         price: 250,
         description: "A red tomato",
@@ -61,7 +70,7 @@ describe("Feature: Get Product", () => {
         stock: 10,
         conditioning: "unit",
         unity: "unit",
-      }),
+      }).data,
     );
   });
 });

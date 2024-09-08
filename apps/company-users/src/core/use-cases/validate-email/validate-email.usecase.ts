@@ -11,7 +11,7 @@ export class ValidateEmailUseCase {
       command.email,
     );
 
-    if (!companyUsers) {
+    if (!companyUsers || companyUsers.length === 0) {
       return Err.of(new CompanyUserNotFoundError(command.email));
     }
 

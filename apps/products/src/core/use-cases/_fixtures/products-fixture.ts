@@ -6,7 +6,7 @@ import { InMemoryCategoryRepository } from "../../adapters/category.inmemory.rep
 import { StubIdProvider } from "@ce/shared-core";
 import { InMemoryProductRepository } from "../../adapters/product.inmemory.repository";
 import { CreateProductUseCase } from "../create-product/create-product.usecase";
-import { Product } from "../../domain/product.entity";
+import { Product, ProductData } from "../../domain/product.entity";
 import { CreateProductCommand } from "../create-product/create-product.command";
 import { ListProductsUseCase } from "../list-products/list-products.usecase";
 import { ListProductsQuery } from "../list-products/list-products.query";
@@ -39,9 +39,9 @@ export const createProductsFixture = () => {
   const deleteProductUseCase = new DeleteProductUseCase(productRepository);
 
   let thrownError: any;
-  let listedProducts: Product[] = [];
+  let listedProducts: ProductData[] = [];
   let listedCategories: Category[] = [];
-  let gottenProduct: Product;
+  let gottenProduct: ProductData;
   return {
     givenPredefinedId: (id: string) => {
       idProvider.id = id;
@@ -74,7 +74,7 @@ export const createProductsFixture = () => {
         return;
       }
 
-      listedProducts = result.value;
+      listedProducts = result.value.data
     },
     whenGettingProduct: async (query: GetProductQuery) => {
       const result = await getProductUseCase.execute(query);
@@ -121,13 +121,13 @@ export const createProductsFixture = () => {
       );
       expect(product).toEqual(expectedProduct);
     },
-    thenListedProductsAre: (expectedProducts: Product[]) => {
+    thenListedProductsAre: (expectedProducts: ProductData[]) => {
       expect(listedProducts).toEqual(expectedProducts);
     },
     thenListedCategoriesAre: (expectedCategories: Category[]) => {
       expect(listedCategories).toEqual(expectedCategories);
     },
-    thenGottenProductIs: (expectedProduct: Product) => {
+    thenGottenProductIs: (expectedProduct: ProductData) => {
       expect(gottenProduct).toEqual(expectedProduct);
     },
     thenProductShouldNotExist: (productId: string) => {

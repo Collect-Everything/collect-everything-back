@@ -11,7 +11,7 @@ export class RegisterUseCase {
     private readonly companyUserRepository: CompanyUserRepository,
     private readonly idProvider: IdProvider,
     private readonly passwordHasher: PasswordHasher
-  ) {}
+  ) { }
 
   async execute(command: RegisterCommand): Promise<Result<void, any>> {
     const exists = await this.companyUserRepository.findByEmail(command.email);
@@ -27,7 +27,8 @@ export class RegisterUseCase {
       firstname: command.firstname,
       lastname: command.lastname,
       companyId: command.companyId,
-      role: command.role
+      role: command.role,
+      emailVerified: false,
     });
 
     await this.companyUserRepository.save(companyUser);

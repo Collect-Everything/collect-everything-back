@@ -5,15 +5,15 @@ import { EmailAlreadyVerifiedError } from './validate-email.errors';
 import { CompanyCustomerNotFoundError } from '../../errors/company-customer-not-found';
 
 export class ValidateEmailUseCase {
-  constructor(private companyUserRepository: CompanyCustomerRepository) {}
+  constructor(private companyUserRepository: CompanyCustomerRepository) { }
   async execute(command: ValidateEmailCommand): Promise<Result<void, Error>> {
     try {
-      const companyUser = await this.companyUserRepository.findById(
-        command.customerId
+      const companyUser = await this.companyUserRepository.findByEmail(
+        command.email
       );
 
       if (!companyUser) {
-        return Err.of(new CompanyCustomerNotFoundError(command.customerId));
+        return Err.of(new CompanyCustomerNotFoundError(command.email));
       }
 
       if (companyUser.isVerified) {

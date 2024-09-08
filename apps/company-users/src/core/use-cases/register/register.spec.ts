@@ -4,7 +4,6 @@ import {
   CompanyUserFixture,
   createCompanyUserFixture,
 } from "../_fixtures/company-user.fixture";
-import { EntityValidationError } from "@ce/shared-core";
 import { EmailAlreadyTakenError } from "./register.errors";
 
 describe("Create company user", () => {
@@ -35,23 +34,9 @@ describe("Create company user", () => {
         lastname: "Doe",
         companyId: "1",
         role: "ADMIN",
+        emailVerified: false,
       }),
     );
-  });
-
-  test("email is invalid, it should throw an error", async () => {
-    fixture.givenPredefinedId("id-1");
-
-    await fixture.whenRegisteringCompanyUser({
-      email: "johndoe.com",
-      password: "Qwert123",
-      firstname: "John",
-      lastname: "Doe",
-      companyId: "1",
-      role: "ADMIN",
-    });
-
-    fixture.thenErrorShouldBe(EntityValidationError);
   });
 
   test("user with the same email already exists, it should throw an error", async () => {

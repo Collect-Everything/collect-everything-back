@@ -4,7 +4,7 @@ import {
   createCompanyCustomerFixture
 } from '../_fixtures/company-customer.fixture';
 import { CompanyCustomer } from '../../domain/company-customer.entity';
-import { CompanyUserNotFoundError } from '../../errors/company-customer-not-found';
+import { CompanyCustomerNotFoundError } from '../../errors/company-customer-not-found';
 
 describe('Delete company user', () => {
   let fixture: CompanyUserFixture;
@@ -35,7 +35,7 @@ describe('Delete company user', () => {
 
     await fixture.whenDeletingCompanyCustomer({ id: 'id-1' });
 
-    fixture.thenErrorShouldBe(CompanyUserNotFoundError);
+    fixture.thenErrorShouldBe(CompanyCustomerNotFoundError);
   });
 
   test('the user is admin but there are other admins, it should delete the user', async () => {

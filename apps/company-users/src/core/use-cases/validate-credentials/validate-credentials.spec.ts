@@ -39,6 +39,7 @@ describe("Validate credentials", () => {
       lastname: "Doe",
       companyId: "1",
       role: "ADMIN",
+      emailVerified: true,
     });
   });
 

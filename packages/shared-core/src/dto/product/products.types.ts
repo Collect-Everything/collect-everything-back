@@ -2,9 +2,10 @@ import z from 'zod';
 
 export const PRODUCT_CONDITIONING = [
   'unit',
-  'pack',
-  'box',
-  'carton',
+  '500g',
+  '1kg',
+  '100ml',
+  '1L',
 ] as const;
 export type ProductConditioning = (typeof PRODUCT_CONDITIONING)[number];
 export const ProductConditioningSchema = z.enum(PRODUCT_CONDITIONING);

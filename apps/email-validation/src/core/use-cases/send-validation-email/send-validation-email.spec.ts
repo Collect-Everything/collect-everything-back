@@ -15,7 +15,7 @@ describe("Validate Email", () => {
   });
 
   test("email is valid, it should send a confirmation email", async () => {
-    await fixture.whenUserTryToValidateEmail("johndoe@gmail.com");
+    await fixture.whenUserTryToValidateEmail({ email: 'johndoe@gmail.com', callbackUrl: 'https://example.com' });
 
     await fixture.thenEmailShouldBeSentTo("johndoe@gmail.com");
   });
@@ -24,13 +24,14 @@ describe("Validate Email", () => {
     fixture.givenNowIs(new Date("2021-01-01T00:00:00Z"));
     fixture.givenTokenIs("stub-token");
     fixture.givenIDIs("id-1");
-    await fixture.whenUserTryToValidateEmail("johndoe@gmail.com");
+    await fixture.whenUserTryToValidateEmail({ email: 'johndoe@gmail.com', callbackUrl: 'https://example.com' });
 
     await fixture.thenEmailValidationShouldExist(
       new EmailValidation({
         id: "id-1",
         email: "johndoe@gmail.com",
         token: "stub-token",
+        callbackUrl: "https://example.com",
         createdAt: new Date("2021-01-01T00:00:00Z"),
       }),
     );
@@ -40,7 +41,7 @@ describe("Validate Email", () => {
     fixture.givenNowIs(new Date("2021-01-01T00:00:00Z"));
     fixture.givenTokenIs("stub-token");
     fixture.givenIDIs("id-1");
-    await fixture.whenUserTryToValidateEmail("johndoe@gmail.com");
+    await fixture.whenUserTryToValidateEmail({ email: 'johndoe@gmail.com', callbackUrl: 'https://example.com' });
 
     await fixture.thenEmailValidationExpiresAtShouldBe(
       "johndoe@gmail.com",
@@ -54,17 +55,24 @@ describe("Validate Email", () => {
         id: "id-1",
         email: "johndoe@gmail.com",
         token: "stub-token",
+        callbackUrl: "https://example.com",
         createdAt: new Date("2021-01-01T00:00:00Z"),
       }),
     ]);
 
-    await fixture.whenUserTryToValidateEmail("johndoe@gmail.com");
+    await fixture.whenUserTryToValidateEmail({
+      email: "johndoe@gmail.com",
+      callbackUrl: "https://example.com",
+    });
 
     fixture.thenErrorShouldBe(EmailValidationAlreadySentError);
   });
 
   test("email is not valid, it should throw an error", async () => {
-    await fixture.whenUserTryToValidateEmail("johndoe@gmail");
+    await fixture.whenUserTryToValidateEmail({
+      email: "johndoe@gmail",
+      callbackUrl: "https://example.com",
+    });
 
     fixture.thenErrorShouldBe(EntityValidationError);
   });

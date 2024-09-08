@@ -38,7 +38,10 @@ describe("Feature: Create Category", () => {
         Product.fromData({
           id: "id-1",
           companyId: "id-1",
-          category,
+          category: {
+            id: "id-1",
+            name: "Vegetables",
+          },
           name: "Tomato",
           price: 250,
           description: "A red tomato",
